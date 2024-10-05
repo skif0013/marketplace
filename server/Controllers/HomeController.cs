@@ -78,7 +78,6 @@ public class HomeController : Controller
         var response = new
         {
             accessToken = accessToken,
-            refreshToken = refreshToken
         };
 
         Console.WriteLine($"Access Token: {accessToken}, Refresh Token: {refreshToken}");
