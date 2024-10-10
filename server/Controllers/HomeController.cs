@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure.Internal;
 using server;
 using server.Models;
 using server.Services;
-using Supabase.Gotrue;
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -36,22 +36,83 @@ public class HomeController : Controller
         return View();
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Catalog(string search, string sort, string producer)
+    {
+        // Получаем все продукты из базы данных
+        var products = await _context.Products.ToListAsync();
+
+        // Фильтрация по названию товара (если указан параметр поиска)
+        if (!string.IsNullOrEmpty(search))
+        {
+            products = products.Where(p => p.Title.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+
+
+
+        if (!string.IsNullOrEmpty(producer))
+        {
+            products = products.Where(p => p.Category.Contains(producer, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+
+        // Сортировка
+        switch (sort)
+        {
+            case "price_asc":
+                products = products.OrderBy(p => p.Price).ToList();
+                break;
+            case "price_desc":
+                products = products.OrderByDescending(p => p.Price).ToList();
+                break;
+            default:
+                break;
+        }
+
+
+
+        return Ok(products);
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> ProductDetails(int id)
+    {
+        // Ищем продукт по ID
+        var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+
+        // Если продукт не найден, возвращаем ошибку 404
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        return View(product);
+    }
+
+
 
     [HttpPost]
-    public async Task<JsonResult> Index(string name, string email, string password)
+    public async Task<IActionResult> Index(User user)
     {
 
-        var abc = new server.Models.User
+        Console.WriteLine($"{user.Name} {user.Email}, {user.Password}");
+
+        bool userExists = await _context.Users
+       .AnyAsync(u => u.Name == user.Name && u.Email == user.Email);
+
+        if (userExists)
         {
-            Name = name,
-            Email = email,
-            Password = password,
+            return NotFound();
+        }
+
+        var abc = new User
+        {
+            Name = user.Name,
+            Email = user.Email,
+            Password = user.Password,
             AccountRegistrationDate = DateTime.Now,
             RefreshToken = new RefreshToken { Token = "fdfd" }
         };
-
-
-
 
         // Генерация Access токена
         var accessToken = _tokenService.GenerateAccessToken(abc);
@@ -61,11 +122,11 @@ public class HomeController : Controller
 
 
 
-        var newUser = new server.Models.User
+        var newUser = new User
         {
-            Name = name,
-            Email = email,
-            Password = password,
+            Name = user.Name,
+            Email = user.Email,
+            Password = user.Password,
             AccountRegistrationDate = DateTime.UtcNow,
             RefreshToken = new RefreshToken { Token = refreshToken }
         };
@@ -73,16 +134,13 @@ public class HomeController : Controller
         _context.Users.Add(newUser);
         await _context.SaveChangesAsync();
 
-       
 
-        var response = new
-        {
-            accessToken = accessToken,
-        };
+
+        
 
         Console.WriteLine($"Access Token: {accessToken}, Refresh Token: {refreshToken}");
 
-        return Json(response); // Возвращаем JSON-ответ с токенами
+        return Json(accessToken); // Возвращаем JSON-ответ с токенами
     }
 
     [HttpGet]
@@ -92,8 +150,11 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> ProductCreation(string title, string description, int price, IFormFile TitlePicture)
+    public async Task<IActionResult> ProductCreation(string title, string description, string category, int price, IFormFile TitlePicture)
     {
+
+        
+
         string pictureUrl = null;
 
         if (TitlePicture != null && TitlePicture.Length > 0)
@@ -104,7 +165,7 @@ public class HomeController : Controller
                 await TitlePicture.CopyToAsync(stream);
             }
 
-            
+
             pictureUrl = await _storageService.loadFileAsync("data", tempFilePath, TitlePicture.FileName);
         }
 
@@ -113,13 +174,15 @@ public class HomeController : Controller
             Title = title,
 
             TitlePictureUrl = pictureUrl,
-            
+
             Description = description,
+
+            Category = category,
 
             Price = price,
 
             Seller = "Shopilyze",
-
+            
             Grade = 3
         };
 
@@ -127,6 +190,21 @@ public class HomeController : Controller
         await _context.SaveChangesAsync();
 
         return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllProductsByCategory()
+    {
+        var groupedProducts = await _context.Products
+            .GroupBy(p => p.Category)
+            .Select(g => new
+            {
+                name = g.Key,
+                products = g.ToList()
+            })
+            .ToListAsync();
+
+        return Ok(groupedProducts); // Возвращаем JSON с данными
     }
 
 

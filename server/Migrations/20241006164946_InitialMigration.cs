@@ -21,6 +21,7 @@ namespace server.Migrations
                     Title = table.Column<string>(type: "text", nullable: true),
                     TitlePictureUrl = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
+                    Category = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<int>(type: "integer", nullable: false),
                     Seller = table.Column<string>(type: "text", nullable: true),
                     Grade = table.Column<int>(type: "integer", nullable: false)

@@ -12,7 +12,7 @@ using server.Models;
 namespace server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241001171047_InitialMigration")]
+    [Migration("20241006164946_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -32,6 +32,9 @@ namespace server.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");

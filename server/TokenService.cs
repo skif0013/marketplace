@@ -22,10 +22,8 @@ namespace server.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Name!),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email!),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                // Добавьте дополнительные claims по необходимости
+                new Claim("Name", user.Name!),
+                new Claim("Email", user.Email!),
             };
 
             var key = AuthOptions.GetSymmetricSecurityKey();
@@ -46,9 +44,9 @@ namespace server.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email!),
                 new Claim("scopes", "REFRESH_TOKEN"),
-                new Claim("userId", user.Id.ToString()),
+                new Claim("Email", user.Email!),
+                new Claim("Name", user.Name!),
             };
 
             var key = AuthOptions.GetSymmetricSecurityKey();
