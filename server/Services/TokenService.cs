@@ -22,8 +22,9 @@ namespace server.Services
         {
             var claims = new List<Claim>
             {
-                new Claim("Name", user.Name!),
-                new Claim("Email", user.Email!),
+                new Claim("Name", user.name!),
+                new Claim("Email", user.email!),
+                new Claim("role", user.role!)
             };
 
             var key = AuthOptions.GetSymmetricSecurityKey();
@@ -45,8 +46,9 @@ namespace server.Services
             var claims = new List<Claim>
             {
                 new Claim("scopes", "REFRESH_TOKEN"),
-                new Claim("Email", user.Email!),
-                new Claim("Name", user.Name!),
+                new Claim("Email", user.email!),
+                new Claim("Name", user.name!),
+                new Claim(ClaimTypes.Role, user.role!)
             };
 
             var key = AuthOptions.GetSymmetricSecurityKey();
@@ -67,8 +69,8 @@ namespace server.Services
         {
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = true,
-                ValidateIssuer = true,
+                ValidateAudience = false,
+                ValidateIssuer = false,
                 ValidIssuer = AuthOptions.ISSUER,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
@@ -101,5 +103,6 @@ namespace server.Services
             public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
         }
+
     }
 }
