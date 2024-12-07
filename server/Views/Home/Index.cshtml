@@ -87,7 +87,7 @@
             products.forEach(product => {
                 const productDiv = document.createElement('a');
                 productDiv.className = 'product';
-                productDiv.href = `/product-details?id=${product.id}`; // Ссылка на страницу товара
+                productDiv.href = `/Home/ProductDetalis?id=${product.id}`; // Ссылка на страницу товара
 
                 productDiv.innerHTML = `
                             <img src="${product.pictureUrl}" alt="${product.title.uk || product.title.ru}" class="product-image">
