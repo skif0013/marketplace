@@ -1,0 +1,244 @@
+﻿@page "/product-details"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .product-header {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .product-title {
+            font-size: 30px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .product-image {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-description {
+            margin: 15px 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+            .product-rating span {
+                margin-left: 10px;
+                font-size: 16px;
+            }
+
+        .product-meta {
+            font-size: 14px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .reviews-section {
+            margin-top: 50px;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .reviews-header h2 {
+                margin: 0;
+                font-size: 24px;
+            }
+
+        .add-review-btn {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reviews-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .review-item {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+            .review-item:last-child {
+                border-bottom: none;
+            }
+
+        .review-author {
+            font-weight: bold;
+        }
+
+        .review-date {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .review-content {
+            margin-top: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="product-header">
+            <div>
+                <h1 class="product-title" id="productTitle">Название товара</h1>
+                <img id="productImage" class="product-image" src="" alt="Product Image">
+            </div>
+            <div class="product-details">
+                <p id="productDescription" class="product-description">Описание товара</p>
+                <div class="product-rating">
+                    <span id="productRating">⭐⭐⭐</span>
+                    <span>(3)</span>
+                </div>
+                <p class="product-meta">Продавец: <span id="productSeller">admin</span></p>
+                <p class="product-meta">Код товара: <span id="productCode">142131</span></p>
+            </div>
+        </div>
+
+        <div class="reviews-section">
+            <div class="reviews-header">
+                <h2>Отзывы</h2>
+                <button class="add-review-btn" onclick="addReview()">Добавить отзыв</button>
+            </div>
+            <ul id="reviewsList" class="reviews-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        async function fetchProductDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            try {
+                const response = await fetch(`https://www.apishka.somee.com/api/product/${productId}`);
+                if (!response.ok) {
+                    throw new Error('Ошибка загрузки данных');
+                }
+
+                const product = await response.json();
+                renderProductDetails(product);
+                renderReviews(product.comments);
+            } catch (error) {
+                console.error('Ошибка:', error);
+            }
+        }
+
+        function renderProductDetails(product) {
+            document.getElementById('productTitle').textContent = product.title.uk || product.title.ru;
+            document.getElementById('productImage').src = product.pictureUrl;
+            document.getElementById('productDescription').textContent = product.description.uk || product.description.ru;
+            document.getElementById('productRating').textContent = '⭐'.repeat(product.grade || 0);
+            document.getElementById('productSeller').textContent = product.seller;
+            document.getElementById('productCode').textContent = product.productCode;
+        }
+
+        function renderReviews(comments) {
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = '';
+
+            comments.forEach(comment => {
+                const reviewItem = document.createElement('li');
+                reviewItem.className = 'review-item';
+
+                reviewItem.innerHTML = `
+                        <div>
+                            <span class="review-author">${comment.author}</span>
+                            <span class="review-date">${new Date(comment.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        <p class="review-content">${comment.content}</p>
+                    `;
+
+                reviewsList.appendChild(reviewItem);
+            });
+        }
+
+        function addReview() {
+            // Проверяем авторизацию
+            if (!document.cookie.includes('refreshToken')) {
+                alert('Вы должны быть авторизованы для добавления отзыва.');
+                return;
+            }
+
+            // Получаем текст отзыва
+            const content = prompt('Введите ваш отзыв:');
+            if (!content) return;
+
+            // Получаем ID продукта из URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            // Создаем данные для отправки
+            const formData = new FormData();
+            formData.append('content', content);
+            formData.append('productId', productId);
+
+            // Отправляем запрос
+            fetch('https://www.apishka.somee.com/api/product/add', {
+                method: 'POST',
+                credentials: 'include',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Ошибка при добавлении отзыва.');
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Отзыв добавлен!');
+                    fetchProductDetails(); // Перезагружаем данные продукта и отзывы
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    alert('Не удалось добавить отзыв. Попробуйте снова.');
+                });
+        }
+
+
+        fetchProductDetails();
+    </script>
+
+</body>
+</html>

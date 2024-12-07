@@ -64,7 +64,14 @@ public class HomeController : Controller
 
 
 
-
+    interface IAnimal
+    {
+        string Name { get; set; }
+        void Speak()
+        {
+            Console.WriteLine("hi");
+        }
+    }
 
 
 
@@ -72,7 +79,11 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult Index()
     {
+        
+
         return View();
+
+        
     }
 
     //[HttpPost("/singIn")]  // вход

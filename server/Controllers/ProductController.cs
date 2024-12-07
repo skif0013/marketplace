@@ -176,7 +176,7 @@ namespace server.Controllers
 
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddComment([FromBody] int productId, [FromForm] string content)
+        public async Task<IActionResult> AddComment([FromForm] int productId, [FromForm] string content)
         {
             // Найдем продукт по Id
             var product = await _context.Products.Include(p => p.Comments).FirstOrDefaultAsync(p => p.id == productId);
@@ -252,6 +252,7 @@ namespace server.Controllers
         {
             // Используем Include для загрузки связанных данных категории
             var product = await _context.Products
+                .Include(p => p.Comments)
                 .Include(p => p.category) // Загрузка связанного объекта Category
                 .FirstOrDefaultAsync(p => p.id == id);
 

@@ -6,70 +6,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
     <style>
+        /* Добавлен стиль из оригинального кода */
+        #productList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-evenly;
+        }
+
         .product {
             border: 1px solid #ccc;
             padding: 10px;
-            margin: 10px;
             border-radius: 5px;
             width: 300px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s;
         }
+
+            .product:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
         .product-title {
             font-size: 20px;
             font-weight: bold;
+            margin: 10px 0;
         }
+
         .product-description {
             color: #555;
+            margin-bottom: 10px;
         }
+
         .product-category {
             font-style: italic;
             color: #888;
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            color: #333;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-<h1>Product List</h1>
-<div id="productList"></div>
+    <h1>Product List</h1>
+    <div id="productList"></div>
 
-<script>
-    // Функция для получения данных с бэкенда
-    async function fetchProducts() {
-        try {
-                const response = await fetch('https://www.apishka.somee.com/api/product'); // замените URL на ваш
-            if (!response.ok) {
-                throw new Error('Ошибка загрузки данных');
+    <script>
+        // Функция для получения данных
+        async function fetchProducts() {
+            try {
+                const response = await fetch('https://www.apishka.somee.com/api/product');
+                if (!response.ok) {
+                    throw new Error('Ошибка загрузки данных');
+                }
+                const products = await response.json();
+                displayProducts(products);
+            } catch (error) {
+                console.error('Ошибка:', error);
             }
-
-            const products = await response.json();
-            displayProducts(products);
-        } catch (error) {
-            console.error('Ошибка:', error);
         }
-    }
 
-    // Функция для отображения списка продуктов
-    function displayProducts(products) {
-        const productList = document.getElementById('productList');
-        productList.innerHTML = '';
+        // Отображение списка товаров
+        function displayProducts(products) {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
 
-        products.forEach(product => {
-            const productDiv = document.createElement('div');
-            productDiv.className = 'product';
+            products.forEach(product => {
+                const productDiv = document.createElement('a');
+                productDiv.className = 'product';
+                productDiv.href = `/product-details?id=${product.id}`; // Ссылка на страницу товара
 
-            productDiv.innerHTML = `
-                <div class="product-title">${product.title.uk || product.title.ru}</div>
-                <div class="product-description">${product.description.uk || product.description.ru}</div>
-                <div class="product-category">Category: ${product.category ? product.category.name : 'N/A'}</div>
-                <div class="product-price">Price: ${product.price}</div>
-            `;
+                productDiv.innerHTML = `
+                            <img src="${product.pictureUrl}" alt="${product.title.uk || product.title.ru}" class="product-image">
+                            <div class="product-title">${product.title.uk || product.title.ru}</div>
+                            <div class="product-description">${product.description.uk || product.description.ru}</div>
+                            <div class="product-category">Category: ${product.category ? product.category.name : 'N/A'}</div>
+                            <div class="product-price">Price: ${product.price}</div>
+                        `;
 
-            productList.appendChild(productDiv);
-        });
-    }
+                productList.appendChild(productDiv);
+            });
+        }
 
-    // Загружаем данные при загрузке страницы
-    fetchProducts();
-</script>
+        fetchProducts();
+    </script>
 
 </body>
 </html>
