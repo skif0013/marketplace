@@ -1,0 +1,15 @@
+.item-name,
+.item-value {
+   font-weight: 400;
+   font-size: 20px;
+}
+
+.item-value {
+   color: rgb(100, 98, 96);
+}
+
+.category-title{
+   font-weight: 600;
+   font-size: 20px;
+   color: #000;
+}

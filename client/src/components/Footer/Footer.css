@@ -1,0 +1,39 @@
+/*FOOTER*/
+
+.footer {
+   background-color: #000;
+   color: #fff;
+   padding-top: 28px;
+   padding-left: 50px;
+   padding-right: 50px;
+}
+
+.footer-top {
+   display: flex;
+   align-items: baseline;
+   justify-content: flex-start;
+   gap: 55px;
+   margin-bottom: 40px;
+}
+
+.footer-top h6 {
+   font-size: 18px;
+   font-weight: 600;
+   margin-bottom: 10px;
+}
+
+.footer-top ul li {
+   font-weight: 400;
+   color: rgb(100, 98, 96);
+   font-size: 14px;
+   padding: 5px 0px;
+   transition-duration: 500ms;
+}
+
+.footer-top ul li:hover {
+   color: rgb(253, 118, 0);
+}
+
+.footer-top ul li:checked {
+   color: rgb(227, 191, 159);
+}

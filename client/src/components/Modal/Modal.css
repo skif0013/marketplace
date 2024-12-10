@@ -1,0 +1,129 @@
+/* Модальное окно (фоновая затемненная область) */
+.modal-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.5);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   opacity: 0;
+   visibility: hidden;
+   transition: opacity 500ms ease, visibility 0s 0.3s;
+   /* Добавлен visibility для скрытия */
+}
+
+/* Когда окно открыто */
+.modal-overlay.open {
+   opacity: 1;
+   visibility: visible;
+   transition: opacity 500ms ease, visibility 0s 0s;
+}
+
+/* Контент модального окна */
+.modal-content {
+   background: white;
+   padding: 15px;
+   border-radius: 8px;
+   max-width: 700px;
+   width: 100%;
+   height: auto;
+   transform: translateY(-50px);
+   opacity: 0;
+   transition: transform 0.3s ease, opacity 500ms ease;
+   padding: 20px;
+}
+
+
+.modal-content.fade-in {
+   transform: translateY(0);
+   opacity: 1;
+}
+
+/* Кнопка закрытия */
+.close-btn {
+   border: none;
+   background: none;
+   font-size: 30px;
+   cursor: pointer;
+}
+
+.close-btn:hover {
+   color: red;
+}
+
+/* CommentModal.jsx */
+.custom-textarea {
+   width: 100%;
+   height: 90px;
+   padding: 8px;
+   border: 1px solid #ccc;
+   border-radius: 8px;
+   font-size: 14px;
+   resize: none;
+   outline: none;
+   box-shadow: none;
+}
+
+
+/*    Что-то другое   */
+.submitButton {
+   background-color: rgb(253, 118, 0);
+   border-radius: 8px;
+   color: rgb(60, 58, 57);
+   font-weight: 600;
+   font-size: 16px;
+   padding: 14px 0px;
+   transition-duration: 500ms;
+}
+
+.submitButton:hover {
+   background-color: rgb(227, 154, 91);
+}
+
+/* Star Icon Improvement */
+.star-icon {
+   width: 2rem;
+   height: 2rem;
+}
+
+/* Adjustments for file input */
+input[type="file"]:focus+label {
+   outline: 2px solid rgb(253, 118, 0);
+}
+
+.modal__comment-title {
+   font-size: 16px;
+   font-weight: 600;
+}
+
+.modal__comment-title p:first-child {
+   font-weight: 400;
+   font-size: 16px;
+   color: rgb(122, 122, 122);
+}
+
+
+.divider {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin: 24px 0;
+   font-size: 16px;
+   color: rgb(122, 122, 122);
+}
+
+.divider::before,
+.divider::after {
+   content: "";
+   flex-grow: 1;
+   height: 1px;
+   background-color: rgb(122, 122, 122);
+   margin: 0 16px;
+}
+
+input {
+   height: 50px;
+}
