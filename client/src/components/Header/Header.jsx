@@ -20,9 +20,9 @@ export default function Header() {
                   </select>
                </div>
                <div className="header-navigation flex gap-6">
-                  <Link to='/Profile'><img src="images/main/human.svg" width="36px" height="auto" alt="" /></Link>
-                  <Link to='/api/basket'><img src="images/main/variable/basket/basket.svg" width="36px" height="auto" alt="basket" /></Link>
-                  <Link to=''><img src="images/main/variable/heart/heart.svg" width="36px" height="auto" alt="like button" /></Link>
+                  <Link to='/Profile'><img src="/images/main/human.svg" width="36px" height="auto" alt="" /></Link>
+                  <Link to='/api/basket'><img src="/images/main/variable/basket/basket.svg" width="36px" height="auto" alt="basket" /></Link>
+                  <Link to=''><img src="/images/main/variable/heart/heart.svg" width="36px" height="auto" alt="like button" /></Link>
                </div>
             </div>
          </header>

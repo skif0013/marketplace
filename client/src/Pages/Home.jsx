@@ -4,10 +4,46 @@ import Catalog from '../components/Catalog/Catalog';
 import Title from '../components/Title';
 import Product from '../components/goods/Product';
 
-
+import React, { useEffect, useState } from 'react';
 
 
 export default function Home() {
+   //Получения API товаров
+   const [products, setProducts] = useState([]);
+   const [error, setError] = useState(null);
+
+   useEffect(() => {
+      const fetchProducts = async () => {
+         try {
+            const response = await fetch('https://www.apishka.somee.com/api/product?_order=asc&_start=0&_end=100', {
+               method: 'GET',
+               headers: {
+                  'accept': '*/*'
+               }
+            });
+
+            if (!response.ok) {
+               throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setProducts(data);
+
+         } catch (err) {
+            setError(err.message);
+         }
+      };
+
+      fetchProducts();
+   }, []);
+   //Обработка ошибок
+   if (error) {
+      return <div>Error: {error}</div>;
+   }
+   //Выдать первые 4 товара
+   const firstFourGoods = products.slice(0, 4);
+
+
    function scrollLeft() {
       const container = document.querySelector('.banner-collection');
       container.scrollBy({
@@ -51,37 +87,62 @@ export default function Home() {
                {/* Iphone */}
                <Title text="Iphone" link={''} buttonRight='100px' target='_blank' />
                <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-12" style={{ overflow: 'hidden' }}>
-                  <Product id={9002943} />
-                  <Product id={29389} />
-                  <Product id={29193482} />
-                  <Product id={4903} />
+                  {firstFourGoods.map((product) => {
+                     return (
+                        <Product
+                           id={product.id}
+                           pictureUrl={product.pictureUrl}
+                           price={product.price}
+                           title={product.title.ru}
+                        />
+                     );
+                  })}
                </section>
+
 
                {/* Iphone */}
                <Title text="Iphone" link={''} buttonRight='100px' target='_blank' />
                <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-12" style={{ overflow: 'hidden' }}>
-                  <Product id={24975976761} />
-                  <Product id={275976761} />
-                  <Product id={249759761} />
-                  <Product id={2476761} />
+                  {firstFourGoods.map((product) => {
+                     return (
+                        <Product
+                           id={product.id}
+                           pictureUrl={product.pictureUrl}
+                           price={product.price}
+                           title={product.title.ru}
+                        />
+                     );
+                  })}
                </section>
 
                {/* Laptop */}
                <Title text="Ноутбуки" link={''} buttonRight='140px' target='_blank' />
                <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-12" style={{ overflow: 'hidden' }}>
-                  <Product id={5938} />
-                  <Product id={590} />
-                  <Product id={14} />
-                  <Product id={15} />
+                  {firstFourGoods.map((product) => {
+                     return (
+                        <Product
+                           id={product.id}
+                           pictureUrl={product.pictureUrl}
+                           price={product.price}
+                           title={product.title.ru}
+                        />
+                     );
+                  })}
                </section>
 
-               {/* Kopchert */}
+               {/* Наушники */}
                <Title text="Наушники" link={''} buttonRight='150px' target='_blank' />
                <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-12" style={{ overflow: 'hidden' }}>
-                  <Product id={3245767890} />
-                  <Product id={327890} />
-                  <Product id={32457670} />
-                  <Product id={3245890} />
+                  {firstFourGoods.map((product) => {
+                     return (
+                        <Product
+                           id={product.id}
+                           pictureUrl={product.pictureUrl}
+                           price={product.price}
+                           title={product.title.ru}
+                        />
+                     );
+                  })}
                </section>
             </div>
          </main>
