@@ -1,0 +1,21 @@
+
+/* Header*/
+.logo {
+   color: orange;
+   font-size: 40px;
+}
+
+.select-lang {
+   background-color: initial;
+   color: #A29E9B;
+   border: 2px solid #A29E9B;
+   border-radius: 16px;
+   padding: 12px 12px;
+}
+
+.select-lang option {
+   color: #fff;
+   background-color: #A29E9B;
+   padding: 5px;
+   font-size: 18px;
+}

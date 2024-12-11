@@ -1,0 +1,50 @@
+.button {
+   padding: 14px 32.5px;
+   background-color: rgb(253, 118, 0);
+   color: rgb(60, 58, 57);
+   font-weight: 400;
+   font-size: 16px;
+   border-radius: 8px;
+   transition-duration: 500ms;
+}
+
+.button:active {
+   background-color: rgb(227, 154, 91);
+}
+
+.button:hover {
+   background-color: rgb(227, 106, 0);
+}
+
+.ButtonProduct {
+   color: rgb(60, 58, 57);
+   font-weight: 600;
+   font-size: 16px;
+   padding: 14px 55px;
+   border-radius: 8px;
+   background-color: rgb(253, 118, 0);
+   transition-duration: 500ms;
+}
+
+.ButtonL {
+   color: rgb(60, 58, 57);
+   font-weight: 600;
+   font-size: 16px;
+   padding: 14px 22px;
+   border-radius: 8px;
+   background-color: rgb(253, 118, 0);
+   transition-duration: 500ms;
+
+}
+
+.ButtonProduct:hover,
+.button:hover,
+.ButtonL:hover {
+   background-color: rgb(227, 154, 91);
+}
+
+.ButtonProduct:focus,
+.ButtonProduct:focus,
+.ButtonL:focus {
+   background-color: rgb(227, 106, 0);
+}

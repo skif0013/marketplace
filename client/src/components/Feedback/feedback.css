@@ -1,0 +1,16 @@
+.feedback-name{
+   font-weight: 600;
+   font-size: 20px;
+   color: rgb(18, 12, 8);
+}
+
+.feedback-text{
+   font-weight: 400;
+   font-size: 20px;
+   color: rgb(100, 98, 96);
+}
+
+.feedback-date{
+   font-weight: 600;
+   font-size: 20px;
+}

@@ -1,0 +1,16 @@
+/*button-whiteBg - components*/
+.button-whiteBg{
+   font-weight: 600;
+   font-size: 16px;
+   color: rgb(60, 58, 57);
+   border: 1px solid rgb(227, 106, 0);
+   border-radius: 10px;
+   cursor: pointer;
+   transition-duration: 500ms;
+}
+
+.button-whiteBg:hover{
+   background-color: rgb(227, 191, 159);
+}
+
+.button-whiteBg:active{background-color: rgb(227, 154, 91);}
