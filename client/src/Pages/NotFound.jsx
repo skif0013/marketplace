@@ -2,8 +2,6 @@ import { Error404, Error500 } from "../components/Error/Error";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 
-
-
 export default function NotFound() {
 
    return (
