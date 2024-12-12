@@ -21,7 +21,14 @@ function App() {
          <Route path="api/product/:id" element={<Product />} /> {/* Страница продукта */}
          <Route path="api/basket/checkout" element={<OrderCompleted />} />
          <Route path="api/basket" element={<Basket />} /> {/* Страница Карзины */}
+         {/* Категории  */}
          <Route path="api/product/category" element={<Catalog />} />
+         <Route path="api/product/productByCategory/:category" element={<Catalog />} />
+
+         {/* Аккаунт человека */}
+         <Route path="/auth" element={<Catalog />} />
+         
+
          <Route path="*" element={<NotFound />} /> {/* Обработка неизвестных маршрутов */}
       </Routes>
    );

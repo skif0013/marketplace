@@ -5,7 +5,7 @@ export default function Product({ id, pictureUrl, price, title}) {
       <div className="product_item bg-orange-50 p-4 max-w-xs mx-auto">
          <div className="mb-4 ">
             <Link to={`/api/product/${id}`}>
-               <img src={pictureUrl} className="w-full h-[160px] rounded" alt="iphone" />
+               <img src={pictureUrl} className="w-[160px] h-[160px] rounded" alt={title} />
             </Link>
          </div>
          <span className="product_item-title">

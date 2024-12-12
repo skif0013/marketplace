@@ -142,7 +142,7 @@ export default function Product() {
                   <section className="bg-orange-100 p-6 mt-10"><img src={imgPath} alt="images" /></section>
 
                   {/* Product info */}
-                  <section className="bg-orange-100 p-6 mt-10 flex justify-between flex-col">
+                  <section className="bg-orange-100 p-6 mt-10 flex justify-between flex-col gap-6">
                      <div className={styles.ProductFullTitle}>{FullName}</div>
                      <section className="flex gap-6 items-center">
                         <section className="flex gap-2">{renderStars()}</section>

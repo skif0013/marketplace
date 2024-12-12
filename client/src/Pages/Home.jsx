@@ -3,6 +3,7 @@ import Footer from '../components/Footer/Footer';
 import Catalog from '../components/Catalog/Catalog';
 import Title from '../components/Title';
 import Product from '../components/goods/Product';
+import Banner from '../components/Banner/Banner';
 
 import React, { useEffect, useState } from 'react';
 
@@ -42,23 +43,6 @@ export default function Home() {
    }
    //Выдать первые 4 товара
    const firstFourGoods = products.slice(0, 4);
-
-
-   function scrollLeft() {
-      const container = document.querySelector('.banner-collection');
-      container.scrollBy({
-         left: -container.offsetWidth, // Прокручиваем на ширину одного баннера
-         behavior: 'smooth',
-      });
-   }
-
-   function scrollRight() {
-      const container = document.querySelector('.banner-collection');
-      container.scrollBy({
-         left: container.offsetWidth,
-         behavior: 'smooth',
-      });
-   }
    return (
       <>
          <Header />
@@ -90,6 +74,7 @@ export default function Home() {
                   {firstFourGoods.map((product) => {
                      return (
                         <Product
+                           key={product.id}
                            id={product.id}
                            pictureUrl={product.pictureUrl}
                            price={product.price}
@@ -106,6 +91,7 @@ export default function Home() {
                   {firstFourGoods.map((product) => {
                      return (
                         <Product
+                           key={product.id}
                            id={product.id}
                            pictureUrl={product.pictureUrl}
                            price={product.price}
@@ -121,6 +107,7 @@ export default function Home() {
                   {firstFourGoods.map((product) => {
                      return (
                         <Product
+                           key={product.id}
                            id={product.id}
                            pictureUrl={product.pictureUrl}
                            price={product.price}
@@ -136,6 +123,7 @@ export default function Home() {
                   {firstFourGoods.map((product) => {
                      return (
                         <Product
+                           key={product.id}
                            id={product.id}
                            pictureUrl={product.pictureUrl}
                            price={product.price}
