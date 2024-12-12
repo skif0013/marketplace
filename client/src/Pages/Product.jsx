@@ -5,36 +5,41 @@ import { ButtonProduct } from "../components/buttons/button";
 import Specifications from '../components/Specifications/Specifications';
 import WhiteButton from "../components/buttons/WhiteButton/WhiteButton";
 import Triarty from "../components/buttons/Triarty/Triarty";
-
-
 /* Вспывающие окна */
 import CommentModal from "../components/Modal/CommentModal";
 import RegistrationModal from "../components/Modal/RegistrationModal";
 import Login from "../components/Modal/Login";
 
-import React, { useRef, useState } from 'react';
 import styles from './pagesStyle.module.css';
 
+import { useParams } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import axios from "axios";
+
 export default function Product() {
+   //Получение одного товара из API
+   const { id } = useParams(); // Получение id из роутов
+   const [product, setProduct] = useState(null);
+   let totalReviews = Math.floor(Math.random() * 10);
 
-   //Описание товара
-   const
-      name = 'Ноутбук Apple MacBook Pro 16',
-      FullName = 'Екран 16.2" Liquid Retina XDR (3456x2234) 120 Гц, глянсовий / Apple M1 Pro / RAM 32 ГБ / SSD 512 ГБ / Apple M1 Pro Graphics (16 ядер) / без ОД / Wi-Fi / Bluetooth / веб-камера / macOS Monterey / 2.1 кг / сірий',
-      price = Math.floor(Math.random() * 100000),
-      stockStatus = 'В наличии',
-      imgPath = '/images/goods/Imac.png',
-      Salesman = 'Григорий Пропионат',
-      ProductId = Math.floor(Math.random() * 1023082300),
-      randomNumber = Math.floor(Math.random() * 10);
+   useEffect(() => {
+      axios.get(`https://www.apishka.somee.com/api/product/${id}`)
+         .then((response) => {
+            console.log(response.data);
+            // setProduct(response.data);
+         })
+         .catch((error) => {
+            console.error(error);
+         });
+   }, [id]);
 
-   //Рандомная вставка звезд
+   //вставка звёзд
    const
       starFill = '/images/goods/star-fill.png',
       starTransparency = '/images/goods/star-transparency.png',
       renderStars = () => {
-         // Генерация случайного количества "полных" звезд (2/3)
-         const fullStars = Math.floor(Math.random() * 5) + 1; // От 1 до 4 полных звезд
+         // Генерация случайного количества звезд
+         const fullStars = product.grade; //Получения количество звёзд
          const stars = [];
          for (let i = 1; i <= 5; i++) {
             stars.push(
@@ -94,22 +99,13 @@ export default function Product() {
    let
       specificationsRef = useRef(false),
       feedbackRef = useRef(false);
-   const scrollToSection = (ref) => {
-      ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-   };
+   const scrollToSection = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
    //Modal
-
    const isAuthenticated = Math.random() < 0.5; // Генерирует true или false случайно
    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
-   const openCommentModal = () => {
-      setIsCommentModalOpen(true); // Открыть модальное окно
-   };
-   const closeCommentModal = () => {
-      setIsCommentModalOpen(false); // Закрыть модальное окно
-   };
-
-
+   const openCommentModal = () => setIsCommentModalOpen(true); // Открыть модальное окно
+   const closeCommentModal = () => setIsCommentModalOpen(false); // Закрыть модальное окно
 
    return (
       <div className="flex flex-col min-h-screen">
@@ -124,7 +120,7 @@ export default function Product() {
                <div className="grid grid-cols-2 items-stretch mb-32">
                   {/* product header */}
                   <section>
-                     <h1 className={styles.productName}>{name}</h1>
+                     {/* <h1 className={styles.productName}></h1> */}
                   </section>
 
                   {/* Product buttons */}
@@ -132,34 +128,33 @@ export default function Product() {
                      <Triarty
                         specificationsRef={specificationsRef}
                         feedbackRef={feedbackRef}
-                        randomNumber={randomNumber}
+                        totalReviews={totalReviews}
                         scrollToSection={scrollToSection}
                      />
                   </div>
 
-
                   {/* Product images */}
-                  <section className="bg-orange-100 p-6 mt-10"><img src={imgPath} alt="images" /></section>
+                  {/* <section className="bg-orange-100 p-6 mt-10"><img src={product.pictureUrl} alt="images" /></section> */}
 
                   {/* Product info */}
-                  <section className="bg-orange-100 p-6 mt-10 flex justify-between flex-col gap-6">
-                     <div className={styles.ProductFullTitle}>{FullName}</div>
+                  {/*<section className="bg-orange-100 p-6 mt-10 flex justify-between flex-col gap-6">
+                     <div className={styles.ProductFullTitle}>{product}</div>
                      <section className="flex gap-6 items-center">
                         <section className="flex gap-2">{renderStars()}</section>
-                        <div className={styles.ProductAvailability}>{stockStatus}</div>
+                        <div className={styles.ProductAvailability}>В наличии</div>
                      </section>
                      <section className={styles.productInfo}>
-                        <div className="mb-4">Имя продавца: {Salesman}</div>
-                        <div>Код товара:  {ProductId}</div>
+                        <div className="mb-4">Имя продавца: {product.seller}</div>
+                        <div>Код товара:  {product.productCode}</div>
                      </section>
                      <section className="flex gap-6 items-center relative">
-                        <div className={styles.ProductPrice}>{price}</div>
+                        <div className={styles.ProductPrice}>{product.price}</div>
                         <ButtonProduct name={'Купить'} />
                         <WhiteButton className='p-2'>
                            <img src="/images/main/variable/heart/heartMain.svg" alt="heart" />
                         </WhiteButton>
                      </section>
-                  </section>
+                  </section>*/}
                </div>
                {/* Характеристики */}
                <Specifications ref={specificationsRef} data={specificationsData} />
@@ -177,11 +172,11 @@ export default function Product() {
                   <CommentModal isOpen={isCommentModalOpen} onClose={closeCommentModal} />
                )}
 
-               <Feedback name={'Валерий Пропионат'} text={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, tempore. Fugiat quasi provident molestiae quibusdam animi, perferendis ab quod nisi.'} date={'30.4.2003'} />
-               <Feedback name={'Максим Галкин'} text={'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Numquam sapiente provident ut omnis distinctio quaerat accusamus sequi, ipsum sit at.'} date={'13.8.2020'} />
-               <Feedback name={'Маколей Калкин'} text={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, tempore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, tempore. '} date={'20.10.2030'} />
-               <Feedback name={'Вова Ленин'} text={'Вчера покупал MacBook Pro 16 — это отличный ноутбук для профессионалов. Великолепный экран с высокой четкостью, мощная производительность и долговечная батарея делают его идеальным для работы с графикой и видео. Удобная клавиатура и большой трекпад добавляют комфорта. Если вам нужен надежный и стильный инструмент, этот MacBook точно оправдает ваши ожидания.'} date={'22.11.2024'} />
-               <Feedback name={'Владимир Foresto-ВІЧ'} text={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, tempore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, tempore. '} date={'02.07.2004'} />
+               {/* { product.comment ? ( */}
+               {/* <Feedback name={'Владимир Foresto-ВІЧ'} text={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, tempore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, tempore. '} date={'02.07.2004'} /> */}
+               {/* ) : ( */}
+               {/* <p className="mb-12">- Нету тут коментариев</p> */}
+               {/* )} */}
             </div>
          </main>
          <Footer />
