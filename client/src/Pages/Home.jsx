@@ -5,8 +5,8 @@ import Title from '../components/Title';
 import Product from '../components/goods/Product';
 import Banner from '../components/Banner/Banner';
 
-import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
@@ -15,11 +15,10 @@ export default function Home() {
    const [products, setProducts] = useState([]);
    const [error, setError] = useState(null);
    const navigate = useNavigate(); //Для обработки ошибок
-
    useEffect(() => {
       const fetchProducts = async () => {
          try {
-            const response = await axios.get('https://www.apishka.somee.com/api/product', {
+            const response = await axios.get('https://www.apishka.somee.com/api/product?_order=asc&_start=0&_end=4', {
                params: {
                   _order: 'asc',
                   _start: 0,
@@ -32,16 +31,12 @@ export default function Home() {
             setProducts(response.data); //Тут передаём данные на setProduct
          } catch (err) {
             setError(err.message);
-            navigate('/notfound');
+            console.error('Запрос НЕ  принят, и НЕ одобрен');
+            // navigate('/notfound');
          }
       };
       fetchProducts();
    }, []);
-
-   // Обработка ошибок
-   if (error) {
-      return <div>Error: {error}</div>;
-   }
    //Выдать первые 4 товара
    const firstFourGoods = products.slice(0, 4);
 
