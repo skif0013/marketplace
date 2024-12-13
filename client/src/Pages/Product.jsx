@@ -14,6 +14,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import styles from './style/pagesStyle.module.css';
 
 
 export default function Product() {
@@ -29,7 +30,7 @@ export default function Product() {
          })
          .catch((error) => {
             console.error(error);
-            
+
          });
    }, [id]);
 
@@ -106,7 +107,7 @@ export default function Product() {
    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
    const openCommentModal = () => setIsCommentModalOpen(true); // Открыть модальное окно
    const closeCommentModal = () => setIsCommentModalOpen(false); // Закрыть модальное окно
-
+   
    return (
       <div className="flex flex-col min-h-screen">
          <Header />
@@ -182,17 +183,30 @@ export default function Product() {
                )}
 
                {product ? (
-                  product.comments ? (
-                     <Feedback name={'Владимир Foresto-ВІЧ'} text={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, tempore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, tempore. '} date={'02.07.2004'} />
+                  product.comments && product.comments.length > 0 ? (
+                     // Если есть комментарии, рендерим их
+                     product.comments.map((comment, index) => (
+                        <Feedback
+                           key={index}
+                           name={comment.author}
+                           text={comment.content}
+                           date={comment.createdAt}
+                           />
+                     ))
                   ) : (
-                     <p className="mb-12">- Нету тут коментариев</p>
+                     <p className="my-10 text-center text-gray-500">
+                        <span className="text-3xl text-orange-500 animate-bounce">📭</span>
+                        <span className="block mt-2 text-lg font-semibold text-gray-600">Нету тут комментариев</span>
+                        <span className="block text-sm text-orange-400 mt-1">Будьте первым, кто оставит отзыв!</span>
+                     </p>
                   )
                ) : (
-                  // Загрузка, для того чтобы успели подгрузиться информация
+                  // Загрузка загрузки
                   <div className="flex justify-center items-center h-full mb-20">
                      <ClipLoader color="#FFA500" size={60} />
                   </div>
                )}
+
             </div>
          </main >
          <Footer />

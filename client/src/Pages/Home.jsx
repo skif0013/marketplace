@@ -8,6 +8,7 @@ import Banner from '../components/Banner/Banner';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 export default function Home() {
@@ -28,6 +29,7 @@ export default function Home() {
                   'accept': '*/*'
                }
             });
+            console.log(response.data);
             setProducts(response.data); //Тут передаём данные на setProduct
          } catch (err) {
             setError(err.message);
@@ -37,8 +39,39 @@ export default function Home() {
       };
       fetchProducts();
    }, []);
-   //Выдать первые 4 товара
-   const firstFourGoods = products.slice(0, 4);
+
+   //Добавление товаров
+   //рандомные товары
+   const getRandomProducts = (products, count) => {
+      const shuffled = [...products].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
+   };
+   function ViewProduct({ text, link, buttonRight }) {
+      const randomFourGoods = products ? getRandomProducts(products, 4) : [];
+      return (
+         <>
+            <Title text={text} link={link} buttonRight={buttonRight} target='_blank' />
+            <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-12" style={{ overflow: 'hidden' }}>
+               {products && products.length > 0 ? (
+                  randomFourGoods.map((product) => (
+                     <Product
+                        key={product.id}
+                        id={product.id}
+                        pictureUrl={product.pictureUrl}
+                        price={product.price}
+                        title={product.title.ru}
+                     />
+                  ))
+               ) : (
+                  <div className="flex justify-center items-center">
+                     <ClipLoader color="#FFA500" size={60} />{/* Загрузка */}
+                  </div>
+               )}
+            </section>
+         </>
+      );
+   }
+
 
    return (
       <>
@@ -47,70 +80,14 @@ export default function Home() {
             <Catalog />
             <div className="col-span-2">
                <Banner />
-               {/* Iphone */}
-               <Title text="Iphone" link={''} buttonRight='100px' target='_blank' />
-               <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-12" style={{ overflow: 'hidden' }}>
-                  {firstFourGoods.map((product) => {
-                     return (
-                        <Product
-                           key={product.id}
-                           id={product.id}
-                           pictureUrl={product.pictureUrl}
-                           price={product.price}
-                           title={product.title.ru}
-                        />
-                     );
-                  })}
-               </section>
-
-
-               {/* Iphone */}
-               <Title text="Iphone" link={''} buttonRight='100px' target='_blank' />
-               <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-12" style={{ overflow: 'hidden' }}>
-                  {firstFourGoods.map((product) => {
-                     return (
-                        <Product
-                           key={product.id}
-                           id={product.id}
-                           pictureUrl={product.pictureUrl}
-                           price={product.price}
-                           title={product.title.ru}
-                        />
-                     );
-                  })}
-               </section>
-
-               {/* Laptop */}
-               <Title text="Ноутбуки" link={''} buttonRight='140px' target='_blank' />
-               <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-12" style={{ overflow: 'hidden' }}>
-                  {firstFourGoods.map((product) => {
-                     return (
-                        <Product
-                           key={product.id}
-                           id={product.id}
-                           pictureUrl={product.pictureUrl}
-                           price={product.price}
-                           title={product.title.ru}
-                        />
-                     );
-                  })}
-               </section>
-
-               {/* Наушники */}
-               <Title text="Наушники" link={''} buttonRight='150px' target='_blank' />
-               <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mb-12" style={{ overflow: 'hidden' }}>
-                  {firstFourGoods.map((product) => {
-                     return (
-                        <Product
-                           key={product.id}
-                           id={product.id}
-                           pictureUrl={product.pictureUrl}
-                           price={product.price}
-                           title={product.title.ru}
-                        />
-                     );
-                  })}
-               </section>
+               {/* Телефоны */}
+               <ViewProduct text={"Телефоны"} link={'/phone'} buttonRight={'160px'} />
+               {/* Сетевые адаптеры */}
+               <ViewProduct text={"комплекты"} link={'/complects'} buttonRight={'160px'} />
+               {/* Ноутбуки */}
+               <ViewProduct text={"Ноутбуки"} link={'/laptop'} buttonRight={'140px'} />
+               {/* Клавиатуры и мыши */}
+               <ViewProduct text={"Клавиатуры"} link={'/mouse'} buttonRight={'180px'} />
             </div>
          </main>
          <Footer />

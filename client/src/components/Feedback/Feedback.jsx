@@ -1,14 +1,14 @@
 import './feedback.css'
 
 
-const Feedback = ({ name, date, text }) => {
+const Feedback = ({ name, date, text}) => {
    //Рандомная вставка звезд
    const
       starFill = '/images/goods/star-fill.png',
       starTransparency = '/images/goods/star-transparency.png',
       renderStars = () => {
          // Генерация случайного количества "полных" звезд (2/3)
-         const fullStars = Math.floor(Math.random() * 4) + 1; // От 1 до 4 полных звезд
+         const fullStars = Math.floor(Math.random()*4)
          const stars = [];
          for (let i = 1; i <= 5; i++) {
             stars.push(
