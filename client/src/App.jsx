@@ -12,6 +12,7 @@ import OrderCompleted from './Pages/Order/Order';
 /*Style */
 import './style/App.css';
 import './style/banner.css';
+import './style/adaptive/pages/home.css';
 
 function App() {
    return (

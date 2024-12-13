@@ -11,7 +11,19 @@
    border: 2px solid #A29E9B;
    border-radius: 16px;
    padding: 12px 12px;
+   cursor: pointer;
+   transition-duration: 500ms;
 }
+
+
+.select-lang:hover{
+   background-color: rgb(122, 122, 122);
+}
+
+.select-lang:focus{
+   background-color: rgb(227, 203, 182);
+}
+
 
 .select-lang option {
    color: #fff;
@@ -19,3 +31,4 @@
    padding: 5px;
    font-size: 18px;
 }
+

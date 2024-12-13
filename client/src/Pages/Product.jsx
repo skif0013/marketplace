@@ -10,12 +10,11 @@ import CommentModal from "../components/Modal/CommentModal";
 import RegistrationModal from "../components/Modal/RegistrationModal";
 import Login from "../components/Modal/Login";
 
-import styles from './pagesStyle.module.css';
-
+import ClipLoader from "react-spinners/ClipLoader";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import ClipLoader from "react-spinners/ClipLoader";
+
 
 export default function Product() {
    //Получение одного товара из API
@@ -30,6 +29,7 @@ export default function Product() {
          })
          .catch((error) => {
             console.error(error);
+            
          });
    }, [id]);
 
