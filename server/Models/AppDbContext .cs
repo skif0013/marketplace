@@ -40,6 +40,13 @@ namespace server.Models
             .WithOne(c => c.Product)
             .HasForeignKey(c => c.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<Category>()
+            .HasMany(c => c.Products)  // Category имеет много продуктов
+            .WithOne(p => p.category)  // Каждый продукт имеет одну категорию
+            .HasForeignKey(p => p.categoryId);  // Указываем внешний ключ
+
         }
 
 
