@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using server.DataTransferObjects;
 using server.Models;
 using server.Services;
 
@@ -176,13 +177,13 @@ namespace server.Controllers
 
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddComment([FromForm] int productId, [FromForm] string content)
+        public async Task<IActionResult> AddComment([FromForm] D_Comment Comment)
         {
             // Найдем продукт по Id
-            var product = await _context.Products.Include(p => p.Comments).FirstOrDefaultAsync(p => p.id == productId);
+            var product = await _context.Products.Include(p => p.Comments).FirstOrDefaultAsync(p => p.id == Comment.ProductId);
             if (product == null)
             {
-                return NotFound($"Продукт с Id {productId} не найден.");
+                return NotFound($"Продукт с Id {Comment.ProductId} не найден.");
             }
 
             Request.Cookies.TryGetValue("refreshToken", out var refreshToken);
@@ -196,8 +197,10 @@ namespace server.Controllers
             var comment = new Comment
             {
                 Author = userName,  // Или другой способ получить имя пользователя
-                Content = content,
-                ProductId = productId
+                Content = Comment.Content,
+                ProductId = Comment.ProductId,
+                Pluses = Comment.Pluses,
+                Minuses = Comment.Minuses,
             };
 
             // Добавим комментарий к продукту

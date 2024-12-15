@@ -12,7 +12,7 @@ using server.Models;
 namespace server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241103143037_InitialMigration")]
+    [Migration("20241216031034_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -33,10 +33,16 @@ namespace server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
+                    b.Property<int?>("Categoryid")
+                        .HasColumnType("integer");
+
                     b.Property<string>("name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("id");
+
+                    b.HasIndex("Categoryid");
 
                     b.ToTable("Categories");
                 });
@@ -59,6 +65,17 @@ namespace server.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Minuses")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Pluses")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
@@ -147,6 +164,14 @@ namespace server.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("server.Models.Category", b =>
+                {
+                    b.HasOne("server.Models.Category", null)
+                        .WithMany("SubCategory")
+                        .HasForeignKey("Categoryid")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("server.Models.Comment", b =>
                 {
                     b.HasOne("server.Models.Product", "Product")
@@ -161,7 +186,7 @@ namespace server.Migrations
             modelBuilder.Entity("server.Models.Product", b =>
                 {
                     b.HasOne("server.Models.Category", "category")
-                        .WithMany("products")
+                        .WithMany()
                         .HasForeignKey("categoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -215,7 +240,7 @@ namespace server.Migrations
 
             modelBuilder.Entity("server.Models.Category", b =>
                 {
-                    b.Navigation("products");
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("server.Models.Product", b =>
