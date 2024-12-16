@@ -4,6 +4,7 @@ import Catalog from '../components/Catalog/Catalog';
 import Title from '../components/Title';
 import Product from '../components/goods/Product';
 import Banner from '../components/Banner/Banner';
+import RegistrationModal from '../components/Modal/RegistrationModal';
 
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
