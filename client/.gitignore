@@ -8,8 +8,6 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Игнорировать все конфигурационные файлы .js
-*.config.js
 
 #Игнорировать package log
 package-lock.json
