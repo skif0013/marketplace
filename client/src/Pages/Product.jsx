@@ -5,6 +5,7 @@ import { ButtonProduct } from "../components/buttons/button";
 import Specifications from '../components/Specifications/Specifications';
 import WhiteButton from "../components/buttons/WhiteButton/WhiteButton";
 import Triarty from "../components/buttons/Triarty/Triarty";
+
 /* Вспывающие окна */
 import CommentModal from "../components/Modal/CommentModal";
 import RegistrationModal from "../components/Modal/RegistrationModal";
