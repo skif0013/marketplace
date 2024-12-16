@@ -4,7 +4,10 @@ import Catalog from '../components/Catalog/Catalog';
 import Title from '../components/Title';
 import Product from '../components/goods/Product';
 import Banner from '../components/Banner/Banner';
+
+/* Подключение модальных окон страниц */
 import RegistrationModal from '../components/Modal/RegistrationModal';
+import Login from '../components/Modal/Login';
 
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
@@ -73,6 +76,7 @@ export default function Home() {
       );
    }
 
+   //Включение модального окна
 
    return (
       <>
