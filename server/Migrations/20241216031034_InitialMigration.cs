@@ -18,11 +18,18 @@ namespace server.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "text", nullable: true)
+                    name = table.Column<string>(type: "text", nullable: false),
+                    Categoryid = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Categories_Categoryid",
+                        column: x => x.Categoryid,
+                        principalTable: "Categories",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,7 +87,10 @@ namespace server.Migrations
                     Author = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ProductId = table.Column<int>(type: "integer", nullable: false)
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    Pluses = table.Column<string>(type: "text", nullable: false),
+                    Minuses = table.Column<string>(type: "text", nullable: false),
+                    Grade = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,6 +102,11 @@ namespace server.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Categoryid",
+                table: "Categories",
+                column: "Categoryid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_ProductId",

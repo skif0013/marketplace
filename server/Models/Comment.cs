@@ -17,8 +17,17 @@ namespace server.Models
         [Required]
         public int ProductId { get; set; }
 
+        [Required]
+        public string? Pluses { get; set; }
+        
+        [Required]
+        public string Minuses { get; set; }
+        [Required]
+        public int Grade { get; set; }
+        
         [JsonIgnore]
         // Навигационное свойство на Product
         public virtual Product? Product { get; set; }
     }
 }
+//
