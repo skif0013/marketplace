@@ -27,6 +27,7 @@ export default function Banner() {
             <div className="banner flex-shrink-0">1</div>
             <div className="banner flex-shrink-0">2</div>
             <div className="banner flex-shrink-0">3</div>
+            <div className="banner flex-shrink-0">4</div>
          </div>
          <button
             className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black text-white p-2 rounded"
