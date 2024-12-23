@@ -1,109 +1,144 @@
-﻿@page "/marketplace"
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products</title>
+    <title>Shopilyze</title>
     <style>
-        /* Добавлен стиль из оригинального кода */
-        #productList {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 2rem;
+            text-align: center;
+            flex: 1;
+        }
+
+        #product-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-evenly;
+            justify-content: center;
         }
 
         .product {
-            border: 1px solid #ccc;
-            padding: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            width: 300px;
-            text-align: center;
-            text-decoration: none;
-            color: inherit;
-            transition: transform 0.2s;
+            margin: 1rem;
+            padding: 1rem;
+            width: 250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            cursor: pointer;
         }
 
-            .product:hover {
-                transform: scale(1.05);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            }
-
-        .product-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .product-description {
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        .product-category {
-            font-style: italic;
-            color: #888;
-        }
-
-        .product-image {
+        .product img {
             max-width: 100%;
             height: auto;
-            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1rem;
         }
 
-        .product-price {
-            font-size: 18px;
-            color: #333;
-            margin-top: 10px;
+        .product h3 {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .product p {
+            margin: 0.5rem 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Shopilyze</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#products">Продукты</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <h1>Product List</h1>
-    <div id="productList"></div>
+    <main id="products">
+        <h2>Продукты</h2>
+        <div id="product-list"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Shopilyze. Все права защищены.</p>
+    </footer>
 
     <script>
-        // Функция для получения данных
-        async function fetchProducts() {
-            try {
-                const response = await fetch('https://www.apishka.somee.com/api/product');
-                if (!response.ok) {
-                    throw new Error('Ошибка загрузки данных');
-                }
-                const products = await response.json();
-                displayProducts(products);
-            } catch (error) {
-                console.error('Ошибка:', error);
-            }
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const productList = document.getElementById('product-list');
 
-        // Отображение списка товаров
-        function displayProducts(products) {
-            const productList = document.getElementById('productList');
-            productList.innerHTML = '';
+            fetch('https://marketplace-800v.onrender.com/api/product')
+                .then(response => response.json())
+                .then(products => {
+                    products.forEach(product => {
+                        const productElement = document.createElement('div');
+                        productElement.classList.add('product');
+                        productElement.setAttribute('data-id', product.id);
 
-            products.forEach(product => {
-                const productDiv = document.createElement('a');
-                productDiv.className = 'product';
-                productDiv.href = `/Home/ProductDetalis?id=${product.id}`; // Ссылка на страницу товара
-
-                productDiv.innerHTML = `
-                            <img src="${product.pictureUrl}" alt="${product.title.uk || product.title.ru}" class="product-image">
-                            <div class="product-title">${product.title.uk || product.title.ru}</div>
-                            <div class="product-description">${product.description.uk || product.description.ru}</div>
-                            <div class="product-category">Category: ${product.category ? product.category.name : 'N/A'}</div>
-                            <div class="product-price">Price: ${product.price}</div>
+                        productElement.innerHTML = `
+                            <img src="${product.pictureUrl}" alt="${product.title.ru}">
+                            <h3>${product.title.ru}</h3>
+                            <p>${product.description.ru}</p>
+                            <p>Цена: $${product.price}</p>
                         `;
 
-                productList.appendChild(productDiv);
-            });
-        }
+                        productList.appendChild(productElement);
 
-        fetchProducts();
+                        // Добавляем обработчик клика для перехода на страницу продукта
+                        productElement.addEventListener('click', () => {
+                            window.location.href = `product.html?id=${product.id}`;
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Ошибка при загрузке данных:', error);
+                    productList.innerHTML = '<p>Не удалось загрузить продукты.</p>';
+                });
+        });
     </script>
-
 </body>
 </html>
