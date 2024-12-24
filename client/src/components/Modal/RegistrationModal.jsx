@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from './Modal';
-import PasswordField from './PasswordField/PasswordField';
+import PasswordField from '../PasswordField/PasswordField';
 import ButtonLink from '../buttons/buttonLink/buttonLink';
 
 const RegistrationModal = ({ isOpen, onClose }) => {

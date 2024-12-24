@@ -45,7 +45,6 @@ export default function Home() {
    }, []);
 
    //Добавление товаров
-   //рандомные товары
    const getRandomProducts = (products, count) => {
       const shuffled = [...products].sort(() => 0.5 - Math.random());
       return shuffled.slice(0, count);
@@ -76,7 +75,23 @@ export default function Home() {
       );
    }
 
-   //Включение модального окна
+   //Модальные окна
+   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+
+   const closeLoginModal = () => setIsLoginModalOpen(false);
+   const closeRegisterModal = () => setIsRegisterModalOpen(false);
+
+   useEffect(() => {
+      const loginValue = localStorage.getItem('login');
+      const registerValue = localStorage.getItem('register');
+
+      if (loginValue) {
+         setIsLoginModalOpen(true);
+      } else if (registerValue) {
+         setIsRegisterModalOpen(true);
+      }
+   }, []);
 
    return (
       <>

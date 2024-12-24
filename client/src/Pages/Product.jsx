@@ -5,15 +5,16 @@ import { ButtonProduct } from "../components/buttons/button";
 import Specifications from '../components/Specifications/Specifications';
 import WhiteButton from "../components/buttons/WhiteButton/WhiteButton";
 import Triarty from "../components/buttons/Triarty/Triarty";
+import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
 
 /* Вспывающие окна */
 import CommentModal from "../components/Modal/CommentModal";
 import RegistrationModal from "../components/Modal/RegistrationModal";
 import Login from "../components/Modal/Login";
 
-import ClipLoader from "react-spinners/ClipLoader";
-import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 import axios from "axios";
 import styles from './style/pagesStyle.module.css';
 
@@ -22,7 +23,7 @@ export default function Product() {
    //Получение одного товара из API
    const { id } = useParams(); // Получение id из роутов
    const [product, setProduct] = useState(null);
-
+   let path = {};
    useEffect(() => {
       axios.get(`https://www.apishka.somee.com/api/product/${id}`)
          .then((response) => {
@@ -31,7 +32,6 @@ export default function Product() {
          })
          .catch((error) => {
             console.error(error);
-
          });
    }, [id]);
 
@@ -104,27 +104,23 @@ export default function Product() {
    const scrollToSection = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
    //Modal
-   const isAuthenticated = Math.random() < 0.5; // Генерирует true или false случайно
+   const isAuthenticated = Math.random() < 0.5; //Отслеживает есть ли такой пользователь
    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
    const openCommentModal = () => setIsCommentModalOpen(true); // Открыть модальное окно
    const closeCommentModal = () => setIsCommentModalOpen(false); // Закрыть модальное окно
-   
+
    return (
       <div className="flex flex-col min-h-screen">
          <Header />
          <main className="flex-grow">
             <div className="pl-10 pt-10">
-               <article className="mb-6 flex gap-2 items-center">
-                  <section><img src="/images/main/variable/house/HouseDefault.svg" alt="" /></section>
-                  <section>/Apple</section>
-                  <section>/Название</section>
-               </article>
+               {product ? (<Breadcrumbs parentCategory={"какая-то категория"} productId={id} subCategory={product.category.name} productName={product.title.ru} />) : (<div className="h-full mb-6"><ClipLoader color="#FFA500" size={20} /></div>)}
                {
                   product ? (
                      <div className="grid grid-cols-2 items-stretch mb-32">
                         {/* Заголовок товара */}
                         <section>
-                           {product ? (<h1 className={styles.productName}>{product.title.ru}</h1>) : (<p>загрузка</p>)}
+                           <h1 className={styles.productName}>{product.title.ru}</h1>
                         </section>
 
                         {/* Кнопки: просмотр товара и характеристики */}
@@ -192,11 +188,11 @@ export default function Product() {
                            name={comment.author}
                            text={comment.content}
                            date={comment.createdAt}
-                           />
+                        />
                      ))
                   ) : (
                      <p className="my-10 text-center text-gray-500">
-                        <span className="text-3xl text-orange-500 animate-bounce">📭</span>
+                        <span className="text-3xl text-orange-500">📭</span>
                         <span className="block mt-2 text-lg font-semibold text-gray-600">Нету тут комментариев</span>
                         <span className="block text-sm text-orange-400 mt-1">Будьте первым, кто оставит отзыв!</span>
                      </p>

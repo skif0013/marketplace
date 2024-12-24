@@ -5,6 +5,15 @@ import './Header.css'
 
 export default function Header() {
 
+   const handleClick = () => {
+      const isLoggedIn = Boolean(localStorage.getItem('login'));
+      if (isLoggedIn) {
+         navigate('/profile'); // Перенаправить на профиль
+      } else {
+         alert('Вы должны войти в систему перед переходом на профиль!');
+      }
+   };
+   
    return (
       <>
          <header className="flex justify-between items-center bg-black p-6">
@@ -20,7 +29,7 @@ export default function Header() {
                   </select>
                </div>
                <div className="header-navigation flex gap-6">
-                  <Link to='/Profile'><img src="/images/main/human.svg" width="36px" height="auto" alt="" /></Link>
+                  <Link to='/profile' onClick={handleClick}><img src="/images/main/human.svg" width="36px" height="auto" alt="" /></Link>
                   <Link to='/api/basket'><img src="/images/main/variable/basket/basket.svg" width="36px" height="auto" alt="basket" /></Link>
                   <Link to=''><img src="/images/main/variable/heart/heart.svg" width="36px" height="auto" alt="like button" /></Link>
                </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
 import ButtonLink from '../buttons/buttonLink/buttonLink';
-import PasswordField from './PasswordField/PasswordField';
+import PasswordField from '../PasswordField/PasswordField';
 import { Link } from 'react-router-dom';
 
 
