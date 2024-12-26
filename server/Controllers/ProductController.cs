@@ -185,8 +185,9 @@ namespace server.Controllers
             {
                 return NotFound($"Продукт с Id {Comment.ProductId} не найден.");
             }
-
+            
             Request.Cookies.TryGetValue("refreshToken", out var refreshToken);
+            Console.WriteLine($"TOKEN {refreshToken}");
             var principal = _tokenService.GetPrincipalFromExpiredToken(refreshToken);
 
 
