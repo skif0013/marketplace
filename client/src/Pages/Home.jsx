@@ -1,16 +1,13 @@
+import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Catalog from '../components/Catalog/Catalog';
 import Banner from '../components/Banner/Banner';
 import ViewProduct from '../components/goods/ViewProduct';
-
-/* Подключение модальных окон страниц */
-import RegistrationModal from '../components/Modal/RegistrationModal';
-import Login from '../components/Modal/Login';
-
-import { useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 export default function Home() {
    //Получаем API
@@ -39,24 +36,6 @@ export default function Home() {
    }, []);
 
 
-   //Модальные окна
-   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-
-   const closeLoginModal = () => setIsLoginModalOpen(false);
-   const closeRegisterModal = () => setIsRegisterModalOpen(false);
-
-   useEffect(() => {
-      const loginValue = localStorage.getItem('login');
-      const registerValue = localStorage.getItem('register');
-
-      if (loginValue) {
-         setIsLoginModalOpen(true);
-      } else if (registerValue) {
-         setIsRegisterModalOpen(true);
-      }
-   }, []);
-
    return (
       <>
          <Header />
@@ -65,13 +44,13 @@ export default function Home() {
             <div className="col-span-2">
                <Banner />
                {/* Телефоны */}
-               <ViewProduct products={products} text={"Телефоны"} link={'/phone'} buttonRight={'160px'} />
+               <ViewProduct products={products} title={"Телефоны"} link={'/phone'} buttonRight={'160px'} />
                {/* Сетевые адаптеры */}
-               <ViewProduct products={products} text={"комплекты"} link={'/complects'} buttonRight={'160px'} />
+               <ViewProduct products={products} title={"комплекты"} link={'/complects'} buttonRight={'160px'} />
                {/* Ноутбуки */}
-               <ViewProduct products={products} text={"Ноутбуки"} link={'/laptop'} buttonRight={'140px'} />
+               <ViewProduct products={products} title={"Ноутбуки"} link={'/laptop'} buttonRight={'140px'} />
                {/* Клавиатуры и мыши */}
-               <ViewProduct products={products} text={"Клавиатуры"} link={'/mouse'} buttonRight={'180px'} />
+               <ViewProduct products={products} title={"Клавиатуры"} link={'/mouse'} buttonRight={'180px'} />
             </div>
          </main>
          <Footer />

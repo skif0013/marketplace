@@ -17,7 +17,7 @@ const Modal = ({ isOpen, onClose, children }) => {
    }, [isOpen]); // Срабатывает каждый раз, когда isOpen меняется
 
    return (
-      <div className={`modal-overlay ${isOpen ? 'open' : ''}`} onClick={onClose}>
+      <div className={`modal-overlay fixed z-50 ${isOpen ? 'open' : ''}`} onClick={onClose}>
          <div
             className={`modal-content ${isOpen ? 'fade-in' : ''} p-6`}
             onClick={(e) => e.stopPropagation()} // Останавливаем клик от закрытия при клике внутри модалки

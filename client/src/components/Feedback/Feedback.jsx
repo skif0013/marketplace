@@ -1,14 +1,23 @@
 import './feedback.css'
 
 
-const Feedback = ({ name, date, text}) => {
+const Feedback = ({ name, date, text }) => {
+   //Форматирование даты
+   const inputDate =date; 
+   const parsedDate = new Date(inputDate);
+   const formattedDate = parsedDate.toLocaleDateString('ru-RU', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+   });
+   
    //Рандомная вставка звезд
    const
       starFill = '/images/goods/star-fill.png',
       starTransparency = '/images/goods/star-transparency.png',
       renderStars = () => {
          // Генерация случайного количества "полных" звезд (2/3)
-         const fullStars = Math.floor(Math.random()*4)
+         const fullStars = Math.floor(Math.random() * 4)
          const stars = [];
          for (let i = 1; i <= 5; i++) {
             stars.push(
@@ -30,7 +39,7 @@ const Feedback = ({ name, date, text}) => {
                <span className="feedback-name">{name}</span>
                <section className="flex gap-2">{renderStars()}</section>
             </div>
-            <div className='feedback-date'>{date}</div>
+            <div className='feedback-date'>{formattedDate}</div>
          </div>
          <p className="feedback-text">{text}</p>
       </div>

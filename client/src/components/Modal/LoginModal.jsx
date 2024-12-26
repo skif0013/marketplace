@@ -5,7 +5,7 @@ import PasswordField from '../PasswordField/PasswordField';
 import { Link } from 'react-router-dom';
 
 
-const Login = ({ isOpen, onClose }) => {
+const LoginModal = ({ isOpen, onClose }) => {
    return (
       <Modal isOpen={isOpen} onClose={onClose}>
          <section className="flex justify-between items-center mb-4">
@@ -26,7 +26,7 @@ const Login = ({ isOpen, onClose }) => {
                />
             </div>
             <PasswordField />
-            <button type="submit" onClick={Login} className="submitButton w-full">Войти</button>
+            <button type="submit" className="submitButton w-full">Войти</button>
             <div className="w-full text-right text-gray-500"><Link path='/'>Забыли пароль?</Link></div>
             <div className="w-full text-left text-gray-500">
                Нету аккаунта, но хотите иметь свой аккаунт? <br />
@@ -39,4 +39,4 @@ const Login = ({ isOpen, onClose }) => {
    );
 };
 
-export default Login;
+export default LoginModal;

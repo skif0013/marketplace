@@ -16,24 +16,24 @@ import ProtectedRoute from './ProtectedRoute';
 
 const getRoutes = () => (
    <Routes>
-      {/* Redirect from / to /api/product */}
+      {/* Redirect */}
       <Route path="/" element={<Navigate to="/api/product" />} />
 
-      {/* Main Routes */}
+      {/* Основное */}
       <Route path="api/product" element={<Home />} /> {/* Home page */}
       <Route path="api/product/:id" element={<Product />} /> {/* Product page */}
       <Route path="api/basket/checkout" element={<OrderCompleted />} /> {/* Order Completed */}
       <Route path="api/basket" element={<Basket />} /> {/* Basket page */}
 
-      {/* Categories Routes */}
+      {/* Категории */}
       <Route path="api/product/category" element={<Catalog />} />
       <Route path="api/product/productByCategory/:category" element={<ProductByCategory />} />
 
-      {/* Account Protected Routes */}
+      {/* Для пользователей */}
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-
-      {/* Catch-all for unknown routes */}
+      
+      {/* Все ошибки */}
       <Route path="*" element={<NotFound />} />
    </Routes>
 );

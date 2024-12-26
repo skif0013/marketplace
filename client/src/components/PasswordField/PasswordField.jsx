@@ -15,7 +15,7 @@ const PasswordInput = () => {
                type={showPassword ? 'text' : 'password'}
                name="new-password"
                placeholder="Введите пароль"
-               className="w-full p-2 mt-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
+               className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
                id="password"
                autoComplete="new-password"
             />
@@ -53,7 +53,7 @@ const PasswordConfirmInput = () => {
             <input
                type={showPassword ? 'text' : 'password'}
                placeholder="Повтор пароля"
-               className="w-full p-2 mt-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
+               className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
                id="password_confirm"
                autoComplete="new-password"
             />
@@ -61,7 +61,7 @@ const PasswordConfirmInput = () => {
                type="button"
                onClick={togglePasswordVisibility}
                style={{
-                  top: '40px',
+                  top: '40px', 
                   right: '10px'
                }}
                className="absolute transform -translate-y-1/2 text-gray-500"

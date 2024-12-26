@@ -1,17 +1,5 @@
-import Header from "../components/Header/Header"
-import Footer from "../components/Footer/Footer"
-import Feedback from "../components/feedback/feedback";
-import { ButtonProduct } from "../components/buttons/button";
-import Specifications from '../components/Specifications/Specifications';
-import WhiteButton from "../components/buttons/WhiteButton/WhiteButton";
-import Triarty from "../components/buttons/Triarty/Triarty";
-import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
 
-/* Вспывающие окна */
-import CommentModal from "../components/Modal/CommentModal";
-import RegistrationModal from "../components/Modal/RegistrationModal";
-import Login from "../components/Modal/Login";
-
+/* Всё остальное */
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -19,15 +7,29 @@ import axios from "axios";
 import styles from './style/pagesStyle.module.css';
 
 
+import Header from "../components/Header/Header"
+import Footer from "../components/Footer/Footer"
+import Feedback from "../components/Feedback/Feedback";
+import { ButtonProduct } from "../components/buttons/button";
+import Specifications from '../components/Specifications/Specifications';
+import WhiteButton from "../components/buttons/WhiteButton/WhiteButton";
+import Triarty from "../components/buttons/Triarty/Triarty";
+import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
+import { OpenModal } from "../components/CheckAuth/CheckAuth";
+
+
 export default function Product() {
+   //Состояние модального окна
+   const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для модального окна
+   const [modalType, setModalType] = useState(''); // Тип модального окна ('comment' или 'login')
+
    //Получение одного товара из API
    const { id } = useParams(); // Получение id из роутов
    const [product, setProduct] = useState(null);
-   let path = {};
    useEffect(() => {
       axios.get(`https://www.apishka.somee.com/api/product/${id}`)
          .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setProduct(response.data);
          })
          .catch((error) => {
@@ -103,11 +105,11 @@ export default function Product() {
       feedbackRef = useRef(false);
    const scrollToSection = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
-   //Modal
-   const isAuthenticated = Math.random() < 0.5; //Отслеживает есть ли такой пользователь
-   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
-   const openCommentModal = () => setIsCommentModalOpen(true); // Открыть модальное окно
-   const closeCommentModal = () => setIsCommentModalOpen(false); // Закрыть модальное окно
+   //Для работы с модальным окном
+   const [triggerModal, setTriggerModal] = useState(false);
+   const handleOpenModal = () => {
+      setTriggerModal(true);
+   };
 
    return (
       <div className="flex flex-col min-h-screen">
@@ -167,18 +169,9 @@ export default function Product() {
                <Specifications ref={specificationsRef} data={specificationsData} />
                <section className="mb-10 mt-10 flex items-center gap-10" ref={feedbackRef}>
                   <h1 className="text-4xl font-bold">Отзывы</h1>
-                  <button className="text-gray-500" onClick={openCommentModal}>Оставить отзыв</button>
+                  <button className="text-gray-500" onClick={handleOpenModal}>Оставить отзыв</button>
                </section>
-
-               {/* Modal comment */}
-               {/* <RegistrationModal isOpen={isCommentModalOpen} onClose={closeCommentModal} /> */}
-
-               {isAuthenticated ? (
-                  <Login isOpen={isCommentModalOpen} onClose={closeCommentModal} />
-               ) : (
-                  <CommentModal isOpen={isCommentModalOpen} onClose={closeCommentModal} />
-               )}
-
+               <OpenModal triggerModal={triggerModal} />
                {product ? (
                   product.comments && product.comments.length > 0 ? (
                      // Если есть комментарии, рендерим их
@@ -203,7 +196,6 @@ export default function Product() {
                      <ClipLoader color="#FFA500" size={60} />
                   </div>
                )}
-
             </div>
          </main >
          <Footer />
