@@ -22,12 +22,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-// Получаем строку подключения
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 var connectionString = builder.Configuration.GetConnectionString("MyAppCs");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-// Регистрация сервисов
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddSingleton<SupabaseStorageService>();
 builder.Services.AddSingleton<PasswordService>();
@@ -42,13 +42,13 @@ builder.Services.AddServerSideBlazor();
 
 
 
-// Настройка HttpClient для ProductService
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ HttpClient пїЅпїЅпїЅ ProductService
 builder.Services.AddHttpClient<ProductService>(client =>
 {
 client.BaseAddress = new Uri("https://www.apishka.somee.com/api/");
 });
 
-// Настройка аутентификации
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -69,14 +69,15 @@ builder.Services.AddCors(options =>
 {
 options.AddPolicy("AllowAll",
     policyBuilder => policyBuilder
-        .AllowAnyOrigin()    // Разрешить запросы с любого домена
-        .AllowAnyHeader()    // Разрешить любые заголовки
-        .AllowAnyMethod()    // Разрешить любые HTTP методы
-        .WithExposedHeaders("X-Total-Count") // Экспонировать заголовок X-Total-Count
+        .WithOrigins("http://localhost:7269")
+        .AllowAnyOrigin()    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        .AllowAnyHeader()    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        .AllowAnyMethod()    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ HTTP пїЅпїЅпїЅпїЅпїЅпїЅ
+        .WithExposedHeaders("X-Total-Count") // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ X-Total-Count
 );
 });
 
-// Swagger документация
+// Swagger пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     builder.Services.AddSwaggerGen(options =>
     {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -96,7 +97,7 @@ options.AddPolicy("AllowAll",
     }
     });
 
-    // Поддержка комментариев из XML
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ XML
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
@@ -130,18 +131,18 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// MVC маршруты
+// MVC пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
 
-// Опции для аутентификации
+// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 public class AuthOptions
 {
-    public const string ISSUER = "shopilyze.com"; // издатель токена
-    const string KEY = "mysupersecret_secretsecretsecretkey!123"; // ключ для шифрации
+    public const string ISSUER = "shopilyze.com"; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    const string KEY = "mysupersecret_secretsecretsecretkey!123"; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
 }

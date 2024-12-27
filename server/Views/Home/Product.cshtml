@@ -221,13 +221,13 @@
                             commentElement.classList.add('comment');
 
                             commentElement.innerHTML = `
-                                <p><strong>Автор:</strong> ${comment.author}</p>
-                                <p><strong>Дата:</strong> ${new Date(comment.createdAt).toLocaleDateString()}</p>
-                                <p><strong>Оценка:</strong> ${comment.grade}</p>
-                                <p><strong>Плюсы:</strong> ${comment.pluses}</p>
-                                <p><strong>Минусы:</strong> ${comment.minuses}</p>
-                                <p><strong>Комментарий:</strong> ${comment.content}</p>
-                            `;
+                            <p><strong>Автор:</strong> ${comment.author}</p>
+                            <p><strong>Дата:</strong> ${new Date(comment.createdAt).toLocaleDateString()}</p>
+                            <p><strong>Оценка:</strong> ${comment.grade}</p>
+                            <p><strong>Плюсы:</strong> ${comment.pluses}</p>
+                            <p><strong>Минусы:</strong> ${comment.minuses}</p>
+                            <p><strong>Комментарий:</strong> ${comment.content}</p>
+                        `;
 
                             commentsList.appendChild(commentElement);
                         });
@@ -279,7 +279,7 @@
                     }
                     return response.json();
                 })
-                .then(result => {6
+                .then(result => {
                     console.log('Комментарий успешно добавлен:', result);
                     modal.style.display = 'none';
                     // Обновите комментарии или перезагрузите страницу для отображения нового комментария
