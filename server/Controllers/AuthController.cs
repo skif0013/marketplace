@@ -34,7 +34,7 @@ namespace server.Controllers
 
 
         [HttpPost("singIn")]  // вход
-        public async Task<IActionResult> SingIn([FromBody] EUser user)
+        public async Task<IActionResult> SingIn([FromForm] EUser user)
         {
 
             if (user == null)
@@ -80,13 +80,13 @@ namespace server.Controllers
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
 
 
-            return Ok($"Access Token: {accessToken}");
+            return Json(new { accessToken = accessToken, refreshToken = refreshToken });
 
         }
 
 
         [HttpPost("reg")] // регистрация
-        public async Task<IActionResult> signUp([FromBody] UserRegistrationRequest user)
+        public async Task<IActionResult> signUp([FromForm] UserRegistrationRequest user)
         {
 
             if (!ModelState.IsValid)
@@ -140,9 +140,9 @@ namespace server.Controllers
                 accountRegistrationDate = DateTime.UtcNow.Date,
                 role = "user"
             };
+  
 
-
-            // Установка Refresh токена в HttpOnly куку
+            /*// Установка Refresh токена в HttpOnly куку
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
@@ -151,7 +151,7 @@ namespace server.Controllers
                 Expires = DateTime.UtcNow.AddDays(TokenService.AuthOptions.RefreshTokenLifetimeDays) // Установка срока действия
             };
 
-            Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
+            Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);*/
 
 
             _context.Users.Add(newUser);
@@ -163,7 +163,7 @@ namespace server.Controllers
 
 
 
-            return Json(new { accessToken = accessToken });
+            return Json(new { accessToken = accessToken, refreshToken = refreshToken });
         }
 
 
