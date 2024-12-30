@@ -1,7 +1,7 @@
+import { getGoodsApi } from '../services/getGoodsApi';
+
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
 
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
@@ -13,28 +13,20 @@ export default function Home() {
    //Получаем API
    const [products, setProducts] = useState([]);
    const [error, setError] = useState(null);
-   const navigate = useNavigate(); //Для обработки ошибок
+   const navigate = useNavigate();
+
    useEffect(() => {
       const fetchProducts = async () => {
          try {
-            const response = await axios.get('https://www.apishka.somee.com/api/product?_order=asc&_start=0&_end=4', {
-               params: {
-                  _order: 'asc',
-                  _start: 0,
-                  _end: 100
-               },
-               headers: {
-                  'accept': '*/*'
-               }
-            });
-            setProducts(response.data); //Тут передаём данные на setProduct
+            const data = await getGoodsApi();
+            setProducts(data);
          } catch (err) {
             setError(err.message);
+            navigate('/error'); // Перенаправление на страницу ошибки
          }
       };
       fetchProducts();
-   }, []);
-
+   }, [navigate]);
 
    return (
       <>

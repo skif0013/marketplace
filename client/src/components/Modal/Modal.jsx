@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './Modal.css'; 
+import './Modal.css';
 
 const Modal = ({ isOpen, onClose, children }) => {
    useEffect(() => {
@@ -15,9 +15,8 @@ const Modal = ({ isOpen, onClose, children }) => {
          document.body.style.overflow = 'auto'; // Включаем прокрутку при размонтировании
       };
    }, [isOpen]); // Срабатывает каждый раз, когда isOpen меняется
-
    return (
-      <div className={`modal-overlay fixed z-50 ${isOpen ? 'open' : ''}`} onClick={onClose}>
+      <div className={`modal-overlay ${isOpen ? 'open' : ''}`} onClick={onClose}>
          <div
             className={`modal-content ${isOpen ? 'fade-in' : ''} p-6`}
             onClick={(e) => e.stopPropagation()} // Останавливаем клик от закрытия при клике внутри модалки

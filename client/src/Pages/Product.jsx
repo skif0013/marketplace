@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
-import axios from "axios";
 import styles from './style/pagesStyle.module.css';
 
 
@@ -15,27 +14,28 @@ import Specifications from '../components/Specifications/Specifications';
 import WhiteButton from "../components/buttons/WhiteButton/WhiteButton";
 import Triarty from "../components/buttons/Triarty/Triarty";
 import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
-import { OpenModal } from "../components/CheckAuth/CheckAuth";
-
+import { OpenModal } from "../utils/CheckAuth/CheckAuth";
+import { getProductById } from "../services/getProductApi";
 
 export default function Product() {
-   //Состояние модального окна
-   const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для модального окна
-   const [modalType, setModalType] = useState(''); // Тип модального окна ('comment' или 'login')
-
    //Получение одного товара из API
-   const { id } = useParams(); // Получение id из роутов
+   const { id } = useParams(); // Получаем id из роутов
    const [product, setProduct] = useState(null);
+   const [error, setError] = useState(null);
+
    useEffect(() => {
-      axios.get(`https://www.apishka.somee.com/api/product/${id}`)
-         .then((response) => {
-            // console.log(response.data);
-            setProduct(response.data);
-         })
-         .catch((error) => {
-            console.error(error);
-         });
+      const fetchProduct = async () => {
+         try {
+            const data = await getProductById(id);
+            setProduct(data);
+         } catch (err) {
+            setError(err.message);
+         }
+      };
+
+      fetchProduct();
    }, [id]);
+
 
    //вставка звёзд
    const
@@ -152,7 +152,7 @@ export default function Product() {
                            <section className="flex gap-6 items-center relative">
                               <div className={styles.ProductPrice}>{product.price}</div>
                               <ButtonProduct name={'Купить'} />
-                              <WhiteButton className='p-2'>
+                              <WhiteButton className='p-2' onClick={handleOpenModal}>
                                  <img src="/images/main/variable/heart/heartMain.svg" alt="heart" />
                               </WhiteButton>
                            </section>
@@ -171,7 +171,7 @@ export default function Product() {
                   <h1 className="text-4xl font-bold">Отзывы</h1>
                   <button className="text-gray-500" onClick={handleOpenModal}>Оставить отзыв</button>
                </section>
-               <OpenModal triggerModal={triggerModal} />
+               <OpenModal triggerModal={triggerModal} confirm="Такой пользователь уже есть. Хотите войти в аккаунт?" />
                {product ? (
                   product.comments && product.comments.length > 0 ? (
                      // Если есть комментарии, рендерим их

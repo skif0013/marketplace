@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { OpenModal } from "../CheckAuth/CheckAuth";
+import { OpenModal } from "../../utils/CheckAuth/CheckAuth";
 import { useState } from "react";
 
 export default function Product({ id, pictureUrl, price, title }) {
@@ -28,7 +28,7 @@ export default function Product({ id, pictureUrl, price, title }) {
          <a href="#" onClick={handleOpenModal} className="product_item-heart">
             <img draggable={"false"} src="/images/main/variable/heart/heart.svg" alt="heart" />
          </a>
-         <OpenModal triggerModal={triggerModal} />
+         <OpenModal triggerModal={triggerModal} defaultModalType="register" />
       </div>
    );
 }

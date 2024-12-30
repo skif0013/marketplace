@@ -1,6 +1,7 @@
 /* Модальное окно (фоновая затемненная область) */
 .modal-overlay {
    position: fixed;
+   z-index: 99999;
    top: 0;
    left: 0;
    width: 100%;
@@ -11,8 +12,7 @@
    align-items: center;
    opacity: 0;
    visibility: hidden;
-   transition: opacity 500ms ease, visibility 0s 0.3s;
-   /* Добавлен visibility для скрытия */
+   transition: opacity 500ms ease, visibility 0s 0.5s;
 }
 
 /* Когда окно открыто */
@@ -126,4 +126,8 @@ input[type="file"]:focus+label {
 
 input {
    height: 50px;
+}
+
+.space-x-6 > :not([hidden]) ~ :not([hidden]){
+   --tw-space-x-reverse:1;
 }

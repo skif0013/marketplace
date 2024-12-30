@@ -2,17 +2,14 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 /* Pages */
-import Home from '../../Pages/Home';
-import Product from '../../Pages/Product';
-import NotFound from '../../Pages/NotFound';
-import Basket from '../../Pages/Basket';
-import Catalog from '../../Pages/Catalog/Catalog';
-import ProductByCategory from '../../Pages/Catalog/ProductByCategory';
-import OrderCompleted from '../../Pages/Order/Order';
-import Profile from '../../Pages/Profile/Profile';
-
-/* Components */
-import ProtectedRoute from './ProtectedRoute';
+import Home from '../Pages/Home';
+import Product from '../Pages/Product';
+import NotFound from '../Pages/NotFound';
+import Basket from '../Pages/Basket';
+import Catalog from '../Pages/Catalog/Catalog';
+import ProductByCategory from '../Pages/Catalog/ProductByCategory';
+import OrderCompleted from '../Pages/Order/Order';
+import Profile from '../Pages/Profile/Profile';
 
 const getRoutes = () => (
    <Routes>
@@ -30,9 +27,9 @@ const getRoutes = () => (
       <Route path="api/product/productByCategory/:category" element={<ProductByCategory />} />
 
       {/* Для пользователей */}
-      <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-      <Route path="/settings" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-      
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/settings" element={<Profile />} />
+
       {/* Все ошибки */}
       <Route path="*" element={<NotFound />} />
    </Routes>
