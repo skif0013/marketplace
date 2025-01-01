@@ -1,0 +1,24 @@
+<svg width="32.000000" height="32.000000" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<clipPath id="clip184_939">
+			<rect id="Frame" rx="0.000000" width="23.000000" height="23.000000" transform="translate(4.500000 4.500000)" fill="white" fill-opacity="0"/>
+		</clipPath>
+		<clipPath id="clip184_938">
+			<rect id="Name=Web, State=Press" rx="0.000000" width="31.000000" height="31.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/>
+		</clipPath>
+	</defs>
+	<g clip-path="url(#clip184_938)">
+		<rect id="Frame" rx="0.000000" width="23.000000" height="23.000000" transform="translate(4.500000 4.500000)" fill="#FFFFFF" fill-opacity="0"/>
+		<g clip-path="url(#clip184_939)">
+			<path id="Vector" d="M24 18C25.1 18 26 18.89 26 20L26 24C26 25.1 25.1 26 24 26L8 26C6.89 26 6 25.1 6 24L6 20C6 18.89 6.89 18 8 18L24 18Z" stroke="#FD7600" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round"/>
+			<path id="Vector" d="M10.01 22L10 22" stroke="#FD7600" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+			<path id="Vector" d="M14.01 22L14 22" stroke="#FD7600" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+			<path id="Vector" d="M19 14L19 18" stroke="#FD7600" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+			<path id="Vector" d="M21.84 11.17C21.46 10.79 21.02 10.5 20.54 10.3C20.05 10.1 19.53 9.99 19.01 9.99C18.48 9.99 17.96 10.1 17.47 10.3C16.99 10.5 16.55 10.79 16.18 11.17" stroke="#FD7600" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+			<path id="Vector" d="M24.66 8.34C23.15 6.84 21.12 5.99 19 5.99C16.88 5.99 14.85 6.84 13.35 8.34" stroke="#FD7600" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round" stroke-linecap="round"/>
+		</g>
+	</g>
+</svg>

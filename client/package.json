@@ -1,6 +1,5 @@
 {
    "name": "shopilyze-app",
-   "homepage": "https://WolfAmadeusen.github.io/Shopilyze-app/",
    "private": true,
    "version": "0.0.0",
    "type": "module",
