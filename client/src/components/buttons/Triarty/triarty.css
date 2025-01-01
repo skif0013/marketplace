@@ -1,0 +1,18 @@
+.characteristics button {
+   font-size: 16px;
+   font-weight: 600;
+   color: rgb(60, 58, 57);
+   padding: 14px 15px;
+   background-color: rgb(227, 191, 159);
+   transition-duration: 500ms;
+   border-radius: 8px;
+}
+
+.characteristics button:hover {
+   color: #000;
+   background-color: rgb(227, 166, 113);
+}
+
+.characteristics button:active{
+   background-color: rgb(227, 154, 91);
+}

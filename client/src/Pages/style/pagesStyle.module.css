@@ -1,0 +1,39 @@
+.ProductFullTitle {
+   color: #000;
+   font-weight: 600;
+   font-size: 20px;
+}
+
+.ProductAvailability {
+   font-weight: 400;
+   font-size: 20px;
+   color: rgb(253, 118, 0);
+}
+
+.productInfo {
+   font-weight: 600;
+   font-size: 18px;
+   color: rgb(121, 118, 116);
+}
+
+.ProductPrice {
+   font-size: 34px;
+   font-weight: 600;
+}
+
+.productName {
+   font-weight: 600;
+   font-size: 35px;
+}
+
+@keyframes spin {
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+}
+.animate-spin {
+   animation: spin 1s linear infinite;
+}
