@@ -11,8 +11,6 @@ export default function Basket() {
       { id: "12348239432", title: "Адаптер", price: 308419, quantity: 9, categories: "Сетевое оборудование" },
       { id: "09868902635", title: "Видео карта RX-3080 it", price: 178456, quantity: 6, categories: "Комплектующие" },
    ]);
-   //ЧТото
-   //ыжыжыж
 
    // Синхронізувати зміни у кошику
    const handleRemoveItem = (id) => {
