@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Catalog.css';
+import {Link} from "react-router-dom";
+import Sell from "../../Pages/Sell/Sell.jsx";
 
 export default function Catalog() {
    const [activeIndex, setActiveIndex] = useState(null);
@@ -133,7 +135,7 @@ export default function Catalog() {
 
          <h3 className="font-bold text-xl mb-4">Партнерам</h3>
          <section className="catalog-items">
-            <a href="#" className="catalog__section relative">
+            <Link to='/sell' className="catalog__section relative">
                <img src="/images/main/sell.svg" alt="Продавать на Shopilyze" />
                <span>Продавать на Shopilyze</span>
                <img
@@ -141,7 +143,7 @@ export default function Catalog() {
                   className="absolute top-0 right-0"
                   alt="arrow right"
                />
-            </a>
+            </Link>
          </section>
 
          <h3 className="font-bold text-xl mb-4">Продавцам</h3>

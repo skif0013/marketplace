@@ -12,7 +12,7 @@
    width: 250px;
    height: 50px;
    padding: 14px 16px;
-   color: #A29E9B;
+   color: rgb(227, 203, 182);
    background-color: inherit;
    border: 2px solid #A29E9B;
    border-radius: 16px;
@@ -20,12 +20,8 @@
    transition-duration: 500ms;
 }
 
-.search input:hover{
-   background-color: rgb(122, 122, 122);
-}
-
-.search input:focus{
-   background-color: rgb(227, 203, 182);
+.search input:hover, .search input:focus{
+   border-color: rgb(227, 203, 182);
 }
 
 /* Когда текст введен в поле */
