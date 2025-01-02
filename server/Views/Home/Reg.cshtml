@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopilyze - Регистрация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 2rem;
+            text-align: center;
+            flex: 1;
+        }
+
+        .registration-form {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 1rem;
+            padding: 1rem;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+
+        .registration-form h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .registration-form input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .registration-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .registration-form button:hover {
+            background-color: #555;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Shopilyze</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="index.html#products">Продукты</a></li>
+            <li><a href="index.html#contact">Контакты</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="registration-form">
+        <h2>Регистрация</h2>
+        <form id="registrationForm">
+            <input type="text" id="name" name="name" placeholder="Имя" required>
+            <input type="email" id="email" name="email" placeholder="Почта" required>
+            <input type="password" id="password" name="password" placeholder="Пароль" required>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 Shopilyze. Все права защищены.</p>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('registrationForm');
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(form);
+            
+            fetch('https://marketplace-800v.onrender.com/api/auth/reg', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.accessToken && result.refreshToken) {
+                    // Сохранить accessToken в localStorage
+                    localStorage.setItem('accessToken', result.accessToken);
+                    
+                    // Сохранить refreshToken в куки
+                    document.cookie = `refreshToken=${result.refreshToken}; path=/; secure; samesite=None;`;
+                    
+                    alert('Регистрация успешна!');
+                } else {
+                    alert('Ошибка регистрации.');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Ошибка регистрации.');
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

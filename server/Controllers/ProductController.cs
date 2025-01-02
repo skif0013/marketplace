@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.JsonWebTokens;
 using server.DataTransferObjects;
 using server.Models;
 using server.Services;
@@ -145,14 +147,31 @@ namespace server.Controllers
                     return StatusCode(500, $"Ошибка при загрузке файла: {ex.Message}");
                 }
             }
-            //Request.Cookies.TryGetValue("refreshToken", out var refreshToken);
-
-            //var principal = _tokenService.GetPrincipalFromExpiredToken(refreshToken);
-
-
-            //var userName = principal.Claims.FirstOrDefault(c => c.Type == "Name")?.Value;
             
+            
+            var authorizationHeader = Request.Headers["Authorization"].FirstOrDefault();
+            string jwtToken;
+            if (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith("Bearer "))
+            {
+                jwtToken = authorizationHeader.Substring("Bearer ".Length);
+            }
+            else
+            {
+                if (Request.Cookies.TryGetValue("refreshToken", out jwtToken))
+                {
+                    Console.WriteLine($"refreshToken взят из куки = {jwtToken}");
+                }
+                else
+                {
+                    return Unauthorized("отправьте токен в Authorization заголовке");
+                }
+            }
+            
+            var principal = _tokenService.GetPrincipalFromExpiredToken(jwtToken);
+            string userName = principal.Claims.FirstOrDefault(c => c.Type == "Name")?.Value;
 
+            Console.WriteLine($"userName: {userName}");
+            
             var newProduct = new Product
             {
                 title = new LocalizedTitle { ru = request.ruTitle, uk = request.ukrTitle },
@@ -160,7 +179,7 @@ namespace server.Controllers
                 description = new LocalizedDescription { ru = request.ruDescription, uk = request.ukrDescription },
                 category = existingCategory,
                 price = request.price,
-                seller = "Seller",
+                seller = userName,
                 grade = 3,
                 seoURL = request.seoURL,
                 productCode = request.productCode
@@ -173,10 +192,89 @@ namespace server.Controllers
             await _context.SaveChangesAsync();
             return Ok(newProduct);
         }
+        
+        
+        
+        
+    [HttpPost("add")]
+    public async Task<IActionResult> AddComment([FromForm] D_Comment Comment)
+    {
+        // Логирование заголовков запроса
+        Console.WriteLine($"Headers: {string.Join(", ", Request.Headers.Select(h => h.Key + "=" + h.Value))}");
 
+        // Получение заголовка Authorization
+        var authorizationHeader = Request.Headers["Authorization"].FirstOrDefault();
+        Console.WriteLine($"Authorization Header: {authorizationHeader}");
 
+        string jwtToken = null;
 
-        [HttpPost("add")]
+        if (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith("Bearer "))
+        {
+            jwtToken = authorizationHeader.Substring("Bearer ".Length);
+            Console.WriteLine($"Extracted JWT Token: {jwtToken}");
+        }
+        else
+        {
+            // Попытка получить токен из куки
+            if (Request.Cookies.TryGetValue("refreshToken", out jwtToken))
+            {
+                Console.WriteLine($"Token from Cookie: {jwtToken}");
+            }
+            else
+            {
+                Console.WriteLine("Token not found in both Authorization header and Cookie");
+                return Unauthorized("Токен отсутствует в заголовке или куках.");
+            }
+        }
+
+        // Проверка наличия токена
+        if (string.IsNullOrEmpty(jwtToken))
+        {
+            return Unauthorized("Токен отсутствует в заголовке или куках.");
+        }
+
+        // Получение данных из токена
+        var principal = _tokenService.GetPrincipalFromExpiredToken(jwtToken);
+        if (principal == null)
+        {
+            return Unauthorized("Невалидный токен.");
+        }
+
+        // Извлечение имени пользователя
+        var userName = principal.Claims.FirstOrDefault(c => c.Type == "Name")?.Value;
+        if (string.IsNullOrEmpty(userName))
+        {
+            return Unauthorized("Имя пользователя не найдено в токене.");
+        }
+
+        // Найдём продукт по Id
+        var product = await _context.Products.Include(p => p.Comments).FirstOrDefaultAsync(p => p.id == Comment.ProductId);
+        if (product == null)
+        {
+            return NotFound($"Продукт с Id {Comment.ProductId} не найден.");
+        }
+
+        // Создадим новый комментарий
+        var comment = new Comment
+        {
+            Author = userName,
+            Content = Comment.Content,
+            ProductId = Comment.ProductId,
+            Pluses = Comment.Pluses,
+            Minuses = Comment.Minuses,
+        };
+
+        // Сохраним комментарий
+        _context.Comments.Add(comment);
+        await _context.SaveChangesAsync();
+
+        return Ok(comment);
+    }
+
+        
+        
+        
+        /*[HttpPost("add")]
         public async Task<IActionResult> AddComment([FromForm] D_Comment Comment)
         {
             // Найдем продукт по Id
@@ -186,14 +284,22 @@ namespace server.Controllers
                 return NotFound($"Продукт с Id {Comment.ProductId} не найден.");
             }
             
-            Request.Cookies.TryGetValue("refreshToken", out var refreshToken);
-            Console.WriteLine($"TOKEN {refreshToken}");
-            var principal = _tokenService.GetPrincipalFromExpiredToken(refreshToken);
+            var authorizationHeader = Request.Headers["Authorization"].FirstOrDefault();
+            
+            Console.WriteLine($"TOKEN {authorizationHeader}");
+            if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
+            {
+                return Unauthorized("Токен отсутствует или имеет неверный формат.");
+            }
 
+            var jwtToken = authorizationHeader.Substring("Bearer ".Length);
 
-            var userName = principal.Claims.FirstOrDefault(c => c.Type == "Name")?.Value;
+            // Получение данных из токена
+            var principal = _tokenService.GetPrincipalFromExpiredToken(jwtToken);
+            var userName = principal.Identity.Name;
+            
 
-
+            
             // Создадим новый комментарий
             var comment = new Comment
             {
@@ -209,7 +315,7 @@ namespace server.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(comment);
-        }
+        }*/
 
 
 

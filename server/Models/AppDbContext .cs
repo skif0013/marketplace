@@ -8,6 +8,7 @@ namespace server.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<FormForSeller> FormForSellers { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

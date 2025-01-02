@@ -156,13 +156,7 @@ namespace server.Controllers
 
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-
-
-
-
-
-
-
+            
             return Json(new { accessToken = accessToken, refreshToken = refreshToken });
         }
 
@@ -170,14 +164,33 @@ namespace server.Controllers
         [HttpGet("refresh")]
         public IActionResult Refresh()
         {
-            // Получение Refresh токена из куки
-            if (!Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
+            Console.WriteLine(string.Join(", ", Request.Headers.Select(h => h.Key + "=" + h.Value)));
+            
+            string refeshToken = Request.Headers["Authorization"].FirstOrDefault();
+
+            string jwtToken;
+            if (!string.IsNullOrEmpty(refeshToken) && refeshToken.StartsWith("Bearer "))
             {
-                return Unauthorized("No refresh token provided");
+                jwtToken = refeshToken.Substring("Bearer".Length);
+                Console.WriteLine("refreshToken: " + jwtToken);
             }
+            else
+            {
+                // Попытка получить токен из куки
+                if (Request.Cookies.TryGetValue("refreshToken", out jwtToken))
+                {
+                    Console.WriteLine($"Token from Cookie: {jwtToken}");
+                }
+                else
+                {
+                    Console.WriteLine("Token not found in both Authorization header and Cookie");
+                    return Unauthorized("Токен отсутствует в заголовке или куках.");
+                }
+            }
+            
 
             // Проверка Refresh токена
-            var principal = _tokenService.GetPrincipalFromExpiredToken(refreshToken);
+            var principal = _tokenService.GetPrincipalFromExpiredToken(jwtToken);
             if (principal == null)
             {
                 return Unauthorized("Invalid refresh token");

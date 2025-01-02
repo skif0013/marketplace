@@ -20,4 +20,9 @@ public class HomeController : Controller
         Console.WriteLine("Hello World!");
         return View();
     }
+
+    public IActionResult Reg()
+    {
+        return View();
+    }
 }
