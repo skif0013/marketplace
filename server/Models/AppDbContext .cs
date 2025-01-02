@@ -1,4 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Collections.Generic;
 
 namespace server.Models
 {
@@ -32,11 +39,9 @@ namespace server.Models
                 .HasForeignKey(c => c.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Настройка самореференции для подкатегорий
             modelBuilder.Entity<Category>()
-                .HasMany(c => c.SubCategory) // Категория имеет подкатегории
-                .WithOne() // Подкатегории не имеют ссылки на родителя
-                .OnDelete(DeleteBehavior.Restrict); // Запрещаем каскадное удаление
+                .Property(c => c.SubCategory)
+                .HasColumnType("text[]"); // Массив строк в PostgreSQL
         }
     }
 }

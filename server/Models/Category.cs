@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace server.Models
 {
@@ -9,24 +7,8 @@ namespace server.Models
         public int id { get; set; }
         [Required]
         public string? name { get; set; }
-
         
+        public List<string> SubCategory { get; set; } = new List<string>();
 
-
-
-        
-
-
-       
-        [JsonIgnore]
-        public virtual ICollection<Category> SubCategory { get; set; } = new List<Category>(); // подкатегория
-
-        
-
-
-
-       
-        
     }
 }
-//git log

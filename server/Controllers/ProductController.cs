@@ -397,17 +397,17 @@ namespace server.Controllers
 
 
         [HttpPost("category/new")]
-        public async Task<IActionResult> NewCategory([FromBody] string newCategory)
+        public async Task<IActionResult> NewCategory([FromForm] CategoryRequest category)
         {
 
-            if (newCategory == null)
+            if (category == null)
             {
                 return BadRequest("Введите новое название категории");
             }
 
 
-            var category = await _context.Categories.FirstOrDefaultAsync(c => c.name == newCategory);
-            if (category != null)
+            var NewCategory = await _context.Categories.FirstOrDefaultAsync(c => c.name == category.Name);
+            if (NewCategory != null)
             {
                 return BadRequest("Такая категория уже существует");
             }
@@ -417,7 +417,8 @@ namespace server.Controllers
 
             var CategoryNew = new Category
             {
-                name = newCategory,
+                name = category.Name,
+                SubCategory = category.SubCategories ?? new List<string>(),
             };
 
             _context.Categories.Add(CategoryNew);
