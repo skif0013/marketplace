@@ -10,6 +10,7 @@ import Catalog from '../Pages/Catalog/Catalog';
 import ProductByCategory from '../Pages/Catalog/ProductByCategory';
 import OrderCompleted from '../Pages/Order/Order';
 import Profile from '../Pages/Profile/Profile';
+import Sell from '../Pages/Sell/Sell.jsx'
 
 const getRoutes = () => (
    <Routes>
@@ -31,7 +32,8 @@ const getRoutes = () => (
       <Route path="/settings" element={<Profile />} />
 
       {/* Все ошибки */}
-      <Route path="*" element={<NotFound />} />
+         <Route path="*" element={<NotFound />} />
+         <Route path = "/sell" element={<Sell />}/>
    </Routes>
 );
 

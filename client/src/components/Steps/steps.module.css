@@ -1,0 +1,46 @@
+.formContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 200px;
+    gap: 30px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: left;
+}
+
+
+.formInput {
+    width: 30%;
+    border: none;
+    border-bottom: 3px solid lightgray;
+    padding-left: 10px;
+    color: black
+}
+
+.formInput:hover, .formInput:focus {
+    border-bottom: 3px solid orange;
+}
+
+.radioBtnContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.button {
+    background-color: #1a1e21;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 10px;
+}
+
+.button:disabled {
+    background-color: #1a1e21;
+    color: gray;
+}

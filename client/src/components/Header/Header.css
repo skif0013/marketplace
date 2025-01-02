@@ -16,19 +16,18 @@
 }
 
 
-.select-lang:hover{
-   background-color: rgb(122, 122, 122);
+.select-lang:hover, .select-lang:focus{
+   border-color: rgb(227, 203, 182);
 }
-
-.select-lang:focus{
-   background-color: rgb(227, 203, 182);
-}
-
 
 .select-lang option {
    color: #fff;
    background-color: #A29E9B;
    padding: 5px;
    font-size: 18px;
+}
+
+.select-lang option:hover, .select-lang option:focus {
+   color: rgb(227, 203, 182);
 }
 
