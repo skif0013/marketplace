@@ -384,7 +384,7 @@ namespace server.Controllers
         [HttpGet("category")]
         public async Task<IActionResult> Category()
         {
-            var allCategory = await _context.Categories.ToListAsync();
+            var allCategory = await _context.Categories.Include(c => c.subCategories).ToListAsync();
 
 
             var totalProductsCount = allCategory.Count();
@@ -418,14 +418,13 @@ namespace server.Controllers
             var CategoryNew = new Category
             {
                 name = category.Name,
-                SubCategory = category.SubCategories ?? new List<string>(),
             };
 
             _context.Categories.Add(CategoryNew);
             await _context.SaveChangesAsync();
             return Ok(CategoryNew);
         }
-
+        
 
 
         [HttpDelete("category/delete")]
@@ -445,6 +444,32 @@ namespace server.Controllers
             _context.Categories.Remove(categoryD);
             await _context.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpPost("category/addSubCategory")]
+        public async Task<IActionResult> CreateSubCategory([FromForm] SubCategoryRequest subCategory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            var NewSubCategory = await _context.SubCategories.FirstOrDefaultAsync(s => s.nameCategory == subCategory.SubCategoryName);
+            if (NewSubCategory != null)
+            {
+                return BadRequest("такая категория уже существует");
+            }
+
+            var New = new SubCategory
+            {
+                nameCategory = subCategory.SubCategoryName,
+                CategoryId = subCategory.ParentCategoryId
+            };
+
+            _context.SubCategories.Add(New);
+            await _context.SaveChangesAsync();
+            
+            return Ok(New);
         }
     }
 }

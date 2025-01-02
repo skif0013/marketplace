@@ -8,7 +8,7 @@ namespace server.Models
         [Required]
         public string? name { get; set; }
         
-        public List<string> SubCategory { get; set; } = new List<string>();
+        public virtual ICollection<SubCategory> subCategories { get; set; } = new List<SubCategory>();
 
     }
 }

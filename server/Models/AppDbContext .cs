@@ -15,6 +15,8 @@ namespace server.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        
+        public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<FormForSeller> FormForSellers { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -38,10 +40,15 @@ namespace server.Models
                 .WithOne(c => c.Product)
                 .HasForeignKey(c => c.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
-
+            
+            // Связь между Category и SubCategory
             modelBuilder.Entity<Category>()
-                .Property(c => c.SubCategory)
-                .HasColumnType("text[]"); // Массив строк в PostgreSQL
+                .HasMany(c => c.subCategories)
+                .WithOne(s => s.Category)
+                .HasForeignKey(s => s.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            
         }
     }
 }

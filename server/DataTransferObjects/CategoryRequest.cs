@@ -1,7 +1,10 @@
-namespace server.DataTransferObjects;
+using System.ComponentModel.DataAnnotations;
 
+
+namespace server.DataTransferObjects;
 public class CategoryRequest
 {
+    [Required]
     public string Name { get; set; } 
-    public List<string> SubCategories { get; set; } 
+    
 }
