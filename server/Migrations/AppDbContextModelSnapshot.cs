@@ -107,7 +107,6 @@ namespace server.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("WebsiteLink")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("id");

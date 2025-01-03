@@ -8,8 +8,8 @@ public class FormForSeller
     
     [Required]
     public string CompanyName { get; set; }
-    [Required]
-    public string WebsiteLink { get; set; }
+    
+    public string? WebsiteLink { get; set; }
     [Required]
     public string Name { get; set; }
     [Required]
