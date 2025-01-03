@@ -33,9 +33,27 @@
     gap: 30px;
 }
 
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
 .button {
     background-color: #1a1e21;
     color: white;
+}
+
+.registerButton {
+    background-color: orange;
+    color: #000;
+}
+
+.registerButton:disabled {
+    background-color: #865d17;
+}
+
+.button, .registerButton {
     padding: 10px 30px;
     border-radius: 10px;
 }
