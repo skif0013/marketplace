@@ -145,32 +145,42 @@ const LoginModal = ({ isOpen, onClose }) => {
                   {emailError && <p className="text-xs text-red-600 mt-2">{emailError}</p>}
                </div>
                <div className="w-full mb-4 relative">
-                  <label htmlFor="password" className="modal__comment-title">Пароль</label>
-                  <input
-                     type={showPassword ? "text" : "password"}
-                     id="password"
-                     value={password}
-                     onChange={passwordHandler}
-                     placeholder="Введите ваш пароль"
-                     autoComplete="current-password"
-                     className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
-                  />
-                  {passwordError && <p className="text-xs text-red-600 mt-2">{passwordError}</p>}
-                  <button
-                     type="button"
-                     onClick={togglePasswordVisibility}
-                     style={{
-                        top: '70%',
-                        right: '10px'
-                     }}
-                     className="absolute transform -translate-y-1/2 text-gray-500"
-                  >
-                     {showPassword ? (
-                        <img src="/images/main/variable/eyes/eyePress.png" width="35px" height="35px" alt="Show password" />
-                     ) : (
-                        <img src="/images/main/variable/eyes/eye.svg" width="35px" height="35px" alt="Hide password" />
+                  <label htmlFor="password" className="modal__comment-title">
+                     Пароль
+                  </label>
+                  <div className="relative">
+                     <input
+                        type={showPassword ? "text" : "password"}
+                        id="password"
+                        value={password}
+                        onChange={passwordHandler}
+                        placeholder="Введите ваш пароль"
+                        autoComplete="current-password"
+                        className="w-full p-2 pr-12 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                     />
+                     {passwordError && (
+                        <p className="text-xs text-red-600 mt-2">{passwordError}</p>
                      )}
-                  </button>
+                     <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="absolute top-8 right-3 transform -translate-y-1/2 text-gray-500"
+                     >
+                        {showPassword ? (
+                           <img
+                              src="/images/main/variable/eyes/eyePress.png"
+                              alt="Show password"
+                              style={{ width: "35px", height: "35px" }}
+                           />
+                        ) : (
+                           <img
+                              src="/images/main/variable/eyes/eye.svg"
+                              alt="Hide password"
+                              style={{ width: "35px", height: "35px" }}
+                           />
+                        )}
+                     </button>
+                  </div>
                </div>
                <button
                   type="submit"

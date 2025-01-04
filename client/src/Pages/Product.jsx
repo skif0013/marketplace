@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+
 import styles from './style/pagesStyle.module.css';
 
 
@@ -14,8 +15,10 @@ import Specifications from '../components/Specifications/Specifications';
 import WhiteButton from "../components/buttons/WhiteButton/WhiteButton";
 import Triarty from "../components/buttons/Triarty/Triarty";
 import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
-import { OpenModal } from "../utils/CheckAuth/CheckAuth";
+
 import { getProductById } from "../services/getProductApi";
+import { OpenModal } from "../utils/CheckAuth/CheckAuth";
+
 
 export default function Product() {
    //Получение одного товара из API

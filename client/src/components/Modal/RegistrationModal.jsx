@@ -101,8 +101,10 @@ const RegistrationModal = ({ isOpen, onClose }) => {
             email: email,
             password: password
          };
+         console.log(userData);
+         
          try {
-            const Register = await axios.post('https://www.apishka.somee.com/api/auth/reg', userData, {
+            const Register = await axios.post('https://marketplace-800v.onrender.com/api/auth/reg', userData, {
                headers: {
                   'Content-Type': 'application/json',
                   'accept': '*/*'

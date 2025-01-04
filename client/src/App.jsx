@@ -8,6 +8,9 @@ import './style/adaptive/pages/adaptive.css';
 
 function App() {
    // TODO Auth Значения
+   localStorage.setItem('accessToken','123 access Token');
+   localStorage.setItem('refreshToken','123 refresh Token');
+
    console.log(localStorage.getItem('accessToken'));
    console.log(localStorage.getItem('refreshToken'));
    return getRoutes()
