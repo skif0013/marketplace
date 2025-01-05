@@ -20,6 +20,7 @@ async function refreshToken() {
    const navigate = useNavigate();
    const refreshToken = localStorage.getItem('refreshToken');
    if (!refreshToken) {
+      localStorage.setItem('accessToken', '');
       navigate('/');
       setTimeout(() => {
          alert('Войдите в аккаунт')
