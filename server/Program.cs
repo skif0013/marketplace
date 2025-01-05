@@ -4,16 +4,9 @@ using server.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.Extensions.Options;
 using server.Services;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-using Blazored.LocalStorage;
-
-
 
 
 
@@ -33,20 +26,12 @@ builder.Services.AddSingleton<SupabaseStorageService>();
 builder.Services.AddSingleton<PasswordService>();
 builder.Services.AddScoped<ProductService>();
 
-
-
-
-
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 
+builder.Services.AddHttpClient();
 
-// ��������� HttpClient ��� ProductService
-builder.Services.AddHttpClient<ProductService>(client =>
-{
-client.BaseAddress = new Uri("https://www.apishka.somee.com/api/");
-});
 
 // ��������� ��������������
 builder.Services.AddAuthorization();
@@ -56,10 +41,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 options.TokenValidationParameters = new TokenValidationParameters
 {
 ValidateIssuer = true,
-ValidIssuer = AuthOptions.ISSUER,
+ValidIssuer = TokenService.AuthOptions.ISSUER,
 ValidateAudience = false,
 ValidateLifetime = true,
-IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+IssuerSigningKey = TokenService.AuthOptions.GetSymmetricSecurityKey(),
 ValidateIssuerSigningKey = true,
 };
 });
@@ -139,10 +124,3 @@ app.MapControllerRoute(
 app.Run();
 
 // ����� ��� ��������������
-public class AuthOptions
-{
-    public const string ISSUER = "shopilyze.com"; // �������� ������
-    const string KEY = "mysupersecret_secretsecretsecretkey!123"; // ���� ��� ��������
-    public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
-        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
-}

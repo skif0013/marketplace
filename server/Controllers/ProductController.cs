@@ -54,8 +54,8 @@ namespace server.Controllers
 
 
 
-            var allProducts = await allProductsQuery.ToListAsync();
-            // Фильтрация по поисковому запросу на стороне приложения
+            var allProducts = await allProductsQuery.Include(p => p.category.subCategories).ToListAsync();
+            // Фильтрация по поисковому запросу
             if (!string.IsNullOrEmpty(search))
             {
                 allProducts = allProducts
@@ -159,7 +159,7 @@ namespace server.Controllers
             {
                 if (Request.Cookies.TryGetValue("refreshToken", out jwtToken))
                 {
-                    Console.WriteLine($"refreshToken взят из куки = {jwtToken}");
+                    Console.WriteLine($"refreshToken взят из куки");
                 }
                 else
                 {
@@ -180,7 +180,7 @@ namespace server.Controllers
                 category = existingCategory,
                 price = request.price,
                 seller = userName,
-                grade = 3,
+                grade = 0,
                 seoURL = request.seoURL,
                 productCode = request.productCode
                 
@@ -199,9 +199,7 @@ namespace server.Controllers
     [HttpPost("add")]
     public async Task<IActionResult> AddComment([FromForm] D_Comment Comment)
     {
-        // Логирование заголовков запроса
-        Console.WriteLine($"Headers: {string.Join(", ", Request.Headers.Select(h => h.Key + "=" + h.Value))}");
-
+        
         // Получение заголовка Authorization
         var authorizationHeader = Request.Headers["Authorization"].FirstOrDefault();
         Console.WriteLine($"Authorization Header: {authorizationHeader}");
@@ -211,18 +209,16 @@ namespace server.Controllers
         if (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith("Bearer "))
         {
             jwtToken = authorizationHeader.Substring("Bearer ".Length);
-            Console.WriteLine($"Extracted JWT Token: {jwtToken}");
         }
         else
         {
             // Попытка получить токен из куки
             if (Request.Cookies.TryGetValue("refreshToken", out jwtToken))
             {
-                Console.WriteLine($"Token from Cookie: {jwtToken}");
+                Console.WriteLine($"Token from Cookie");
             }
             else
             {
-                Console.WriteLine("Token not found in both Authorization header and Cookie");
                 return Unauthorized("Токен отсутствует в заголовке или куках.");
             }
         }
@@ -247,8 +243,11 @@ namespace server.Controllers
             return Unauthorized("Имя пользователя не найдено в токене.");
         }
 
+        
+        
         // Найдём продукт по Id
         var product = await _context.Products.Include(p => p.Comments).FirstOrDefaultAsync(p => p.id == Comment.ProductId);
+        
         if (product == null)
         {
             return NotFound($"Продукт с Id {Comment.ProductId} не найден.");
@@ -262,12 +261,20 @@ namespace server.Controllers
             ProductId = Comment.ProductId,
             Pluses = Comment.Pluses,
             Minuses = Comment.Minuses,
+            Grade = Comment.Grade,
         };
 
         // Сохраним комментарий
         _context.Comments.Add(comment);
-        await _context.SaveChangesAsync();
+       
 
+        Console.WriteLine($" количество коментов: {product.Comments.Count}");
+        Console.WriteLine($"productId: {product.grade}\nsellr: {product.seller}");
+        Console.WriteLine($"коменты: {product.Comments.Average(c => c.Grade)}");
+        
+        product.grade = product.Comments.Average(c => c.Grade);
+        _context.Products.Update(product);
+        await _context.SaveChangesAsync();
         return Ok(comment);
     }
 

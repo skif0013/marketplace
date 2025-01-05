@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
 
 
 namespace server.Models
@@ -29,7 +29,7 @@ namespace server.Models
         [Required]
         public string? seller { get; set; }
         [Required]
-        public int grade { get; set; }
+        public double grade { get; set; }
         [Required]
         public string? seoURL { get; set; }
         [Required]

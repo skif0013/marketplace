@@ -26,8 +26,7 @@ namespace server.Models
         public int Grade { get; set; }
         
         [JsonIgnore]
-        // Навигационное свойство на Product
+        
         public virtual Product? Product { get; set; }
     }
 }
-//

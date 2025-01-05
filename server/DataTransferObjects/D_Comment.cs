@@ -15,4 +15,7 @@ public class D_Comment
     
     [Required]
     public string Minuses { get; set; }
+    
+    [Required]
+    public int Grade { get; set; }
 }

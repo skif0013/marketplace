@@ -64,7 +64,7 @@ namespace server.Services
             return new JwtSecurityTokenHandler().WriteToken(RefreshToken);
         }
 
-        // Валидация токена (можно использовать при необходимости)
+        // Валидация токена
         public ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)
         {
             var tokenValidationParameters = new TokenValidationParameters
@@ -96,7 +96,7 @@ namespace server.Services
         public class AuthOptions
         {
             public const string ISSUER = "shopilyze.com";
-            const string KEY = "mysupersecret_secretsecretsecretkey!123";
+            const string KEY = "mysupersecret_secretsecretsecretkey!123#";
             public const int AccessTokenLifetimeMinutes = 15;
             public const int RefreshTokenLifetimeDays = 7;
 
