@@ -18,7 +18,7 @@ function Sell() {
         <div>
             <Header/>
             {step === 1 && <Step1 onNext={() => handleClickNext()}/>}
-            {step === 2 && <Step2 onBack={() => handlePrevClick() }/>}
+            {step === 2 && <Step2 onBack={() => handlePrevClick() } />}
         </div>
     );
 }

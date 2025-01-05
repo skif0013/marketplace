@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import styles from './steps.module.css';
+import useFormData from "../../hooks/useFormData.js";
 
 function Step1({ onNext }) {
-    const [shopName, setShopName] = useState('');
-    const [shopAddress, setShopAddress] = useState('');
+    const {formData, updateFormData} = useFormData()
+    const [shopName, setShopName] = useState(formData.shopName);
+    const [shopAddress, setShopAddress] = useState(formData.shopAddress);
     const [isShop, setIsShop] = useState(false);
     const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9.-]+)(\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
 
     const handleShopNameChange = (event) => {
         setShopName(event.target.value);
+        updateFormData({shopName: event.target.value});
     };
 
     const handleShopAddressChange = (event) => {
         setShopAddress(event.target.value)
+        updateFormData({shopAddress: event.target.value});
     };
 
     const handleRadioChange = () => {
@@ -56,18 +60,18 @@ function Step1({ onNext }) {
                 <label>У меня нет магазина</label>
             </div>
 
-            {shopName === '' || (!isShop && shopAddress === '') ? (
+            {shopName === ''  ? (
                 <label style={{ color: 'red' }}>Все поля для ввода обязательны</label>
             ) : null}
 
-            {shopName === '' || (!isShop && shopAddress === '') ?
+            {shopName === ''  ?
                 <button className={styles.button} onClick={handleNextClick} disabled>
                   Дальше
                 </button> :
                 <button className={styles.button} onClick={handleNextClick}>
                     Дальше
                 </button>
-        }
+            }
         </div>
     );
 }
