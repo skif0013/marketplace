@@ -106,11 +106,12 @@ const RegistrationModal = ({ isOpen, onClose }) => {
          try {
             const Register = await axios.post('https://marketplace-800v.onrender.com/api/auth/reg', userData, {
                headers: {
-                  'Content-Type': 'application/json',
+                  'Content-Type': 'multipart/form-data',
                   'accept': '*/*'
                }
             });
-            localStorage.setItem('AuthAccessToken', Register.data.accessToken);
+            localStorage.setItem('accessToken', Register.data.accessToken);
+            localStorage.setItem('refreshToken', Register.data.refreshToken);            
             navigate('/profile');
          } catch (error) {
             if (error.response && error.response.status === 400) {
@@ -119,8 +120,6 @@ const RegistrationModal = ({ isOpen, onClose }) => {
                setFormValid(false);
             }
          }
-      } else {
-         onClose();
       }
    };
 
@@ -138,7 +137,7 @@ const RegistrationModal = ({ isOpen, onClose }) => {
                   <label htmlFor="fullname" className="modal__comment-title">Имя, Фамилия</label>
                   <input
                      type="text"
-                     id="fullname"
+                     id="fullname_1"
                      value={fullName}
                      onChange={fullNameHandler}
                      placeholder="Ф.И.О"
@@ -151,7 +150,7 @@ const RegistrationModal = ({ isOpen, onClose }) => {
                <div className="w-full">
                   <label htmlFor="email" className="modal__comment-title">Электронная почта</label>
                   <input
-                  id='email'
+                     id='email'
                      name="email"
                      type="email"
                      value={email}

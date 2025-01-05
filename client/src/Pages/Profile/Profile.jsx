@@ -36,6 +36,18 @@ export default function Profile() {
             role: decodedPayload.role,
          };
          setUserData(userData);
+         console.log(userData);
+
+         // Получение времени истечения токена
+         const expirationTime = decodedPayload.exp; // Время в формате Unix timestamp
+         const currentTime = Math.floor(Date.now() / 1000); // Текущее время в секундах
+
+         if (expirationTime > currentTime) {
+            console.log(`Токен действителен еще ${expirationTime - currentTime} секунд.`);
+         } else {
+            console.log("Токен истек.");
+         };
+
       } else {
          console.log('Token not found');
       }

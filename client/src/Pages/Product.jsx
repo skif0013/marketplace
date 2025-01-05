@@ -15,10 +15,9 @@ import Specifications from '../components/Specifications/Specifications';
 import WhiteButton from "../components/buttons/WhiteButton/WhiteButton";
 import Triarty from "../components/buttons/Triarty/Triarty";
 import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
+import CommentModal from "../components/Modal/CommentModal";
 
 import { getProductById } from "../services/getProductApi";
-import { OpenModal } from "../utils/CheckAuth/CheckAuth";
-
 
 export default function Product() {
    //Получение одного товара из API
@@ -108,10 +107,31 @@ export default function Product() {
       feedbackRef = useRef(false);
    const scrollToSection = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
-   //Для работы с модальным окном
-   const [triggerModal, setTriggerModal] = useState(false);
+   const [openModal, setOpenModal] = useState(false);
+   const [userStatus, setUserStatus] = useState(false);
+
+   // Проверка наличия пользователя в localStorage
+   useEffect(() => {
+      const user = localStorage.getItem('accessToken');  // или любой другой ключ
+      if (user) {
+         setUserStatus(true);  // Пользователь найден
+      } else {
+         setUserStatus(false);  // Пользователь не найден
+      }
+   }, []);
+
+   // Открытие модального окна
    const handleOpenModal = () => {
-      setTriggerModal(true);
+      if (userStatus) {
+         setOpenModal(true);
+      } else {
+         alert('Пожалуйста, авторизуйтесь, чтобы оставить отзыв.');
+      }
+   };
+
+   // Закрытие модального окна
+   const closeModal = () => {
+      setOpenModal(false);
    };
 
    return (
@@ -174,7 +194,9 @@ export default function Product() {
                   <h1 className="text-4xl font-bold">Отзывы</h1>
                   <button className="text-gray-500" onClick={handleOpenModal}>Оставить отзыв</button>
                </section>
-               <OpenModal triggerModal={triggerModal} confirm="Такой пользователь уже есть. Хотите войти в аккаунт?" />
+
+               {userStatus && <CommentModal isOpen={openModal} onClose={closeModal} />}
+
                {product ? (
                   product.comments && product.comments.length > 0 ? (
                      // Если есть комментарии, рендерим их
