@@ -39,6 +39,7 @@ async function refreshToken() {
             'Authorization': `Bearer ${refreshToken}`
          }
       });
+      localStorage.setItem('accessToken', response.data);
    } catch (error) {
       console.error('Error refreshing token:', error);
    }
