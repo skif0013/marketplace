@@ -86,6 +86,8 @@ const LoginModal = ({ isOpen, onClose }) => {
 
             localStorage.setItem('accessToken', response.data.accessToken);
             localStorage.setItem('refreshToken', response.data.refreshToken);
+
+            userData(Register.data.accessToken);
             navigate('/profile');
          } catch (error) {
             if (error.status === 400) {

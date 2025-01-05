@@ -101,21 +101,18 @@ const RegistrationModal = ({ isOpen, onClose }) => {
             email: email,
             password: password
          };
-         console.log(userData);
-         
+
          try {
-            const Register = await axios.post('https://marketplace-800v.onrender.com/api/auth/reg', userData, {
+            const response = await axios.post('https://www.apishka.somee.com/api/auth/reg', userData, {
                headers: {
-                  'Content-Type': 'multipart/form-data',
+                  'Content-Type': 'application/json',
                   'accept': '*/*'
                }
             });
-            localStorage.setItem('accessToken', Register.data.accessToken);
-            localStorage.setItem('refreshToken', Register.data.refreshToken);            
+            localStorage.setItem('accessToken', response.data.accessToken);
             navigate('/profile');
          } catch (error) {
             if (error.response && error.response.status === 400) {
-               console.log('Error');
                updateMessage();
                setFormValid(false);
             }
