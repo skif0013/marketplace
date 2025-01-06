@@ -31,8 +31,8 @@ const PasswordField = ({
                   onChange={onPasswordChange}
                   placeholder="Введите пароль"
                   className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
-                  id="password"
-                  autoComplete='password'
+                  id="password1" // Unique id for the password input
+                  autoComplete="password"
                />
                <button
                   type="button"
@@ -63,8 +63,8 @@ const PasswordField = ({
                   onChange={onConfirmPasswordChange}
                   placeholder="Повтор пароля"
                   className="w-full p-2 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
-                  id="password_confirm"
-                  autoComplete='new-password'
+                  id="password_confirm" // Unique id for the confirm password input
+                  autoComplete="new-password"
                />
                <button
                   type="button"
