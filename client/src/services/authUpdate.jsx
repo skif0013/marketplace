@@ -32,7 +32,7 @@ async function refreshToken() {
       return null;
    }
    try {
-      const response = await fetch('https://www.apishka.somee.com/api/auth/refresh', {
+      const response = await fetch('https://marketplace-800v.onrender.com/api/product', {
          method: 'GET',
          headers: {
             "Content-Type": "application/json",
