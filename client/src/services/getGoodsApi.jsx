@@ -1,15 +1,13 @@
 import axios from 'axios';
 
-const API_URL = 'https://www.apishka.somee.com/api/product';
-
-export const getGoodsApi = async (params = {}) => {
+const API_URL = 'https://marketplace-800v.onrender.com/api/product?_order=asc&_start=0&_end=100';
+export const getGoodsApi = async () => {
    try {
       const response = await axios.get(API_URL, {
          params: {
             _order: 'asc',
             _start: 0,
             _end: 100,
-            ...params, // Позволяет переопределить параметры при вызове функции
          },
          headers: {
             accept: '*/*',
@@ -17,6 +15,6 @@ export const getGoodsApi = async (params = {}) => {
       });
       return response.data; // Возвращаем данные
    } catch (err) {
-      throw new Error(err.message); // Бросаем ошибку для обработки в компонентах
+      console.log(err);
    }
 };

@@ -8,7 +8,7 @@ export default function Profile() {
    const navigate = useNavigate();
    const token = localStorage.getItem('accessToken');
    const userData = getUserData(token);
-   console.log(userData);
+   localStorage.setItem('userData', userData); 
 
    if (!token) {
       setTimeout(() => {
