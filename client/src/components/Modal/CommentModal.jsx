@@ -1,11 +1,38 @@
 import React from 'react';
 import Modal from './Modal';
 import RatingSystem from '../RatingSystem/RatingSystem';
+import axios from 'axios';
 
-const CommentModal = ({ isOpen, onClose }) => {
+const CommentModal = ({ isOpen, onClose, idProduct }) => {
    const handleRatingChange = (newRating) => {
       console.log("Новый рейтинг:", newRating);
    };
+
+   //Добавление коментарий
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+      userComment = {
+         Content: '',
+         ProductId: idProduct,
+         Pluses: '',
+         Minuses: ''
+      }
+      console.log(userComment);
+      
+      try {
+         const response = axios.post('https://marketplace-800v.onrender.com/api/product/add', userComment, {
+            headers: {
+               'Content-Type': 'multipart/form-data',
+               'accept': '*/*'
+            }
+         });
+         console.log(response);
+
+      } catch (error) {
+         console.log(error);
+
+      }
+   }
 
    return (
       <Modal isOpen={isOpen} onClose={onClose}>

@@ -1,12 +1,19 @@
-import { Link } from "react-router-dom";
-import { OpenModal } from "../../utils/CheckAuth/CheckAuth";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useModal } from "../../hooks/useModal";
+import LoginModal from '../Modal/LoginModal';
 
 export default function Product({ id, pictureUrl, price, title }) {
-   //Для работы с модальным окном
-   const [triggerModal, setTriggerModal] = useState(false);
-   const handleOpenModal = () => {
-      setTriggerModal(true);
+   const { isModalOpen, modalType, openModal, closeModal } = useModal();
+   const navigate = useNavigate();
+
+   const handleClick = (event) => {
+      if (localStorage.getItem('accessToken')) {
+         navigate("/api/basket");
+      } else {
+         event.preventDefault();
+         let register = confirm("Вы не зарегистрированы! Хотите зарегистрироваться?");
+         register ? openModal("register") : null;
+      }
    };
 
    return (
@@ -25,10 +32,10 @@ export default function Product({ id, pictureUrl, price, title }) {
                <img draggable={"false"} src="/images/main/variable/basket/BasketMain.svg" className="text-black" width="32px" height="32px" alt="basket" />
             </a>
          </div>
-         <a href="#" onClick={handleOpenModal} className="product_item-heart">
+         <a href="#" onClick={handleClick} className="product_item-heart">
             <img draggable={"false"} src="/images/main/variable/heart/heart.svg" alt="heart" />
          </a>
-         <OpenModal triggerModal={triggerModal} defaultModalType="register" />
+         {modalType && <LoginModal isOpen={isModalOpen} onClose={closeModal} />}
       </div>
    );
 }
