@@ -2,7 +2,7 @@ import './Header.css'
 import { Link, useNavigate } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import SearchForm from '../search/searchForm'
-import LoginModal from '../Modal/LoginModal';
+import RegistrationModal from '../Modal/RegistrationModal';
 
 export default function Header() {
    const { isModalOpen, modalType, openModal, closeModal } = useModal();
@@ -43,7 +43,7 @@ export default function Header() {
                      <img src="/images/main/variable/heart/heart.svg" width="36px" height="auto" alt="like button" />
                   </Link>
                </div>
-               {modalType && <LoginModal isOpen={isModalOpen} onClose={closeModal} />}
+               {modalType && <RegistrationModal isOpen={isModalOpen} onClose={closeModal} />}
             </div>
          </header>
       </>
