@@ -3,7 +3,7 @@ import './feedback.css';
 import { formatDate } from '../../utils/FormateDate';
 import RenderStars from '../Stars/RenderStar';
 
-const Feedback = ({ name, date, text }) => {
+const Feedback = ({ name, date, text, grade}) => {
    // Format the date using the utility function
    const formattedDate = formatDate(date);
 
@@ -12,7 +12,7 @@ const Feedback = ({ name, date, text }) => {
          <div className="flex gap-6 mb-4 items-center justify-between">
             <div className="flex gap-6 items-center">
                <span className="feedback-name">{name}</span>
-               <section className="flex gap-2">{RenderStars()}</section>
+               <section className="flex gap-2">{RenderStars(grade)}</section>
             </div>
             <div className="feedback-date">{formattedDate}</div>
          </div>

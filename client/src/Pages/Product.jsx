@@ -18,17 +18,23 @@ import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
 import CommentModal from "../components/Modal/CommentModal";
 
 import { getProductById } from "../services/getProductApi";
+import LoginModal from "../components/Modal/LoginModal";
 
 export default function Product() {
    //Получение одного товара из API
    const { id } = useParams(); // Получаем id из роутов
    const [product, setProduct] = useState(null);
    const [error, setError] = useState(null);
+   const [openModal, setOpenModal] = useState(false);
+   const [userStatus, setUserStatus] = useState(false);
+   const [openLogin, setOpenLogin] = useState(false);
 
    useEffect(() => {
       const fetchProduct = async () => {
          try {
             const data = await getProductById(id);
+            console.log(data);
+            
             setProduct(data);
          } catch (err) {
             setError(err.message);
@@ -106,9 +112,6 @@ export default function Product() {
       specificationsRef = useRef(false),
       feedbackRef = useRef(false);
    const scrollToSection = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-
-   const [openModal, setOpenModal] = useState(false);
-   const [userStatus, setUserStatus] = useState(false);
 
    // Проверка наличия пользователя в localStorage
    useEffect(() => {
@@ -196,6 +199,7 @@ export default function Product() {
                </section>
 
                {userStatus && <CommentModal isOpen={openModal} onClose={closeModal} />}
+               {openLogin && <LoginModal isOpen={openModal} onClose={closeModal} />}
 
                {product ? (
                   product.comments && product.comments.length > 0 ? (
@@ -206,6 +210,7 @@ export default function Product() {
                            name={comment.author}
                            text={comment.content}
                            date={comment.createdAt}
+                           grade={comment.grade}
                         />
                      ))
                   ) : (

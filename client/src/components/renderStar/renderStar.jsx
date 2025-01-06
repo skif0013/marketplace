@@ -1,23 +1,23 @@
+import React from 'react';
 
-// Random star generation
 const starFill = '/images/goods/star-fill.png';
 const starTransparency = '/images/goods/star-transparency.png';
 
-const RenderStars = (grade) => {
-   // Generate a random number of "filled" stars (2/3)
-   const fullStars = grade;
+export const renderStars = (product) => {
+   // Получаем количество звезд
+   const fullStars = product.grade;
    const stars = [];
+
    for (let i = 1; i <= 5; i++) {
       stars.push(
          <img
             key={i}
             src={i <= fullStars ? starFill : starTransparency}
             alt="star"
-            className="w-4 h-4"
+            className="w-5 h-5"
          />
       );
    }
+
    return stars;
 };
-
-export default RenderStars;
