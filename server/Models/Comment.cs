@@ -26,7 +26,6 @@ namespace server.Models
         public int Grade { get; set; }
         
         [JsonIgnore]
-        
         public virtual Product? Product { get; set; }
     }
 }

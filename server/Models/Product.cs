@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-
+using System.Text.Json.Serialization;
 
 
 namespace server.Models
@@ -19,10 +19,11 @@ namespace server.Models
         public string? pictureUrl { get; set; }
         [Required]
         public LocalizedDescription? description { get; set; }
+        [JsonIgnore]
         [Required]
         public int categoryId { get; set; }
         [Required]
-        public virtual Category? category { get; set; }
+        public virtual SubCategory? category { get; set; }
 
         [Required]
         public int price { get; set; }

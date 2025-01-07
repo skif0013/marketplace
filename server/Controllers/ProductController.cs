@@ -50,69 +50,75 @@ namespace server.Controllers
         int _start = 0,
         int _end = 100)
         {
-            var allProductsQuery = _context.Products.Include(p => p.Comments).AsQueryable();
+            var allProductsQuery = _context.Products
+        .Include(p => p.Comments)
+        .Include(p => p.category) // Assuming 'Category' is a navigation property
+        .AsQueryable();
 
+    // Фильтрация по категории
+    if (!string.IsNullOrEmpty(category))
+    {
+        allProductsQuery = allProductsQuery.Where(p => p.category.nameCategory == category);
+    }
 
+    // Универсальная сортировка, если заданы параметры _sort и _order
+    if (!string.IsNullOrEmpty(_sort) && !string.IsNullOrEmpty(_order))
+    {
+        var property = typeof(Product).GetProperty(_sort,
+            System.Reflection.BindingFlags.IgnoreCase |
+            System.Reflection.BindingFlags.Public |
+            System.Reflection.BindingFlags.Instance);
 
-            var allProducts = await allProductsQuery.Include(p => p.category.subCategories).ToListAsync();
-            // Фильтрация по поисковому запросу
-            if (!string.IsNullOrEmpty(search))
+        if (property != null)
+        {
+            bool isDescending = _order.Equals("desc", StringComparison.OrdinalIgnoreCase);
+            allProductsQuery = isDescending
+                ? allProductsQuery.OrderByDescending(p => EF.Property<object>(p, property.Name))
+                : allProductsQuery.OrderBy(p => EF.Property<object>(p, property.Name));
+        }
+        else
+        {
+            return BadRequest($"Сортировка по полю '{_sort}' невозможна.");
+        }
+    }
+
+    // Применение пагинации
+    allProductsQuery = allProductsQuery.Skip(_start).Take(_end - _start);
+
+    // Проекция в нужный формат JSON
+    var allProducts = await allProductsQuery
+        .Select(p => new
+        {
+            id = p.id,
+            title = new { uk = p.title.uk, ru = p.title.ru },
+            pictureUrl = p.pictureUrl,
+            description = new { uk = p.description.uk, ru = p.description.ru },
+            category = p.category.nameCategory,
+            price = p.price,
+            seller = p.seller,
+            grade = p.grade,
+            seoURL = p.seoURL,
+            productCode = p.productCode,
+            comments = p.Comments.Select(c => new
             {
-                allProducts = allProducts
-                    .Where(p => p.title != null &&
-                                (p.title.uk.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                                 p.title.ru.Contains(search, StringComparison.OrdinalIgnoreCase)))
-                    .ToList();
-            }
+                id = c.Id,
+                author = c.Author,
+                content = c.Content,
+                createdAt = c.CreatedAt,
+                productId = c.ProductId,
+                pluses = c.Pluses,
+                minuses = c.Minuses,
+                grade = c.Grade
+            }).ToList()
+        })
+        .ToListAsync();
 
-            // Фильтрация по производителю
-            if (!string.IsNullOrEmpty(category))
-            {
-                allProductsQuery = allProductsQuery
-                    .Include(p => p.category)
-                    .Where(p => p.category.name == category);
-            }
+    var totalProductsCount = await _context.Products.CountAsync();
 
-            // Универсальная сортировка, если заданы параметры _sort и _order
-            if (!string.IsNullOrEmpty(_sort) && !string.IsNullOrEmpty(_order))
-            {
-                // Преобразуем значение _sort в корректное название свойства модели Product
-                var property = typeof(Product).GetProperty(_sort,
-                    System.Reflection.BindingFlags.IgnoreCase |
-                    System.Reflection.BindingFlags.Public |
-                    System.Reflection.BindingFlags.Instance);
+    // Добавление заголовка с общим количеством продуктов
+    Response.Headers.Add("X-Total-Count", totalProductsCount.ToString());
 
-                if (property != null)
-                {
-                    // Определяем направление сортировки (по возрастанию или убыванию)
-                    bool isDescending = _order.Equals("desc", StringComparison.OrdinalIgnoreCase);
-
-
-                    allProductsQuery = isDescending
-                        ? allProductsQuery
-                                          .Include(p => p.category)
-                                          .OrderByDescending(p => EF.Property<object>(p, property.Name))
-                        : allProductsQuery.Include(p => p.category).OrderBy(p => EF.Property<object>(p, property.Name));
-                }
-                else
-                {
-                    return BadRequest($"Сортировка по полю '{_sort}' невозможна.");
-                }
-            }
-
-            // Применение пагинации
-            allProductsQuery = allProductsQuery.Skip(_start).Take(_end - _start);
-
-            // Получение списка продуктов после применения фильтров, сортировки и пагинации
-            allProducts = await allProductsQuery.Include(p => p.category).ToListAsync();
-
-            var totalProductsCount = allProducts.Count();
-
-
-            // Добавление заголовка с общим количеством продуктов
-            Response.Headers.Add("X-Total-Count", totalProductsCount.ToString());
-
-            return Ok(allProducts);
+    return Ok(allProducts);
         }
 
 
@@ -123,7 +129,7 @@ namespace server.Controllers
         {
 
 
-            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.name == request.category);
+            var existingCategory = await _context.SubCategories.FirstOrDefaultAsync(s => s.nameCategory == request.category);
             if (existingCategory == null)
             {
                 return BadRequest($"Категория '{request.category}' не существует. Пожалуйста, выберите доступную категорию.");
@@ -180,7 +186,6 @@ namespace server.Controllers
                 category = existingCategory,
                 price = request.price,
                 seller = userName,
-                grade = 0,
                 seoURL = request.seoURL,
                 productCode = request.productCode
                 
@@ -378,7 +383,7 @@ namespace server.Controllers
                 return NotFound();
             }
 
-            Console.WriteLine($"{product.category?.name}"); // Выводим имя категории
+            Console.WriteLine($"{product.category?.nameCategory}"); // Выводим имя категории
 
             return Ok(product);
         }
