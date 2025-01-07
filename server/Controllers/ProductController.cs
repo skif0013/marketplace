@@ -59,7 +59,15 @@ namespace server.Controllers
     // Фильтрация по категории
     if (!string.IsNullOrEmpty(category))
     {
-        allProductsQuery = allProductsQuery.Where(p => p.category.nameCategory == category);
+        if (_context.SubCategories.FirstOrDefaultAsync(s => s.nameCategory == category).Result != null)
+        {
+            allProductsQuery = allProductsQuery.Where(p => p.category.nameCategory == category);
+        }
+        else
+        {
+            return BadRequest($"Категория {category} не существует");
+        }
+        
     }
 
     // Универсальная сортировка, если заданы параметры _sort и _order
@@ -114,12 +122,9 @@ namespace server.Controllers
             }).ToList()
         })
         .ToListAsync();
-        
-    
-    var totalProductsCount = await _context.Products.CountAsync();
 
     // Добавление заголовка с общим количеством продуктов
-    Response.Headers.Add("X-Total-Count", totalProductsCount.ToString());
+    Response.Headers.Add("X-Total-Count", allProducts.Count.ToString());
 
     return Ok(allProducts);
         }
@@ -379,15 +384,42 @@ namespace server.Controllers
             var product = await _context.Products
                 .Include(p => p.Comments)
                 .Include(p => p.category) // Загрузка связанного объекта Category
-                .FirstOrDefaultAsync(p => p.id == id);
+                .Where(p => p.id == id)
+                .Select(p => new 
+                {
+                    id = p.id,
+                    title = new { uk = p.title.uk, ru = p.title.ru },
+                    pictureUrl = p.pictureUrl,
+                    description = new { uk = p.description.uk, ru = p.description.ru },
+                    category = p.category.nameCategory,
+                    parentCategory = p.category.Category.name,
+                    price = p.price,
+                    seller = p.seller,
+                    grade = p.grade,
+                    seoURL = p.seoURL,
+                    productCode = p.productCode,
+                    Coments = p.Comments.Select(c => new
+                    {
+                        id = c.Id,
+                        author = c.Author,
+                        content = c.Content,
+                        createdAt = c.CreatedAt,
+                        productId = c.ProductId,
+                        pluses = c.Pluses,
+                        minuses = c.Minuses,
+                        grade = c.Grade
+                    }).ToList()
 
+                }).FirstOrDefaultAsync();
             if (product == null)
             {
                 return NotFound();
             }
 
-            Console.WriteLine($"{product.category?.nameCategory}"); // Выводим имя категории
-
+            Console.WriteLine($"{product.category}"); // Выводим имя категории
+            
+            
+            
             return Ok(product);
         }
 
