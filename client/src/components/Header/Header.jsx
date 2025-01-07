@@ -1,7 +1,7 @@
 import './Header.css'
 import { Link, useNavigate } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
-import SearchForm from '../search/searchForm'
+import SearchForm from '../Search/SearchForm'
 import RegistrationModal from '../Modal/RegistrationModal';
 
 export default function Header() {
