@@ -4,9 +4,7 @@ import RatingSystem from '../RatingSystem/RatingSystem';
 import axios from 'axios';
 
 const CommentModal = ({ isOpen, onClose, idProduct }) => {
-   const handleRatingChange = (newRating) => {
-      console.log("Новый рейтинг:", newRating);
-   };
+
 
    //Добавление коментарий
    const handleSubmit = async (e) => {
@@ -47,7 +45,6 @@ const CommentModal = ({ isOpen, onClose, idProduct }) => {
                <RatingSystem
                   initialRating={3} // Устанавливаем начальный рейтинг
                   maxStars={5} // Количество звезд (по умолчанию 5)
-                  onRatingChange={handleRatingChange} // Функция обратного вызова
                />
             </div>
 

@@ -25,24 +25,30 @@ export default function Product() {
    const { id } = useParams(); // Получаем id из роутов
    const [product, setProduct] = useState(null);
    const [error, setError] = useState(null);
-   const [openModal, setOpenModal] = useState(false);
+   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+   const [likeProduct, setLikeProduct] = useState(false);
    const [userStatus, setUserStatus] = useState(false);
-   const [openLogin, setOpenLogin] = useState(false);
+
+   const handleLike = () => {
+      setLikeProduct(true);
+      setIsCommentModalOpen(false);
+      console.log('handleLike - сработал');
+   };
+
+   const handleModal = () => {
+      setIsCommentModalOpen(true);
+      setLikeProduct(false);
+   };
+
+   const closeModal = () => {
+      setIsCommentModalOpen(false);
+   };
 
    useEffect(() => {
-      const fetchProduct = async () => {
-         try {
-            const data = await getProductById(id);
-            console.log(data);
-            
-            setProduct(data);
-         } catch (err) {
-            setError(err.message);
-         }
-      };
-
-      fetchProduct();
-   }, [id]);
+      if (localStorage.getItem('accessToken')) {
+         setUserStatus(true);
+      }
+   }, []); // Пустой массив зависимостей
 
 
    //вставка звёзд
@@ -113,30 +119,6 @@ export default function Product() {
       feedbackRef = useRef(false);
    const scrollToSection = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
-   // Проверка наличия пользователя в localStorage
-   useEffect(() => {
-      const user = localStorage.getItem('accessToken');  // или любой другой ключ
-      if (user) {
-         setUserStatus(true);  // Пользователь найден
-      } else {
-         setUserStatus(false);  // Пользователь не найден
-      }
-   }, []);
-
-   // Открытие модального окна
-   const handleOpenModal = () => {
-      if (userStatus) {
-         setOpenModal(true);
-      } else {
-         alert('Пожалуйста, авторизуйтесь, чтобы оставить отзыв.');
-      }
-   };
-
-   // Закрытие модального окна
-   const closeModal = () => {
-      setOpenModal(false);
-   };
-
    return (
       <div className="flex flex-col min-h-screen">
          <Header />
@@ -178,7 +160,8 @@ export default function Product() {
                            <section className="flex gap-6 items-center relative">
                               <div className={styles.ProductPrice}>{product.price}</div>
                               <ButtonProduct name={'Купить'} />
-                              <WhiteButton className='p-2' onClick={handleOpenModal}>
+                              {/* LikeProduct */}
+                              <WhiteButton className='p-2' onClick={handleLike}>
                                  <img src="/images/main/variable/heart/heartMain.svg" alt="heart" />
                               </WhiteButton>
                            </section>
@@ -195,12 +178,13 @@ export default function Product() {
                <Specifications ref={specificationsRef} data={specificationsData} />
                <section className="mb-10 mt-10 flex items-center gap-10" ref={feedbackRef}>
                   <h1 className="text-4xl font-bold">Отзывы</h1>
-                  <button className="text-gray-500" onClick={handleOpenModal}>Оставить отзыв</button>
+                  <button className="text-gray-500" onClick={handleModal}>Оставить отзыв</button>
                </section>
+               {/* Модальное окно */}
+               {isCommentModalOpen && <CommentModal isOpen={isCommentModalOpen} onClose={closeModal} />}
 
-               {userStatus && <CommentModal isOpen={openModal} onClose={closeModal} />}
-               {openLogin && <LoginModal isOpen={openModal} onClose={closeModal} />}
 
+               {/* Комментарии */}
                {product ? (
                   product.comments && product.comments.length > 0 ? (
                      // Если есть комментарии, рендерим их

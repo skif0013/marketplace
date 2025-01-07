@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const RatingSystem = ({ initialRating = 0, maxStars = 5, onRatingChange }) => {
+const RatingSystem = ({ initialRating = 0, maxStars = 5 }) => {
 
    const
       starFill = '/images/goods/star-fill.jpeg',
@@ -11,7 +11,6 @@ const RatingSystem = ({ initialRating = 0, maxStars = 5, onRatingChange }) => {
    const handleRating = (index) => {
       const newRating = index + 1;
       setRating(newRating);
-      if (onRatingChange) onRatingChange(newRating); // Вызываем колбэк при изменении рейтинга
    };
 
    return (
