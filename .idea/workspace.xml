@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="35a739b6-f71d-4483-a891-3fb50a96e2cf" name="Changes" comment="Deleted backend directory for hosting to Vercel" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JSX File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Artur0412-KU&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/skif0013/marketplace.git&quot;,
+    &quot;accountId&quot;: &quot;62467331-dfaf-453e-8f74-bd76c23dbbb7&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2r2EtyxPI9G3N15tHBqgNtSanpy" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.Basket.jsx.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main-client",
+    "last_opened_file_path": "/Users/04.ak.12/Documents/marketplace",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.npm run dev.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="npm run dev" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="npm run dev" type="js.build_tools.npm" singleton="false">
+      <package-json value="$PROJECT_DIR$/client/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="35a739b6-f71d-4483-a891-3fb50a96e2cf" name="Changes" comment="" />
+      <created>1735748988664</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1735748988664</updated>
+      <workItem from="1735748990205" duration="1726000" />
+      <workItem from="1735759215807" duration="13902000" />
+      <workItem from="1735854876453" duration="1558000" />
+      <workItem from="1735910520605" duration="3646000" />
+      <workItem from="1735936486749" duration="1174000" />
+      <workItem from="1736008743181" duration="7525000" />
+      <workItem from="1736065608020" duration="147000" />
+      <workItem from="1736065761883" duration="1277000" />
+      <workItem from="1736158987682" duration="115000" />
+      <workItem from="1736159112331" duration="36000" />
+      <workItem from="1736159156053" duration="6628000" />
+    </task>
+    <task id="LOCAL-00001" summary="Сделал стилизацию для первой части формы и стилизовал поп-ап для смены языка. Также переделал стилизацию поиска &#10;Марк не обижайся, мы это обсудим на следующем мите, ок?">
+      <option name="closed" value="true" />
+      <created>1735852574302</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1735852574302</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Сделал стилизацию для первой части формы и стилизовал поп-ап для смены языка. Также переделал стилизацию поиска &#10;Марк не обижайся, мы это обсудим на следующем мите, ок?">
+      <option name="closed" value="true" />
+      <created>1735852580643</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1735852580643</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Сделал стилизацию для первой части формы и стилизовал поп-ап для смены языка. Также переделал стилизацию поиска &#10;Марк не обижайся, мы это обсудим на следующем мите, ок?">
+      <option name="closed" value="true" />
+      <created>1735852604972</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1735852604972</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Закончил стилизацию формы">
+      <option name="closed" value="true" />
+      <created>1735914635461</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1735914635461</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Connected this form to API">
+      <option name="closed" value="true" />
+      <created>1736065632792</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1736065632792</updated>
+    </task>
+    <task id="LOCAL-00006" summary="-">
+      <option name="closed" value="true" />
+      <created>1736166758361</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1736166758361</updated>
+    </task>
+    <task id="LOCAL-00007" summary="-">
+      <option name="closed" value="true" />
+      <created>1736166818816</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1736166818816</updated>
+    </task>
+    <task id="LOCAL-00008" summary="-">
+      <option name="closed" value="true" />
+      <created>1736168241873</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1736168241873</updated>
+    </task>
+    <task id="LOCAL-00009" summary="-">
+      <option name="closed" value="true" />
+      <created>1736168416810</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1736168416810</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Deleted backend directory for hosting to Vercel">
+      <option name="closed" value="true" />
+      <created>1736168608890</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1736168608890</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/client" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Сделал стилизацию для первой части формы и стилизовал поп-ап для смены языка. Также переделал стилизацию поиска &#10;Марк не обижайся, мы это обсудим на следующем мите, ок?" />
+    <MESSAGE value="Закончил стилизацию формы" />
+    <MESSAGE value="Connected this form to API" />
+    <MESSAGE value="-" />
+    <MESSAGE value="Deleted backend directory for hosting to Vercel" />
+    <option name="LAST_COMMIT_MESSAGE" value="Deleted backend directory for hosting to Vercel" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/components/Basket/Basket.jsx</url>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

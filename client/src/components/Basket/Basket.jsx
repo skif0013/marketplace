@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import './basket.css';
+import './Basket.css';
 import CartItem from '../goods/CartItem/CartItem';
 import { ButtonMain, ButtonL } from '../buttons/button';
 import WhiteButton from '../buttons/WhiteButton/WhiteButton';
