@@ -25,6 +25,8 @@ namespace server.Models
         [Required]
         public virtual SubCategory? category { get; set; }
 
+        public string parentCategory { get; set; }
+
         [Required]
         public int price { get; set; }
         [Required]

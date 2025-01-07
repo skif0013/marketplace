@@ -54,7 +54,8 @@ namespace server.Controllers
         .Include(p => p.Comments)
         .Include(p => p.category) // Assuming 'Category' is a navigation property
         .AsQueryable();
-
+            
+            
     // Фильтрация по категории
     if (!string.IsNullOrEmpty(category))
     {
@@ -94,6 +95,7 @@ namespace server.Controllers
             pictureUrl = p.pictureUrl,
             description = new { uk = p.description.uk, ru = p.description.ru },
             category = p.category.nameCategory,
+            parentCategory = p.category.Category.name,
             price = p.price,
             seller = p.seller,
             grade = p.grade,
@@ -112,7 +114,8 @@ namespace server.Controllers
             }).ToList()
         })
         .ToListAsync();
-
+        
+    
     var totalProductsCount = await _context.Products.CountAsync();
 
     // Добавление заголовка с общим количеством продуктов
