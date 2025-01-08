@@ -6,7 +6,6 @@ export const getProductById = async (id) => {
    try {
       const response = await axios.get(`${API_URL}/${id}`);
       console.log(response.data);
-      
       return response.data; // Возвращаем данные
    } catch (err) {
       console.log(err);

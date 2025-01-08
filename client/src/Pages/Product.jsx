@@ -1,4 +1,3 @@
-
 /* Всё остальное */
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
@@ -18,9 +17,9 @@ import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
 import CommentModal from "../components/Modal/CommentModal";
 
 import { getProductById } from "../services/getProductApi";
-import LoginModal from "../components/Modal/LoginModal";
 
 export default function Product() {
+   
    //Получение одного товара из API
    const { id } = useParams(); // Получаем id из роутов
    const [product, setProduct] = useState(null);
@@ -178,11 +177,11 @@ export default function Product() {
                <Specifications ref={specificationsRef} data={specificationsData} />
                <section className="mb-10 mt-10 flex items-center gap-10" ref={feedbackRef}>
                   <h1 className="text-4xl font-bold">Отзывы</h1>
-                  <button className="text-gray-500" onClick={handleModal}>Оставить отзыв</button>
+                  <button className="text-gray-500 hover:text-orange-300 active:text-orange-600 transition-colors" onClick={handleModal}>Оставить отзыв</button>
                </section>
-               {/* Модальное окно */}
-               {isCommentModalOpen && <CommentModal isOpen={isCommentModalOpen} onClose={closeModal} />}
 
+               {/* Модальное окно */}
+               {isCommentModalOpen && <CommentModal isOpen={isCommentModalOpen} onClose={closeModal} idProduct={id} />}
 
                {/* Комментарии */}
                {product ? (

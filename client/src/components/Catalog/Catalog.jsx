@@ -6,7 +6,7 @@ export default function Catalog() {
    const [hoveredIndex, setHoveredIndex] = useState(null);
 
    const toggleAccordion = (index) => {
-      setActiveIndex(activeIndex === index ? null : index);
+      setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
    };
 
    const handleMouseEnter = (index) => {
@@ -17,6 +17,7 @@ export default function Catalog() {
       setHoveredIndex(null);
    };
 
+
    const catalogItems = [
       {
          title: 'Компьютеры и ноутбуки',
@@ -25,11 +26,12 @@ export default function Catalog() {
             press: '/images/main/variable/laptop/press_laptop.svg',
             hover: '/images/main/variable/laptop/hover_laptop.svg'
          },
-         details: [
-            'Чиназес 1',
-            'Дайте хлеба',
-            'Солдатами не рождаются, солдатами умирают',
-            'Да я знаю что это должно быть ссылки, но не всё сразу'
+         details: [            
+            'Тут ничего нету :)',
+            'Фантазия кончаеться',
+            'Это есть ссылка',
+            'Где деньги лебовский',
+            'Все анекдоты про на самом деле про Путина'
          ]
       },
       {
@@ -40,10 +42,11 @@ export default function Catalog() {
             hover: '/images/main/variable/switch/switch_hover.svg'
          },
          details: [
-            'Чё за нах',
+            'Тут ничего нету :)',
             'Фантазия кончаеться',
             'Это есть ссылка',
-            'Заебался'
+            'Где деньги лебовский',
+            'Все анекдоты про на самом деле про Путина'
          ]
       },
       {
@@ -54,10 +57,11 @@ export default function Catalog() {
             hover: '/images/main/variable/route/hover.svg'
          },
          details: [
-            'Чё за нах',
+            'Тут ничего нету :)',
             'Фантазия кончаеться',
             'Это есть ссылка',
-            'Заебался'
+            'Где деньги лебовский',
+            'Все анекдоты про на самом деле про Путина'
          ]
       },
       {
@@ -68,10 +72,10 @@ export default function Catalog() {
             hover: '/images/main/variable/headphone/hover.svg'
          },
          details: [
-            'Чё за нах',
+            'Тут ничего нету :)',
             'Фантазия кончаеться',
             'Это есть ссылка',
-            'Заебался'
+            'Где деньги лебовский'
          ]
       },
       {
@@ -82,13 +86,14 @@ export default function Catalog() {
             hover: '/images/main/variable/mause/hover.svg'
          },
          details: [
-            'Чё за нах',
+            'Тут ничего нету :)',
             'Фантазия кончаеться',
             'Это есть ссылка',
-            'Заебался'
+            'Где деньги лебовский'
          ]
       },
    ];
+
 
    return (
       <article className="catalog">
