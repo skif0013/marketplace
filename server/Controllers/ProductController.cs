@@ -458,8 +458,19 @@ namespace server.Controllers
         [HttpGet("category")]
         public async Task<IActionResult> Category()
         {
-            var allCategory = await _context.Categories.Include(c => c.subCategories).ToListAsync();
-
+            var allCategory = await _context.Categories.Include(c => c.subCategories)
+                .Select(c => new
+                {
+                    id = c.id,
+                    name = c.name,
+                    subCategories =  c.subCategories.Select(s => new
+                    {
+                        id = s.id,
+                        nameCategory = s.nameCategory
+                    }).ToList()
+                })
+                .ToListAsync();
+            
 
             var totalProductsCount = allCategory.Count();
 
