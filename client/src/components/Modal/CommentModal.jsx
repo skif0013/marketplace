@@ -46,13 +46,33 @@ const CommentModal = ({ isOpen, onClose, idProduct }) => {
       e.preventDefault();
       if (formValid) {
          const userComment = {
-            grade: grade,
+            Grade: grade,
             ProductId: Number(productId),
             Pluses: pluses,
             Minuses: minuses,
-            comment: comment
+            Content: comment
          };
+         const refreshToken = localStorage.getItem('refreshToken');
          console.log(userComment);
+         console.log(refreshToken);
+         try {
+            await axios.post(
+               'https://marketplace-800v.onrender.com/api/product/add',
+               userComment,
+               {
+                  headers: {
+                     'accept': '*/*',
+                     'Content-Type': 'multipart/form-data',
+                     Authorization: `Bearer ${refreshToken}`
+                  }
+               }               
+            );
+            console.log('Отзыв успешно добавлен');
+            onClose();
+            alert('Отзыв успешно добавлен');
+         } catch (error) {
+            console.log(error);
+         }
       } else {
          console.log('Форма не валидна');
       }
