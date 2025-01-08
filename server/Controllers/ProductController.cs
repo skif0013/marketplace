@@ -46,87 +46,114 @@ namespace server.Controllers
         string search = "",
         string _sort = "",
         string _order = "asc",
-         string category = "",
-        int _start = 0,
-        int _end = 100)
+        string category = "",
+        string seller = "",
+        int page = 1,
+        int pageSize = 3)
         {
             var allProductsQuery = _context.Products
-        .Include(p => p.Comments)
-        .Include(p => p.category) // Assuming 'Category' is a navigation property
-        .AsQueryable();
+                .Include(p => p.Comments)
+                .Include(p => p.category) // Assuming 'Category' is a navigation property
+                .AsQueryable();
             
             
-    // Фильтрация по категории
-    if (!string.IsNullOrEmpty(category))
-    {
-        if (_context.SubCategories.FirstOrDefaultAsync(s => s.nameCategory == category).Result != null)
-        {
-            allProductsQuery = allProductsQuery.Where(p => p.category.nameCategory == category);
-        }
-        else
-        {
-            return BadRequest($"Категория {category} не существует");
-        }
-        
-    }
-
-    // Универсальная сортировка, если заданы параметры _sort и _order
-    if (!string.IsNullOrEmpty(_sort) && !string.IsNullOrEmpty(_order))
-    {
-        var property = typeof(Product).GetProperty(_sort,
-            System.Reflection.BindingFlags.IgnoreCase |
-            System.Reflection.BindingFlags.Public |
-            System.Reflection.BindingFlags.Instance);
-
-        if (property != null)
-        {
-            bool isDescending = _order.Equals("desc", StringComparison.OrdinalIgnoreCase);
-            allProductsQuery = isDescending
-                ? allProductsQuery.OrderByDescending(p => EF.Property<object>(p, property.Name))
-                : allProductsQuery.OrderBy(p => EF.Property<object>(p, property.Name));
-        }
-        else
-        {
-            return BadRequest($"Сортировка по полю '{_sort}' невозможна.");
-        }
-    }
-
-    // Применение пагинации
-    allProductsQuery = allProductsQuery.Skip(_start).Take(_end - _start);
-
-    // Проекция в нужный формат JSON
-    var allProducts = await allProductsQuery
-        .Select(p => new
-        {
-            id = p.id,
-            title = new { uk = p.title.uk, ru = p.title.ru },
-            pictureUrl = p.pictureUrl,
-            description = new { uk = p.description.uk, ru = p.description.ru },
-            category = p.category.nameCategory,
-            parentCategory = p.category.Category.name,
-            price = p.price,
-            seller = p.seller,
-            grade = p.grade,
-            seoURL = p.seoURL,
-            productCode = p.productCode,
-            comments = p.Comments.Select(c => new
+            // Фильтрация по категории
+            if (!string.IsNullOrEmpty(category))
             {
-                id = c.Id,
-                author = c.Author,
-                content = c.Content,
-                createdAt = c.CreatedAt,
-                productId = c.ProductId,
-                pluses = c.Pluses,
-                minuses = c.Minuses,
-                grade = c.Grade
-            }).ToList()
-        })
-        .ToListAsync();
+                if (_context.SubCategories.FirstOrDefaultAsync(s => s.nameCategory == category).Result != null)
+                {
+                    allProductsQuery = allProductsQuery.Where(p => p.category.nameCategory == category);
+                }
+                else
+                {
+                    return BadRequest($"Категория {category} не существует");
+                }
+                
+            }
 
-    // Добавление заголовка с общим количеством продуктов
-    Response.Headers.Add("X-Total-Count", allProducts.Count.ToString());
+            if (!string.IsNullOrEmpty(seller))
+            {
+                if (_context.Products.FirstOrDefaultAsync(p => p.seller == seller).Result != null)
+                {
+                    allProductsQuery = allProductsQuery.Where(p => p.seller == seller);
+                }
+                else
+                {
+                    return BadRequest($"Продавца {seller} не существует");
+                }
+            }
 
-    return Ok(allProducts);
+            // Универсальная сортировка, если заданы параметры _sort и _order
+            if (!string.IsNullOrEmpty(_sort) && !string.IsNullOrEmpty(_order))
+            {
+                var property = typeof(Product).GetProperty(_sort,
+                    System.Reflection.BindingFlags.IgnoreCase |
+                    System.Reflection.BindingFlags.Public |
+                    System.Reflection.BindingFlags.Instance);
+
+                if (property != null)
+                {
+                    bool isDescending = _order.Equals("desc", StringComparison.OrdinalIgnoreCase);
+                    allProductsQuery = isDescending
+                        ? allProductsQuery.OrderByDescending(p => EF.Property<object>(p, property.Name))
+                        : allProductsQuery.OrderBy(p => EF.Property<object>(p, property.Name));
+                }
+                else
+                {
+                    return BadRequest($"Сортировка по полю '{_sort}' невозможна.");
+                }
+            }
+            else
+            {
+                // По умолчанию сортируем по id, если сортировка не указана
+                allProductsQuery = _order.Equals("desc", StringComparison.OrdinalIgnoreCase)
+                    ? allProductsQuery.OrderByDescending(p => p.id)
+                    : allProductsQuery.OrderBy(p => p.id);
+            }
+
+            
+
+            allProductsQuery = allProductsQuery.Skip((page - 1) * pageSize).Take(pageSize);
+
+            
+            // Проекция в нужный формат JSON
+            var allProducts = await allProductsQuery
+                .Select(p => new
+                {
+                    id = p.id,
+                    title = new { uk = p.title.uk, ru = p.title.ru },
+                    pictureUrl = p.pictureUrl,
+                    description = new { uk = p.description.uk, ru = p.description.ru },
+                    category = p.category.nameCategory,
+                    parentCategory = p.category.Category.name,
+                    price = p.price,
+                    seller = p.seller,
+                    grade = p.grade,
+                    seoURL = p.seoURL,
+                    productCode = p.productCode,
+                    comments = p.Comments.Select(c => new
+                    {
+                        id = c.Id,
+                        author = c.Author,
+                        content = c.Content,
+                        createdAt = c.CreatedAt,
+                        productId = c.ProductId,
+                        pluses = c.Pluses,
+                        minuses = c.Minuses,
+                        grade = c.Grade
+                    }).ToList()
+                })
+                .ToListAsync();
+
+            if (allProducts.Count <= 0)
+            {
+                return NotFound();
+            }
+            
+            // Добавление заголовка с общим количеством продуктов
+            Response.Headers.Add("X-Total-Count", allProducts.Count.ToString());
+
+            return Ok(allProducts);
         }
 
 
