@@ -19,7 +19,7 @@ import CommentModal from "../components/Modal/CommentModal";
 import { getProductById } from "../services/getProductApi";
 
 export default function Product() {
-   
+
    //Получение одного товара из API
    const { id } = useParams(); // Получаем id из роутов
    const [product, setProduct] = useState(null);
@@ -27,6 +27,20 @@ export default function Product() {
    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
    const [likeProduct, setLikeProduct] = useState(false);
    const [userStatus, setUserStatus] = useState(false);
+
+
+   useEffect(() => {
+      const fetchProduct = async () => {
+         try {
+            const data = await getProductById(id);
+            setProduct(data);
+         } catch (err) {
+            setError(err.message);
+         }
+      };
+
+      fetchProduct();
+   }, [id]);
 
    const handleLike = () => {
       setLikeProduct(true);
@@ -123,7 +137,7 @@ export default function Product() {
          <Header />
          <main className="flex-grow">
             <div className="pl-10 pt-10">
-               {product ? (<Breadcrumbs parentCategory={"какая-то категория"} productId={id} subCategory={product.category.name} productName={product.title.ru} />) : (<div className="h-full mb-6"><ClipLoader color="#FFA500" size={20} /></div>)}
+               {product ? (<Breadcrumbs parentCategory={"какая-то категория"} productId={id} subCategory={product.category } productName={product.title.ru} />) : (<div className="h-full mb-6"><ClipLoader color="#FFA500" size={20} /></div>)}
                {
                   product ? (
                      <div className="grid grid-cols-2 items-stretch mb-32">
@@ -137,7 +151,7 @@ export default function Product() {
                            <Triarty
                               specificationsRef={specificationsRef}
                               feedbackRef={feedbackRef}
-                              totalReviews={product.comments.length}
+                              totalReviews={product.coments.length}
                               scrollToSection={scrollToSection}
                            />
                         </div>
@@ -185,9 +199,9 @@ export default function Product() {
 
                {/* Комментарии */}
                {product ? (
-                  product.comments && product.comments.length > 0 ? (
+                  product.coments && product.coments.length > 0 ? (
                      // Если есть комментарии, рендерим их
-                     product.comments.map((comment, index) => (
+                     product.coments.map((comment, index) => (
                         <Feedback
                            key={index}
                            name={comment.author}

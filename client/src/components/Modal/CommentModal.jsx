@@ -5,70 +5,58 @@ import axios from 'axios';
 
 const CommentModal = ({ isOpen, onClose, idProduct }) => {
    const [comment, setComment] = useState('');
-   const [emptyComment, setEmptyComment] = useState('');
    const [pluses, setPluses] = useState('');
-   const [emptyPluses, setEmptyPluses] = useState('');
    const [minuses, setMinuses] = useState('');
-   const [emptyMinuses, setEmptyMinuses] = useState('');
    const [formValid, setFormValid] = useState(false);
+   const [grade, setGrade] = useState(0);
    const productId = idProduct;
 
-   //Обработка ввода данных в поля
-   useEffect(() => {
-      if (emptyComment || emptyPluses || emptyMinuses) {
-         setFormValid(false);
-      } else {
-         setFormValid(true)
-      }
-   }, [emptyComment, emptyPluses, emptyMinuses]);
-
-   //Валидация полей
-   const validateField = (name, value) => {
-      switch (name) {
-         case 'comment':
-            if (!value) return 'Коментарии не может быть пустым';
-            break;
-         case 'pluses':
-            if (!value) return 'Коментарии не может быть пустым';
-            break;
-         case 'minuses':
-            if (!value) return 'Коментарии не может быть пустым';
-            break;
-         default:
-            return '';
-      }
+   // Валидация полей перед отправкой формы
+   const validateFields = () => {
+      return comment.trim() && pluses.trim() && minuses.trim();
    };
 
-   const handleComment = (e) => {};
-   const handlePluses = (e) => {};
-   const handleMinuse= (e) => {};
+   // Обновление валидности формы
+   useEffect(() => {
+      setFormValid(validateFields());
+   }, [comment, pluses, minuses]);
 
-   //Добавление коментарий
+   // Обработчик для комментариев
+   const handleComment = (e) => {
+      setComment(e.target.value);
+   };
+
+   // Обработчик для плюсов
+   const handlePluses = (e) => {
+      setPluses(e.target.value);
+   };
+
+   // Обработчик для минусов
+   const handleMinuse = (e) => {
+      setMinuses(e.target.value);
+   };
+
+   // Обработчик изменения рейтинга
+   const handleRatingChange = (newRating) => {
+      setGrade(newRating); // Обновляем рейтинг
+   };
+
+   // Отправка формы
    const handleSubmit = async (e) => {
       e.preventDefault();
       if (formValid) {
          const userComment = {
-            comment: comment,
-            ProductId: productId,
-            Pluses: '',
-            Minuses: '',
-         }
+            grade: grade,
+            ProductId: Number(productId),
+            Pluses: pluses,
+            Minuses: minuses,
+            comment: comment
+         };
          console.log(userComment);
-         // try {
-         // const response = axios.post('https://marketplace-800v.onrender.com/api/product/add', userComment, {
-         // headers: {
-         // 'Content-Type': 'multipart/form-data',
-         // 'accept': '*/*'
-         // }
-         // });
-         // console.log(response);
-         // 
-         // } catch (error) {
-         // console.log(error);
-         // }
+      } else {
+         console.log('Форма не валидна');
       }
-   }
-
+   };
 
    return (
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -81,42 +69,43 @@ const CommentModal = ({ isOpen, onClose, idProduct }) => {
             <label className="modal__comment-title">Оцените товар</label>
             <div className="p-4 flex gap-4 items-center justify-between">
                <RatingSystem
-                  initialRating={3} // Устанавливаем начальный рейтинг
-                  maxStars={5} // Количество звезд (по умолчанию 5)
+                  initialRating={3}
+                  maxStars={5}
+                  onRatingChange={handleRatingChange}
                />
             </div>
 
             <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center gap-3">
-               {/* Product Plus and Minus */}
+               {/* Плюсы товара */}
                <div className="w-full">
                   <label htmlFor="comments-pluses" className="modal__comment-title">Плюсы товара</label>
                   <input
                      type="text"
                      value={pluses}
                      onChange={handlePluses}
+                     autoComplete='pluses'
                      id="comments-pluses"
-                     name="comments-pluses"
+                     name="pluses"
                      placeholder="Укажите плюсы товара"
                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
                   />
-                  {emptyPluses && <p className="font-bold text-xs text-red-600">Что-то пошло не так</p>}
                </div>
 
+               {/* Минусы товара */}
                <div className="w-full">
-                  <label htmlFor="comments-minuses" className="modal__comment-title">Минусы товара</label>
+                  <label htmlFor="minuses" className="modal__comment-title">Минусы товара</label>
                   <input
                      type="text"
                      value={minuses}
                      onChange={handleMinuse}
-                     id="comments-minuses"
-                     name="comments-minuses"
+                     id="minuses"
+                     name="minuses"
                      placeholder="Укажите минусы товара"
                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
                   />
-                  {emptyMinuses && <p className="font-bold text-xs text-red-600">{emptyMinuses}</p>}
                </div>
 
-               {/* Добавление коментариев */}
+               {/* Комментарии */}
                <div className="w-full">
                   <label htmlFor="comments" className="modal__comment-title">Комментарии</label>
                   <textarea
@@ -127,40 +116,14 @@ const CommentModal = ({ isOpen, onClose, idProduct }) => {
                      placeholder="Основные комментарии"
                      className="custom-textarea focus:ring-2 focus:ring-orange-500 focus:outline-none"
                   />
-                  {emptyComment && <p className="font-bold text-xs text-red-600">{emptyComment}</p>}
                </div>
 
-               <div className="w-full">
-                  <label htmlFor="addFile" className="modal__comment-title">
-                     Добавить фото
-                  </label>
-                  <p className="text-sm text-gray-500">
-                     Перетащите файлы сюда или нажмите на кнопку. Добавляйте до <br />
-                     10 изображений в форматах .jpg, .gif, .png, размером файла до 5 <br />
-                     МБ
-                  </p>
-               </div>
-
-               {/* File Upload Section */}
-               <div className="w-full">
-                  <input
-                     type="file"
-                     name="addFile"
-                     id="addFile"
-                     className="hidden"
-                     multiple
-                  />
-                  <label
-                     htmlFor="addFile"
-                     className="cursor-pointer border-orange-600 border text-black flex justify-center py-2 my-3 rounded-full w-full sm:w-auto"
-                  >
-                     Выбрать файл
-                  </label>
-                  {/* {messageError && <p className="font-bold text-red-600">Что-то пошло не так</p>} */}
-               </div>
                <button
                   type="submit"
-                  className={`w-full py-4 font-bold text-base rounded-lg ${formValid ? 'submitButton' : 'bg-orange-300 cursor-not-allowed text-gray-500'}`}
+                  className={`w-full py-4 font-bold text-base rounded-lg ${formValid
+                     ? "submitButton"
+                     : "bg-orange-300 cursor-not-allowed text-gray-500"
+                     }`}
                   disabled={!formValid}
                >
                   Оставить отзыв

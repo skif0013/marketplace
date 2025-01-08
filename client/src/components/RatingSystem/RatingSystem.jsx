@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 
-const RatingSystem = ({ initialRating = 0, maxStars = 5 }) => {
+const RatingSystem = ({ initialRating = 0, maxStars = 5, onRatingChange }) => {
+   const starFill = '/images/goods/star-fill.jpeg';
+   const starTransparency = '/images/goods/star-transparency.png';
 
-   const
-      starFill = '/images/goods/star-fill.jpeg',
-      starTransparency = '/images/goods/star-transparency.png';
-
-   const [rating, setRating] = useState(initialRating); // Устанавливаем начальную оценку
+   const [rating, setRating] = useState(initialRating);
 
    const handleRating = (index) => {
       const newRating = index + 1;
       setRating(newRating);
+      onRatingChange(newRating); // Передаём новое значение рейтинга в родительский компонент
    };
 
    return (

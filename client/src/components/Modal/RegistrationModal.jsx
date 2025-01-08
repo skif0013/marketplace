@@ -30,9 +30,7 @@ const RegistrationModal = ({ isOpen, onClose }) => {
    };
 
    //Обновление сообщения
-   let updateMessage = () => {
-      return setMessage('Такой пользовать уже существует.');
-   }
+   let updateMessage = () => { return setMessage('Такой пользовать уже существует.'); }
 
    //если не все данные будут заполнинны кнопка "Зарегестрироваться" не будет работать
    useEffect(() => {
