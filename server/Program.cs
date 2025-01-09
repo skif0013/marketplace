@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using server.Services;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using server.ForEmail;
 
 
 
@@ -25,6 +26,8 @@ builder.Services.AddSingleton<TokenService>();
 builder.Services.AddSingleton<SupabaseStorageService>();
 builder.Services.AddSingleton<PasswordService>();
 builder.Services.AddScoped<ProductService>();
+
+builder.Services.AddTransient<IEmailSender,EmailSender>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

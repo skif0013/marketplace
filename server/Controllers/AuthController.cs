@@ -11,6 +11,7 @@ using server.Models;
 using server.Services;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Identity;
+using server.ForEmail;
 
 namespace server.Controllers
 {
@@ -22,13 +23,14 @@ namespace server.Controllers
         private readonly AppDbContext _context;
         private readonly TokenService _tokenService;
         private readonly PasswordService _passwordService;
+        private readonly IEmailSender _emailSender;
 
-
-        public authController( AppDbContext context,TokenService tokenService, PasswordService passwordService)
+        public authController( AppDbContext context,TokenService tokenService, PasswordService passwordService, IEmailSender emailSender)
         {
             _context = context;
             _tokenService = tokenService;
             _passwordService = passwordService;
+            _emailSender = emailSender;
         }
 
 
@@ -76,7 +78,9 @@ namespace server.Controllers
                 SameSite = SameSiteMode.None, // Если необходимо для кросс-доменных запросов
                 Expires = DateTime.UtcNow.AddDays(TokenService.AuthOptions.RefreshTokenLifetimeDays) // Установка срока действия
             };
-
+            
+            _emailSender.SendEmail(user.email, "Hi");
+            
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
 
 
