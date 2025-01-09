@@ -1,33 +1,57 @@
 using System.Net.Mail;
 using System.Net;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
-namespace server.ForEmail;
-
-public class EmailSender : IEmailSender
+namespace server.ForEmail
 {
-    public void SendEmail(string toEmail, string subject)
+    public class EmailSender : IEmailSender
     {
-        // Set up SMTP client
-        SmtpClient client = new SmtpClient("smtp.maileroo.com ", 465);
-        client.EnableSsl = true;
-        client.UseDefaultCredentials = false;
-        client.Credentials =
-            new NetworkCredential("shopilyze@marketplace-800v.onrender.com", "ce3443d739b0fc40b5da2808");
+        private readonly ILogger<EmailSender> _logger;
 
-        // Create email message
-        MailMessage mailMessage = new MailMessage();
-        mailMessage.From = new MailAddress("shopilyze@marketplace-800v.onrender.com");
-        mailMessage.To.Add(toEmail);
-        mailMessage.Subject = subject;
-        mailMessage.IsBodyHtml = true;
-        StringBuilder mailBody = new StringBuilder();
-        mailBody.AppendFormat("<h1>User Registered</h1>");
-        mailBody.AppendFormat("<br />");
-        mailBody.AppendFormat("<p>Thank you For Registering account</p>");
-        mailMessage.Body = mailBody.ToString();
+        public EmailSender(ILogger<EmailSender> logger)
+        {
+            _logger = logger;
+        }
 
-        // Send email
-        client.Send(mailMessage);
+        public void SendEmail(string toEmail, string subject)
+        {
+            try
+            {
+                // Set up SMTP client
+                SmtpClient client = new SmtpClient("smtp.maileroo.com", 587)
+                {
+                    EnableSsl = true,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential("60ca95.4165.f653be2f8be217bcf99e6c97fc69029d@g.maileroo.net", "6c4613c7d0b005b6859b17b6")
+                };
+
+                // Create email message
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress("shopilyze@marketplace-800v.onrender.com"),
+                    Subject = subject,
+                    IsBodyHtml = true,
+                    Body = "<h1>User Registered</h1><br /><p>Thank you For Registering account</p>"
+                };
+                mailMessage.To.Add(toEmail);
+
+                // Send email
+                client.Send(mailMessage);
+                _logger.LogInformation("Message has been sent successfully.");
+            }
+            catch (SmtpFailedRecipientException ex)
+            {
+                _logger.LogError(ex, $"Failed to deliver message to {ex.FailedRecipient}: {ex.Message}");
+            }
+            catch (SmtpException smtpEx)
+            {
+                _logger.LogError(smtpEx, $"SMTP error occurred while sending email: {smtpEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred while sending email: {ex.Message}");
+            }
+        }
     }
 }
