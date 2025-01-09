@@ -79,7 +79,7 @@ namespace server.Controllers
                 Expires = DateTime.UtcNow.AddDays(TokenService.AuthOptions.RefreshTokenLifetimeDays) // Установка срока действия
             };
             
-            _emailSender.SendEmail(user.email, "Hi");
+            _emailSender.SendEmail(user.email, "User Regitered");
             
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
 

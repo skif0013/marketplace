@@ -18,7 +18,7 @@ namespace server.ForEmail
         {
             try
             {
-                // Set up SMTP client
+                // Настройка SMTP клиента
                 SmtpClient client = new SmtpClient("smtp.maileroo.com", 587)
                 {
                     EnableSsl = true,
@@ -26,31 +26,33 @@ namespace server.ForEmail
                     Credentials = new NetworkCredential("60ca95.4165.f653be2f8be217bcf99e6c97fc69029d@g.maileroo.net", "6c4613c7d0b005b6859b17b6")
                 };
 
-                // Create email message
+                // Создание сообщения
                 MailMessage mailMessage = new MailMessage
                 {
-                    From = new MailAddress("shopilyze@marketplace-800v.onrender.com"),
+                    From = new MailAddress("60ca95.4165.f653be2f8be217bcf99e6c97fc69029d@g.maileroo.net"),
                     Subject = subject,
-                    IsBodyHtml = true,
-                    Body = "<h1>User Registered</h1><br /><p>Thank you For Registering account</p>"
+                    IsBodyHtml = true
                 };
                 mailMessage.To.Add(toEmail);
+                StringBuilder mailBody = new StringBuilder();
+                mailBody.AppendFormat("<h1>User Registered</h1>");
+                mailBody.AppendFormat("<br />");
+                mailBody.AppendFormat("<p>Thank you For Registering account</p>");
+                mailMessage.Body = mailBody.ToString();
 
-                // Send email
+                // Логирование перед отправкой
+                _logger.LogInformation("Sending email to {ToEmail} with subject {Subject}", toEmail, subject);
+
+                // Отправка сообщения
                 client.Send(mailMessage);
-                _logger.LogInformation("Message has been sent successfully.");
-            }
-            catch (SmtpFailedRecipientException ex)
-            {
-                _logger.LogError(ex, $"Failed to deliver message to {ex.FailedRecipient}: {ex.Message}");
-            }
-            catch (SmtpException smtpEx)
-            {
-                _logger.LogError(smtpEx, $"SMTP error occurred while sending email: {smtpEx.Message}");
+
+                // Логирование после успешной отправки
+                _logger.LogInformation("Email sent successfully to {ToEmail}", toEmail);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while sending email: {ex.Message}");
+                // Логирование ошибки
+                _logger.LogError(ex, "Error sending email to {ToEmail} with subject {Subject}", toEmail, subject);
             }
         }
     }
