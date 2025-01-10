@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+import { CatalogParentCategory } from '../../services/Catalog/catalog';
+
 import './Catalog.css';
 
 export default function Catalog() {
    const [activeIndex, setActiveIndex] = useState(null);
    const [hoveredIndex, setHoveredIndex] = useState(null);
+   CatalogParentCategory();
 
    const toggleAccordion = (index) => {
       setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
@@ -26,7 +29,7 @@ export default function Catalog() {
             press: '/images/main/variable/laptop/press_laptop.svg',
             hover: '/images/main/variable/laptop/hover_laptop.svg'
          },
-         details: [            
+         details: [
             'Тут ничего нету :)',
             'Фантазия кончаеться',
             'Это есть ссылка',
