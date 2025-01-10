@@ -27,7 +27,7 @@ builder.Services.AddSingleton<SupabaseStorageService>();
 builder.Services.AddSingleton<PasswordService>();
 builder.Services.AddScoped<ProductService>();
 
-builder.Services.AddTransient<IEmailSender,EmailSender>();
+builder.Services.AddTransient<EmailSender>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

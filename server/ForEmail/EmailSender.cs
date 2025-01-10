@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace server.ForEmail
 {
-    public class EmailSender : IEmailSender
+    public class EmailSender 
     {
         private readonly ILogger<EmailSender> _logger;
 
@@ -19,25 +19,27 @@ namespace server.ForEmail
             try
             {
                 // Настройка SMTP клиента
-                SmtpClient client = new SmtpClient("smtp.maileroo.com", 587)
+                _logger.LogInformation("Setting up SMTP client.");
+                SmtpClient client = new SmtpClient("smtp.gmail.com", 587)
                 {
                     EnableSsl = true,
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential("60ca95.4165.f653be2f8be217bcf99e6c97fc69029d@g.maileroo.net", "6c4613c7d0b005b6859b17b6")
+                    Credentials = new NetworkCredential("ajdas805@gmail.com", "pbei ulnx makp voyc"),
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Timeout = 30000 // Увеличение времени ожидания до 30 секунд
                 };
 
                 // Создание сообщения
+                _logger.LogInformation("Creating email message.");
                 MailMessage mailMessage = new MailMessage
                 {
-                    From = new MailAddress("60ca95.4165.f653be2f8be217bcf99e6c97fc69029d@g.maileroo.net"),
+                    From = new MailAddress("jdas805@gmail.com"),
                     Subject = subject,
                     IsBodyHtml = true
                 };
                 mailMessage.To.Add(toEmail);
                 StringBuilder mailBody = new StringBuilder();
-                mailBody.AppendFormat("<h1>User Registered</h1>");
-                mailBody.AppendFormat("<br />");
-                mailBody.AppendFormat("<p>Thank you For Registering account</p>");
+                mailBody.AppendFormat($"{subject}");
                 mailMessage.Body = mailBody.ToString();
 
                 // Логирование перед отправкой
@@ -49,10 +51,15 @@ namespace server.ForEmail
                 // Логирование после успешной отправки
                 _logger.LogInformation("Email sent successfully to {ToEmail}", toEmail);
             }
+            catch (SmtpException smtpEx)
+            {
+                // Логирование ошибок SMTP
+                _logger.LogError(smtpEx, "SMTP Error sending email to {ToEmail} with subject {Subject}. Status Code: {StatusCode}", toEmail, subject, smtpEx.StatusCode);
+            }
             catch (Exception ex)
             {
-                // Логирование ошибки
-                _logger.LogError(ex, "Error sending email to {ToEmail} with subject {Subject}", toEmail, subject);
+                // Логирование всех других ошибок
+                _logger.LogError(ex, "General Error sending email to {ToEmail} with subject {Subject}", toEmail, subject);
             }
         }
     }

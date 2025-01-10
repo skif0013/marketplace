@@ -23,9 +23,9 @@ namespace server.Controllers
         private readonly AppDbContext _context;
         private readonly TokenService _tokenService;
         private readonly PasswordService _passwordService;
-        private readonly IEmailSender _emailSender;
+        private readonly EmailSender _emailSender;
 
-        public authController( AppDbContext context,TokenService tokenService, PasswordService passwordService, IEmailSender emailSender)
+        public authController( AppDbContext context,TokenService tokenService, PasswordService passwordService, EmailSender emailSender)
         {
             _context = context;
             _tokenService = tokenService;
@@ -79,7 +79,7 @@ namespace server.Controllers
                 Expires = DateTime.UtcNow.AddDays(TokenService.AuthOptions.RefreshTokenLifetimeDays) // Установка срока действия
             };
             
-            _emailSender.SendEmail(user.email, "User Regitered");
+            _emailSender.SendEmail(user.email, $"успешный вход в ваш аккаунт");
             
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
 
@@ -126,6 +126,7 @@ namespace server.Controllers
                 role = "user"
             };
 
+            
             // Генерация Access токена
             var accessToken = _tokenService.GenerateAccessToken(abc);
 
@@ -157,6 +158,7 @@ namespace server.Controllers
 
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);*/
 
+            _emailSender.SendEmail(user.email, "Ваш имейл зарегистрировано");
 
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
