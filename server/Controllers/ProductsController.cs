@@ -11,14 +11,14 @@ namespace server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class productController : ControllerBase
+    public class ProductsController : ControllerBase
     {
 
         private readonly AppDbContext _context;
         private readonly SupabaseStorageService _storageService;
         private readonly TokenService _tokenService;
 
-        public productController(AppDbContext context, SupabaseStorageService storageService, TokenService tokenService)
+        public ProductsController(AppDbContext context, SupabaseStorageService storageService, TokenService tokenService)
         {
             _context = context;
             _storageService = storageService;
@@ -49,7 +49,7 @@ namespace server.Controllers
         string category = "",
         string seller = "",
         int page = 1,
-        int pageSize = 3)
+        int pageSize = 10)
         {
             var allProductsQuery = _context.Products
                 .Include(p => p.Comments)
@@ -159,7 +159,7 @@ namespace server.Controllers
 
 
 
-        [HttpPost("create")]
+        [HttpPost("")]
         public async Task<IActionResult> ProductCreation([FromForm] ProductRequest request)
         {
 
@@ -236,7 +236,7 @@ namespace server.Controllers
         
         
         
-    [HttpPost("coments/create")]
+    [HttpPost("coments")]
     public async Task<IActionResult> AddComment([FromForm] D_Comment Comment)
     {
         
@@ -368,24 +368,41 @@ namespace server.Controllers
 
 
 
-        [HttpPatch("edit")]
-        public async Task<IActionResult> UploadProduct(/*int id, string title = "", string description = "", string category = "", int price = -1*/ Product product)
+        [HttpPatch("")]
+        public async Task<IActionResult> UploadProduct([FromForm] ProductRequest product)
         {
 
             if (product == null)
             {
                 return BadRequest();
             }
+            
+            var newProduct = _context.Products.FirstOrDefault(p => p.productCode == product.productCode);
 
-
-            _context.Products.Update(product);
+            var NewProduct = new Product
+            {
+                id = newProduct.id,
+                title = {uk = product.ukrTitle, ru = product.ruTitle},
+                pictureUrl = newProduct.pictureUrl,
+                description = {uk = product.ukrDescription, ru = product.ruDescription},
+                category = newProduct.category,
+                parentCategory = newProduct.parentCategory,
+                price = product.price,
+                seller = newProduct.seller,
+                grade = newProduct.grade,
+                seoURL = product.seoURL,
+                productCode = product.productCode,
+                Comments = newProduct.Comments
+            };   
+            
+            _context.Products.Update(NewProduct);
 
             await _context.SaveChangesAsync();
 
             return Ok();
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _context.Products.FirstOrDefaultAsync(p => p.id == id);
@@ -481,7 +498,7 @@ namespace server.Controllers
 
 
 
-        [HttpPost("categories/new")]
+        [HttpPost("categories")]
         public async Task<IActionResult> NewCategory([FromForm] CategoryRequest category)
         {
 
@@ -512,7 +529,7 @@ namespace server.Controllers
         
 
 
-        [HttpDelete("categories/delete")]
+        [HttpDelete("categories")]
         public async Task<IActionResult> deleteCategory([FromBody] string category)
         {
             if (category == null)
@@ -531,7 +548,7 @@ namespace server.Controllers
             return Ok();
         }
 
-        [HttpPost("categories/subCategories/create")]
+        [HttpPost("categories/subCategories")]
         public async Task<IActionResult> CreateSubCategory([FromForm] SubCategoryRequest subCategory)
         {
             if (!ModelState.IsValid)
