@@ -42,7 +42,7 @@ namespace server.Controllers
         /// <response code="200">Возвращает список продуктов.</response>
         /// <response code="400">Ошибка в переданных параметрах.</response>
         [HttpGet("")]
-        public async Task<IActionResult> Product(
+        public async Task<IActionResult> Products(
         string search = "",
         string _sort = "",
         string _order = "asc",
@@ -159,7 +159,7 @@ namespace server.Controllers
 
 
 
-        [HttpPost("new")]
+        [HttpPost("create")]
         public async Task<IActionResult> ProductCreation([FromForm] ProductRequest request)
         {
 
@@ -236,7 +236,7 @@ namespace server.Controllers
         
         
         
-    [HttpPost("add")]
+    [HttpPost("coments/create")]
     public async Task<IActionResult> AddComment([FromForm] D_Comment Comment)
     {
         
@@ -405,7 +405,7 @@ namespace server.Controllers
 
 
         [HttpGet("{id}")] // сделать по айди, по сеоЮРЛ и по коду товара
-        public async Task<IActionResult> Product(int id)
+        public async Task<IActionResult> Products(int id)
         {
             // Используем Include для загрузки связанных данных категории
             var product = await _context.Products
@@ -455,7 +455,7 @@ namespace server.Controllers
 
 
 
-        [HttpGet("category")]
+        [HttpGet("categories")]
         public async Task<IActionResult> Category()
         {
             var allCategory = await _context.Categories.Include(c => c.subCategories)
@@ -481,7 +481,7 @@ namespace server.Controllers
 
 
 
-        [HttpPost("category/new")]
+        [HttpPost("categories/new")]
         public async Task<IActionResult> NewCategory([FromForm] CategoryRequest category)
         {
 
@@ -512,7 +512,7 @@ namespace server.Controllers
         
 
 
-        [HttpDelete("category/delete")]
+        [HttpDelete("categories/delete")]
         public async Task<IActionResult> deleteCategory([FromBody] string category)
         {
             if (category == null)
@@ -531,7 +531,7 @@ namespace server.Controllers
             return Ok();
         }
 
-        [HttpPost("category/addSubCategory")]
+        [HttpPost("categories/subCategories/create")]
         public async Task<IActionResult> CreateSubCategory([FromForm] SubCategoryRequest subCategory)
         {
             if (!ModelState.IsValid)
