@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://marketplace-800v.onrender.com/api/product';
+const API_URL = 'https://marketplace-800v.onrender.com/api/Products';
 
 export const getProductById = async (id) => {
    try {
