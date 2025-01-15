@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://marketplace-800v.onrender.com/api/product?_order=asc&_start=0&_end=100';
+const API_URL = 'https://marketplace-800v.onrender.com/api/Products';
 
 export const getGoodsApi = async () => {
    try {

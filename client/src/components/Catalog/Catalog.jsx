@@ -6,8 +6,8 @@ import './Catalog.css';
 export default function Catalog() {
    const [activeIndex, setActiveIndex] = useState(null);
    const [hoveredIndex, setHoveredIndex] = useState(null);
-   CatalogParentCategory();
 
+   
    const toggleAccordion = (index) => {
       setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
    };
