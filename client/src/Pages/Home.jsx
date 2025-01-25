@@ -9,6 +9,7 @@ import Catalog from '../components/Catalog/Catalog';
 import Banner from '../components/Banner/Banner';
 import ViewProduct from '../components/goods/ViewProduct';
 
+
 export default function Home() {
    //Получаем API
    const [products, setProducts] = useState([]);
@@ -38,11 +39,11 @@ export default function Home() {
                {/* Телефоны */}
                <ViewProduct products={products} title={"Телефоны"} link={'/phone'} buttonRight={'160px'} />
                {/* Сетевые адаптеры */}
-               <ViewProduct products={products} title={"комплекты"} link={'/complects'} buttonRight={'160px'} />
+               <ViewProduct products={products} title={"комплекты"} link={'/complects'} buttonRight={'170px'} />
                {/* Ноутбуки */}
-               <ViewProduct products={products} title={"Ноутбуки"} link={'/laptop'} buttonRight={'140px'} />
+               <ViewProduct products={products} title={"Ноутбуки"} link={'/laptop'} buttonRight={'150px'} />
                {/* Клавиатуры и мыши */}
-               <ViewProduct products={products} title={"Клавиатуры"} link={'/mouse'} buttonRight={'180px'} />
+               <ViewProduct products={products} title={"Клавиатуры"} link={'/mouse'} buttonRight={'190px'} />
             </div>
          </main>
          <Footer />

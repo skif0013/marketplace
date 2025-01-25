@@ -14,8 +14,6 @@ export const getGoodsApi = async () => {
             accept: '*/*',
          },
       });
-      console.log(response.data);
-      
       return response.data; // Возвращаем данные
    } catch (err) {
       console.log(err);

@@ -1,13 +1,40 @@
-import React, {useState} from 'react';
-import { CatalogParentCategory } from '../../services/Catalog/catalog';
-
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MainCatalog } from '../../services/Catalog/catalog';
+import catalogImages from '../../utils/catalogImages';
 import './Catalog.css';
 
 export default function Catalog() {
    const [activeIndex, setActiveIndex] = useState(null);
    const [hoveredIndex, setHoveredIndex] = useState(null);
+   const [catalogElements, setCatalogItems] = useState([]);
+   const catalogImagesName = [catalogImages.laptop, catalogImages.switch, catalogImages.route, catalogImages.headphone, catalogImages.mouse];
+   const navigate = useNavigate();
 
-   
+   //Навигация по каталогу
+   const goToProduct = (id) => navigate(`/api/product/productByCategory/${id}`);
+
+   // Получаем данные каталога по API
+   useEffect(() => {
+      const fetchData = async () => {
+         try {
+            const data = await MainCatalog();
+            if (data) {
+               const CatalogData = data.map((category, index) => ({
+                  ...category,
+                  image: catalogImagesName[index % catalogImagesName.length] // Зацикливаем, если изображений меньше
+               }));
+               return setCatalogItems(CatalogData);
+            }
+         } catch (error) {
+            console.error('Ошибка загрузки каталога', error);
+         }
+      };
+
+      fetchData();
+   }, []);
+
+
    const toggleAccordion = (index) => {
       setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
    };
@@ -21,117 +48,47 @@ export default function Catalog() {
    };
 
 
-   const catalogItems = [
-      {
-         title: 'Компьютеры и ноутбуки',
-         img: {
-            main: '/images/main/variable/laptop/main_laptop.svg',
-            press: '/images/main/variable/laptop/press_laptop.svg',
-            hover: '/images/main/variable/laptop/hover_laptop.svg'
-         },
-         details: [
-            'Тут ничего нету :)',
-            'Фантазия кончаеться',
-            'Это есть ссылка',
-            'Где деньги лебовский',
-            'Все анекдоты про на самом деле про Путина'
-         ]
-      },
-      {
-         title: 'Комплектующие',
-         img: {
-            main: '/images/main/variable/switch/switch_main.svg',
-            press: '/images/main/variable/switch/press.svg',
-            hover: '/images/main/variable/switch/switch_hover.svg'
-         },
-         details: [
-            'Тут ничего нету :)',
-            'Фантазия кончаеться',
-            'Это есть ссылка',
-            'Где деньги лебовский',
-            'Все анекдоты про на самом деле про Путина'
-         ]
-      },
-      {
-         title: 'Сетевое оборудование',
-         img: {
-            main: '/images/main/variable/route/main.svg',
-            press: '/images/main/variable/route/press.svg',
-            hover: '/images/main/variable/route/hover.svg'
-         },
-         details: [
-            'Тут ничего нету :)',
-            'Фантазия кончаеться',
-            'Это есть ссылка',
-            'Где деньги лебовский',
-            'Все анекдоты про на самом деле про Путина'
-         ]
-      },
-      {
-         title: 'Наушники и Аксессуары',
-         img: {
-            main: '/images/main/variable/headphone/default.svg',
-            press: '/images/main/variable/headphone/press.svg',
-            hover: '/images/main/variable/headphone/hover.svg'
-         },
-         details: [
-            'Тут ничего нету :)',
-            'Фантазия кончаеться',
-            'Это есть ссылка',
-            'Где деньги лебовский'
-         ]
-      },
-      {
-         title: 'Клавиатуры и Мыши',
-         img: {
-            main: '/images/main/variable/mause/main.svg',
-            press: '/images/main/variable/mause/press.svg',
-            hover: '/images/main/variable/mause/hover.svg'
-         },
-         details: [
-            'Тут ничего нету :)',
-            'Фантазия кончаеться',
-            'Это есть ссылка',
-            'Где деньги лебовский'
-         ]
-      },
-   ];
-
-
    return (
       <article className="catalog">
          <h3 className="font-bold text-2xl mb-6">Каталог</h3>
          <section className="catalog-items">
-            {catalogItems.map((item, index) => (
-               <div
-                  key={index}
-                  className={`catalog-item ${activeIndex === index ? 'active' : ''}`}
-               >
+            {catalogElements.map((item, index) => (
+               <div key={index} className={`catalog-item ${activeIndex === index ? "active" : ""}`}>
                   <div
                      onClick={() => toggleAccordion(index)}
                      onMouseEnter={() => handleMouseEnter(index)}
                      onMouseLeave={handleMouseLeave}
-                     className={`catalog__section relative ${activeIndex === index ? 'active' : ''} pb-6`}
+                     className={`catalog__section relative ${activeIndex === index ? "active" : ""} pb-6`}
                   >
-                     <img
-                        src={hoveredIndex === index ? item.img.hover : (activeIndex === index ? item.img.press : item.img.main)}
-                        alt={item.title}
-                     />
-                     <span>{item.title}</span>
                      <img
                         src={
                            hoveredIndex === index
-                              ? '/images/main/variable/arrow/hover.png'
-                              : (activeIndex === index ? '/images/main/variable/arrow/press.png' : '/images/main/variable/arrow/arrow_right.svg')
+                              ? item.image.hover
+                              : activeIndex === index
+                                 ? item.image.press
+                                 : item.image.main
                         }
-                        className={`arrow absolute top-0 right-0`}
+                        alt={item.name}
+                     />
+                     <span>{item.name}</span>
+                     <img
+                        src={
+                           hoveredIndex === index
+                              ? "/images/main/variable/arrow/hover.png"
+                              : activeIndex === index
+                                 ? "/images/main/variable/arrow/press.png"
+                                 : "/images/main/variable/arrow/arrow_right.svg"
+                        }
+                        className="arrow absolute top-0 right-0"
                         alt="arrow"
                      />
                   </div>
-                  {activeIndex === index && item.details.length > 0 && (
+                  {activeIndex === index && Array.isArray(item.subCategories) && item.subCategories.length > 0 && (
                      <div className="catalog-details">
-                        {item.details.map((detail, detailIndex) => (
-                           <p className="py-2" key={detailIndex}>{detail}</p>
+                        {item.subCategories.map((detail, detailIndex) => (
+                           <a onClick={() => goToProduct(detail.id)} className="catalog-details__link" key={detailIndex}>
+                              {detail.nameCategory}
+                           </a>
                         ))}
                      </div>
                   )}

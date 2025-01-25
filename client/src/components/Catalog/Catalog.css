@@ -38,16 +38,33 @@
 }
 
 .catalog-item.active .catalog-details {
-   display: block;
+   display: flex;
+   justify-content: space-between;
+   flex-direction: column;
 }
 
 .catalog-details {
    display: none;
    margin-top: 20px;
    margin-bottom: 25px;
-   margin-left: 35px;
+   margin-left: 20px;
    font-size: 14px;
    color: #555;
+   transition-duration: 500ms;
+}
+
+.catalog-details__link {
+   margin-bottom: 10px;
+   padding: 5px;
+   cursor: pointer;
+}
+
+.catalog-details__link:hover {
+   color: rgb(227, 191, 159);
+}
+
+.catalog-details__link:active {
+   color: rgb(253, 118, 0);
 }
 
 .arrow {

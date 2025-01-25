@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const catalog = 'https://marketplace-800v.onrender.com/api/product/category';
+const catalog = 'https://marketplace-800v.onrender.com/api/Products/categories';
 
-export const CatalogParentCategory = async () => {
+export const MainCatalog = async () => {
    try {
       const response = await axios.get(catalog, {
          headers: {
@@ -10,7 +10,7 @@ export const CatalogParentCategory = async () => {
             "Content-Type": "application/json"
          },
       });
-      console.log(response.data); // Выводим данные, а не промис
+      return response.data;
    } catch (error) {
       console.error("Ошибка загрузки каталога:", error);
    }
