@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MainCatalog } from '../../services/Catalog/catalog';
 import catalogImages from '../../utils/catalogImages';
 import './Catalog.css';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export default function Catalog() {
    const [activeIndex, setActiveIndex] = useState(null);
@@ -52,48 +53,61 @@ export default function Catalog() {
       <article className="catalog">
          <h3 className="font-bold text-2xl mb-6">Каталог</h3>
          <section className="catalog-items">
-            {catalogElements.map((item, index) => (
-               <div key={index} className={`catalog-item ${activeIndex === index ? "active" : ""}`}>
+            {catalogElements.length > 0 ? (
+               catalogElements.map((item, index) => (
                   <div
-                     onClick={() => toggleAccordion(index)}
-                     onMouseEnter={() => handleMouseEnter(index)}
-                     onMouseLeave={handleMouseLeave}
-                     className={`catalog__section relative ${activeIndex === index ? "active" : ""} pb-6`}
+                     key={index}
+                     className={`catalog-item ${activeIndex === index ? "active" : ""}`}
                   >
-                     <img
-                        src={
-                           hoveredIndex === index
-                              ? item.image.hover
-                              : activeIndex === index
-                                 ? item.image.press
-                                 : item.image.main
-                        }
-                        alt={item.name}
-                     />
-                     <span>{item.name}</span>
-                     <img
-                        src={
-                           hoveredIndex === index
-                              ? "/images/main/variable/arrow/hover.png"
-                              : activeIndex === index
-                                 ? "/images/main/variable/arrow/press.png"
-                                 : "/images/main/variable/arrow/arrow_right.svg"
-                        }
-                        className="arrow absolute top-0 right-0"
-                        alt="arrow"
-                     />
-                  </div>
-                  {activeIndex === index && Array.isArray(item.subCategories) && item.subCategories.length > 0 && (
-                     <div className="catalog-details">
-                        {item.subCategories.map((detail, detailIndex) => (
-                           <a onClick={() => goToProduct(detail.id)} className="catalog-details__link" key={detailIndex}>
-                              {detail.nameCategory}
-                           </a>
-                        ))}
+                     <div
+                        onClick={() => toggleAccordion(index)}
+                        onMouseEnter={() => handleMouseEnter(index)}
+                        onMouseLeave={handleMouseLeave}
+                        className={`catalog__section relative ${activeIndex === index ? "active" : ""} pb-6`}
+                     >
+                        <img
+                           src={
+                              hoveredIndex === index
+                                 ? item.image.hover
+                                 : activeIndex === index
+                                    ? item.image.press
+                                    : item.image.main
+                           }
+                           alt={item.name}
+                        />
+                        <span>{item.name}</span>
+                        <img
+                           src={
+                              hoveredIndex === index
+                                 ? "/images/main/variable/arrow/hover.png"
+                                 : activeIndex === index
+                                    ? "/images/main/variable/arrow/press.png"
+                                    : "/images/main/variable/arrow/arrow_right.svg"
+                           }
+                           className="arrow absolute top-0 right-0"
+                           alt="arrow"
+                        />
                      </div>
-                  )}
+                     {activeIndex === index && item.subCategories?.length > 0 && (
+                        <div className="catalog-details">
+                           {item.subCategories.map((detail, detailIndex) => (
+                              <a
+                                 onClick={() => goToProduct(detail.id)}
+                                 className="catalog-details__link"
+                                 key={detailIndex}
+                              >
+                                 {detail.nameCategory}
+                              </a>
+                           ))}
+                        </div>
+                     )}
+                  </div>
+               ))
+            ) : (
+               <div className="flex justify-center items-center">
+                  <ClipLoader color="#FFA500" size={50} /> {/* Загрузка */}
                </div>
-            ))}
+            )}
          </section>
 
          <h3 className="font-bold text-xl mb-4">Партнерам</h3>
