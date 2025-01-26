@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Breadcrumbs = ({ parentCategory, subCategory, productId, productName }) => {
+   const home = "Home";
+
    return (
       <article className="mb-6 flex gap-4 items-center">
          <section>
