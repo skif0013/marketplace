@@ -80,14 +80,11 @@ const LoginModal = ({ isOpen, onClose }) => {
             const response = await axios.post('https://marketplace-800v.onrender.com/api/auth/singIn', userData, {
                headers: {
                   'accept': '*/*',
-                  'Content-Type': 'multipart/form-data'  // Обязательно указываем, что данные отправляются в формате multipart/form-data
+                  'Content-Type': 'multipart/form-data'
                }
             });
-
             localStorage.setItem('accessToken', response.data.accessToken);
             localStorage.setItem('refreshToken', response.data.refreshToken);
-
-            userData(Register.data.accessToken);
             navigate('/profile');
          } catch (error) {
             if (error.status === 400) {

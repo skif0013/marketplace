@@ -57,7 +57,7 @@ const CommentModal = ({ isOpen, onClose, idProduct }) => {
          console.log(refreshToken);
          try {
             await axios.post(
-               'https://marketplace-800v.onrender.com/api/product/add',
+               'https://marketplace-800v.onrender.com/api/Products/coments',
                userComment,
                {
                   headers: {
@@ -67,9 +67,8 @@ const CommentModal = ({ isOpen, onClose, idProduct }) => {
                   }
                }               
             );
-            console.log('Отзыв успешно добавлен');
             onClose();
-            alert('Отзыв успешно добавлен');
+            window.location.reload();
          } catch (error) {
             console.log(error);
          }

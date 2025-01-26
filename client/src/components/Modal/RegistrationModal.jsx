@@ -101,13 +101,15 @@ const RegistrationModal = ({ isOpen, onClose }) => {
          };
 
          try {
-            const response = await axios.post('https://www.apishka.somee.com/api/auth/reg', userData, {
+            const response = await axios.post('https://marketplace-800v.onrender.com/api/auth/reg', userData, {
                headers: {
-                  'Content-Type': 'application/json',
+                  'Content-Type': 'multipart/form-data',
                   'accept': '*/*'
                }
             });
+
             localStorage.setItem('accessToken', response.data.accessToken);
+            localStorage.setItem('refreshToken', response.data.refreshToken);
             navigate('/profile');
          } catch (error) {
             if (error.response && error.response.status === 400) {

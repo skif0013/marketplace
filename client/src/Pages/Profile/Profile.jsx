@@ -1,8 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import { getUserData } from "../../services/auth/getDataUser";
-import { setAccessToken } from "../../services/authUpdate";
-
 
 export default function Profile() {
    const navigate = useNavigate();
@@ -17,17 +15,13 @@ export default function Profile() {
       return navigate('/');
    }
 
-   //Обновление токена
-   setAccessToken(token, userData.exp);
-
    return (
       <>
          <Link to={'/'} className="text-red-500 font-bold text-xl m-10 hover:border-bottom">Назад</Link>
          <br /><br />
          <h1 className="font-bold text-4xl">Профиль клиента</h1>
          <br /><br />
-         <h1 className="font-bold text-4xl">Данные из access-Tokena</h1>
-         <br />
+         <h1 className="font-bold text-xl mb-4">Данные из access-Tokena</h1>
          {/* Проверяем, что данные пользователя загружены */}
          {userData ? (
             <ul>

@@ -49,8 +49,14 @@ export default function Product() {
    };
 
    const handleModal = () => {
-      setIsCommentModalOpen(true);
-      setLikeProduct(false);
+      const accessToken = localStorage.getItem('accessToken');
+
+      if (accessToken) {
+         setIsCommentModalOpen(true);
+         setLikeProduct(false);
+      } else {
+         alert('Для того чтобы оставить отзыв, вам нужно авторизоваться');
+      }
    };
 
    const closeModal = () => {
@@ -137,7 +143,7 @@ export default function Product() {
          <Header />
          <main className="flex-grow">
             <div className="pl-10 pt-10">
-               {product ? (<Breadcrumbs parentCategory={product.parentCategory} subCategory={product.category } productId={id} productName={product.title.ru} />) : (<div className="h-full mb-6"><ClipLoader color="#FFA500" size={20} /></div>)}
+               {product ? (<Breadcrumbs parentCategory={product.parentCategory} subCategory={product.category} productId={id} productName={product.title.ru} />) : (<div className="h-full mb-6"><ClipLoader color="#FFA500" size={20} /></div>)}
                {
                   product ? (
                      <div className="grid grid-cols-2 items-stretch mb-32">
