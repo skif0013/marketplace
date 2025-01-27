@@ -34,13 +34,39 @@ export default function Header() {
                </div>
                <div className="header-navigation flex gap-6 pl-6">
                   <Link to="/profile" onClick={handleClick}>
-                     <img src="/images/main/human.svg" width="36px" height="auto" alt="" />
+                     <img
+                        src="/images/main/human.svg"
+                        width="40px"
+                        height="auto"
+                        alt="Profile"
+                        onClick={(e) => e.target.src = "/images/main/variable/human/press.svg"}
+                        onMouseEnter={(e) => e.target.src = "/images/main/variable/human/hover.svg"}
+                        onMouseLeave={(e) => e.target.src = "/images/main/variable/human/main.svg"}
+                     />
                   </Link>
-                  <Link to="/api/basket">
-                     <img src="/images/main/variable/basket/basket.svg" width="36px" height="auto" alt="basket" />
+
+                  <Link to="/api/basket" >
+                     <img
+                        src="/images/main/variable/basket/basket.svg"
+                        width="40px"
+                        height="auto"
+                        alt="bassket"
+                        onClick={(e) => e.target.src = "/images/main/variable/basket/press.svg"}
+                        onMouseEnter={(e) => e.target.src = "/images/main/variable/basket/hover.svg"}
+                        onMouseLeave={(e) => e.target.src = "/images/main/variable/basket/basket.svg"}
+                     />
                   </Link>
+
                   <Link to="/errors" onClick={handleClick}>
-                     <img src="/images/main/variable/heart/heart.svg" width="36px" height="auto" alt="like button" />
+                     <img
+                        src="/images/main/variable/heart/heart.svg"
+                        width="40px"
+                        height="auto"
+                        alt="bassket"
+                        onClick={(e) => e.target.src = "/images/main/variable/heart/press.svg"}
+                        onMouseEnter={(e) => e.target.src = "/images/main/variable/heart/hover.svg"}
+                        onMouseLeave={(e) => e.target.src = "/images/main/variable/heart/heart.svg"}
+                     />
                   </Link>
                </div>
                {modalType && <RegistrationModal isOpen={isModalOpen} onClose={closeModal} />}

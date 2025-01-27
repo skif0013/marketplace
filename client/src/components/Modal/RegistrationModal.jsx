@@ -107,7 +107,7 @@ const RegistrationModal = ({ isOpen, onClose }) => {
                   'accept': '*/*'
                }
             });
-
+            
             localStorage.setItem('accessToken', response.data.accessToken);
             localStorage.setItem('refreshToken', response.data.refreshToken);
             navigate('/profile');

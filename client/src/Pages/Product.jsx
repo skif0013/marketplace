@@ -43,8 +43,6 @@ export default function Product() {
    }, [id]);
 
    const handleLike = () => {
-      setLikeProduct(true);
-      setIsCommentModalOpen(false);
       console.log('handleLike - сработал');
    };
 

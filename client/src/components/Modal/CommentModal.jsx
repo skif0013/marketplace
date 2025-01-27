@@ -53,8 +53,6 @@ const CommentModal = ({ isOpen, onClose, idProduct }) => {
             Content: comment
          };
          const refreshToken = localStorage.getItem('refreshToken');
-         console.log(userComment);
-         console.log(refreshToken);
          try {
             await axios.post(
                'https://marketplace-800v.onrender.com/api/Products/coments',
