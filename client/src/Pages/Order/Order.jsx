@@ -1,5 +1,4 @@
-import Header from '../../components/Header/Header'
-import Footer from '../../components/Footer/Footer'
+import MainLayout from '../../layouts/main';
 import CartItem from '../../components/goods/CartItem/CartItem';
 import WhiteButton from '../../components/buttons/WhiteButton/WhiteButton';
 import ButtonLink from '../../components/buttons/buttonLink/buttonLink';
@@ -9,8 +8,7 @@ import { Link } from 'react-router-dom';
 
 export default function OrderCheckout() {
    return (
-      <div className="flex flex-col min-h-screen">
-         <Header />
+      <MainLayout body='flex flex-col min-h-screen'>
          <div className="container mx-auto my-auto">
             <div className="flex justify-between items-center mt-12">
                <h1 className="text-4xl font-semibold mb-6">Оформление заказа</h1>
@@ -20,28 +18,28 @@ export default function OrderCheckout() {
             </div>
             <div className="grid grid-cols-12 gap-2 mt-6">
                <section className="bg-orange-100 col-span-8 p-4">
-                  <form action="#" method="post" class="flex flex-col items-center w-4/5 mx-auto">
-                     <h2 class="text-2xl font-semibold text-center mb-6">Мои данные</h2>
-                     <div class="w-full mb-4">
+                  <form action="#" method="post" className="flex flex-col items-center w-4/5 mx-auto">
+                     <h2 className="text-2xl font-semibold text-center mb-6">Мои данные</h2>
+                     <div className="w-full mb-4">
                         <ButtonLink />
                      </div>
-                     <div class="w-full my-2 text-center text-gray-500">или</div>
-                     <div class="w-full mb-6">
-                        <label htmlFor="fullname" class="block text-xl font-bold text-black-700">Имя, Фамилия</label>
+                     <div className="w-full my-2 text-center text-gray-500">или</div>
+                     <div className="w-full mb-6">
+                        <label htmlFor="fullname" className="block text-xl font-bold text-black-700">Имя, Фамилия</label>
                         <input
                            type="text"
                            id="fullname"
                            placeholder="Владимир Зеленский"
-                           class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                           className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                         />
                      </div>
-                     <div class="w-full mb-6">
-                        <label htmlFor="email" class="block text-xl font-bold text-black-700">Електронная почта</label>
+                     <div className="w-full mb-6">
+                        <label htmlFor="email" className="block text-xl font-bold text-black-700">Електронная почта</label>
                         <input
                            type="email"
                            id="email"
                            placeholder="example@mail.com"
-                           class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                           className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                            autoComplete="username"
                         />
                      </div>
@@ -73,28 +71,27 @@ export default function OrderCheckout() {
                </section>
             </div>
          </div >
-         <Footer />
-      </div >
+      </MainLayout>
    )
 }
 
 export function OrderCompleted() {
    return (
-      <div class="flex flex-col items-center justify-center h-screen bg-orange-50 text-gray-600 font-sans text-center">
-         <div class="w-20 h-20 mb-5">
-            <img src="/images/variable/basket/BasketCompleted.svg" alt="Иконка с галочкой" class="w-full h-full object-contain" />
+      <MainLayout body="flex flex-col items-center justify-center h-screen bg-orange-50 text-gray-600 font-sans text-center">
+         <div className="w-20 h-20 mb-5">
+            <img src="/images/variable/basket/BasketCompleted.svg" alt="Иконка с галочкой" className="w-full h-full object-contain" />
          </div>
-         <h1 class="text-2xl font-bold mb-5">Поздравляем</h1>
-         <h2 class="text-xl font-normal mb-2">Ваш заказ принят</h2>
-         <div class=" text-gray-600 px-4 py-2 rounded-lg text-lg mb-5">
-            Номер заказа <span class="font-bold">27890162</span>
+         <h1 className="text-2xl font-bold mb-5">Поздравляем</h1>
+         <h2 className="text-xl font-normal mb-2">Ваш заказ принят</h2>
+         <div className=" text-gray-600 px-4 py-2 rounded-lg text-lg mb-5">
+            Номер заказа <span className="font-bold">27890162</span>
          </div>
-         <p class="text-base text-gray-400 mb-8">
+         <p className="text-base text-gray-400 mb-8">
             Спасибо вам за покупку! Вся детальная информация о заказе уже отправлена вам на почту.
          </p>
          <Link to='/'>
             <ButtonL name={'Продолжить покупки'} />
          </Link>
-      </div>
+      </MainLayout>
    )
 }

@@ -3,8 +3,7 @@ import { getGoodsApi } from '../services/getGoodsApi';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+import MainLayout from '../layouts/main';
 import Catalog from '../components/Catalog/Catalog';
 import Banner from '../components/Banner/Banner';
 import ViewProduct from '../components/goods/ViewProduct';
@@ -31,8 +30,7 @@ export default function Home() {
 
    return (
       <>
-         <Header />
-         <main className="grid grid-cols-3 gap-3 mt-10 mb-8">
+         <MainLayout main='grid grid-cols-3 gap-3 mt-10 mb-8'>
             <Catalog />
             <div className="col-span-2">
                <Banner />
@@ -45,8 +43,7 @@ export default function Home() {
                {/* Клавиатуры и мыши */}
                <ViewProduct products={products} title={"Клавиатуры"} link={'/mouse'} buttonRight={'190px'} />
             </div>
-         </main>
-         <Footer />
+         </MainLayout>
       </>
    );
 }

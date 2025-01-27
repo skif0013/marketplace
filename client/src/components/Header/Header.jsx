@@ -2,18 +2,35 @@ import './Header.css'
 import { Link, useNavigate } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import SearchForm from '../search/searchForm'
-import RegistrationModal from '../Modal/RegistrationModal';
+import LoginModal from '../Modal/LoginModal';
+import { useEffect, useState } from 'react';
+import { getUserData } from '../../services/auth/getDataUser';
+
 
 export default function Header() {
    const { isModalOpen, modalType, openModal, closeModal } = useModal();
+   const [addProduct, setAddProduct] = useState(false);
    const navigate = useNavigate();
+
+   useEffect(() => {
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) {
+         const userData = getUserData(accessToken);
+         if (userData === 'admin') {
+            setAddProduct(true);
+         }else{
+            console.log('Не admin');
+            setAddProduct(false);
+         }
+      }
+   }, []); // Пустой массив зависимостей гарантирует, что проверка произойдет только один раз при монтировании компонента.
 
    const handleClick = (event) => {
       if (localStorage.getItem('accessToken')) {
          navigate("/profile");
       } else {
          event.preventDefault();
-         let register = confirm("Вы не зарегистрированы! Хотите зарегистрироваться?");
+         let register = confirm("Войдите в аккаунт");
          register ? openModal("register") : null;
       }
    };
@@ -25,7 +42,12 @@ export default function Header() {
                <h1 className="font-bold"><Link to='/'>Shopilyze</Link></h1>
             </div>
             <div className="header-tools flex items-center justify-between space-x-6">
-               <div className="flex items-center gap-3">
+               <div className="flex items-center gap-4">
+                  {addProduct && (
+                     <div className="admin__button">
+                        <Link to={'/'}>Добавить объявление</Link>
+                     </div>
+                  )}
                   <SearchForm />
                   <select name="lang" className="select-lang">
                      <option value="RU">RU</option>
@@ -39,7 +61,6 @@ export default function Header() {
                         width="40px"
                         height="auto"
                         alt="Profile"
-                        onClick={(e) => e.target.src = "/images/main/variable/human/press.svg"}
                         onMouseEnter={(e) => e.target.src = "/images/main/variable/human/hover.svg"}
                         onMouseLeave={(e) => e.target.src = "/images/main/variable/human/main.svg"}
                      />
@@ -51,7 +72,6 @@ export default function Header() {
                         width="40px"
                         height="auto"
                         alt="bassket"
-                        onClick={(e) => e.target.src = "/images/main/variable/basket/press.svg"}
                         onMouseEnter={(e) => e.target.src = "/images/main/variable/basket/hover.svg"}
                         onMouseLeave={(e) => e.target.src = "/images/main/variable/basket/basket.svg"}
                      />
@@ -63,13 +83,12 @@ export default function Header() {
                         width="40px"
                         height="auto"
                         alt="bassket"
-                        onClick={(e) => e.target.src = "/images/main/variable/heart/press.svg"}
                         onMouseEnter={(e) => e.target.src = "/images/main/variable/heart/hover.svg"}
                         onMouseLeave={(e) => e.target.src = "/images/main/variable/heart/heart.svg"}
                      />
                   </Link>
                </div>
-               {modalType && <RegistrationModal isOpen={isModalOpen} onClose={closeModal} />}
+               {modalType && <LoginModal isOpen={isModalOpen} onClose={closeModal} />}
             </div>
          </header>
       </>

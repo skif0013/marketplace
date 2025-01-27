@@ -1,5 +1,4 @@
-import Footer from "../components/Footer/Footer";
-import Header from "../components/Header/Header";
+import MainLayout from "../layouts/main";
 import { BasketEmpty, BasketMain } from '../components/Basket/Basket.jsx';
 import React, { useState } from "react";
 
@@ -28,9 +27,7 @@ export default function Basket() {
    };
 
    return (
-      <div className={`flex flex-col min-h-screen ${basket.length === 0 ? "bg-orange-100" : ""}`}>
-         <Header />
-         <main className="flex-grow mb-52 mt-20">
+      <MainLayout body={`flex flex-col min-h-screen ${basket.length === 0 ? "bg-orange-100" : ""}`} main="flex-grow mb-52 mt-20">
             {basket.length === 0 ? (
                <BasketEmpty />
             ) : (
@@ -40,8 +37,6 @@ export default function Basket() {
                   onUpdateQuantity={handleUpdateQuantity}
                />
             )}
-         </main>
-         <Footer />
-      </div>
+      </MainLayout>
    );
 }

@@ -6,8 +6,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 import styles from './style/pagesStyle.module.css';
 
 
-import Header from "../components/Header/Header"
-import Footer from "../components/Footer/Footer"
 import Feedback from "../components/Feedback/Feedback";
 import { ButtonProduct } from "../components/buttons/button";
 import Specifications from '../components/Specifications/Specifications';
@@ -15,8 +13,8 @@ import WhiteButton from "../components/buttons/WhiteButton/WhiteButton";
 import Triarty from "../components/buttons/Triarty/Triarty";
 import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
 import CommentModal from "../components/Modal/CommentModal";
-
 import { getProductById } from "../services/getProductApi";
+import MainLayout from "../layouts/main";
 
 export default function Product() {
 
@@ -137,99 +135,95 @@ export default function Product() {
    const scrollToSection = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
    return (
-      <div className="flex flex-col min-h-screen">
-         <Header />
-         <main className="flex-grow">
-            <div className="pl-10 pt-10">
-               {product ? (<Breadcrumbs parentCategory={product.parentCategory} subCategory={product.category} productId={id} productName={product.title.ru} />) : (<div className="h-full mb-6"><ClipLoader color="#FFA500" size={20} /></div>)}
-               {
-                  product ? (
-                     <div className="grid grid-cols-2 items-stretch mb-32">
-                        {/* Заголовок товара */}
-                        <section>
-                           <h1 className={styles.productName}>{product.title.ru}</h1>
-                        </section>
+      <MainLayout body="flex flex-col min-h-screen" main="flex-grow">
+         <div className="pl-10 pt-10">
+            {product ? (<Breadcrumbs parentCategory={product.parentCategory} subCategory={product.category} productId={id} productName={product.title.ru} />) : (<div className="h-full mb-6"><ClipLoader color="#FFA500" size={20} /></div>)}
+            {
+               product ? (
+                  <div className="grid grid-cols-2 items-stretch mb-32">
+                     {/* Заголовок товара */}
+                     <section>
+                        <h1 className={styles.productName}>{product.title.ru}</h1>
+                     </section>
 
-                        {/* Кнопки: просмотр товара и характеристики */}
-                        <div>
-                           <Triarty
-                              specificationsRef={specificationsRef}
-                              feedbackRef={feedbackRef}
-                              totalReviews={product.coments.length}
-                              scrollToSection={scrollToSection}
-                           />
-                        </div>
-
-                        {/* Product images */}
-                        <section className="bg-orange-100 p-6 mt-10"><img className="w-[550px] h-[370px]" src={product.pictureUrl} alt="images" /></section>
-
-                        {/* Product info */}
-                        <section className="bg-orange-100 p-6 mt-10 flex flex-col gap-14">
-                           <div className={styles.ProductFullTitle}>{product.title.ru}</div>
-                           <section className="flex items-center">
-                              <section className="flex gap-4 mr-6">{renderStars()}</section>
-                              <div className={styles.ProductAvailability}>  В наличии</div>
-                           </section>
-                           <section className={styles.productInfo}>
-                              <div className="mb-4">Имя продавца: {product.seller}</div>
-                              <div>Код товара:  {product.productCode}</div>
-                           </section>
-                           <section className="flex gap-6 items-center relative">
-                              <div className={styles.ProductPrice}>{product.price}</div>
-                              <ButtonProduct name={'Купить'} />
-                              {/* LikeProduct */}
-                              <WhiteButton className='p-2' onClick={handleLike}>
-                                 <img src="/images/main/variable/heart/heartMain.svg" alt="heart" />
-                              </WhiteButton>
-                           </section>
-                        </section>
-                     </div>
-                  ) : (
-                     // Загрузка, для того чтобы успели подгрузиться информация
-                     <div className="flex justify-center items-center h-full">
-                        <ClipLoader color="#FFA500" size={60} />
-                     </div>
-                  )
-               }
-               {/* Характеристики */}
-               <Specifications ref={specificationsRef} data={specificationsData} />
-               <section className="mb-10 mt-10 flex items-center gap-10" ref={feedbackRef}>
-                  <h1 className="text-4xl font-bold">Отзывы</h1>
-                  <button className="text-gray-500 hover:text-orange-300 active:text-orange-600 transition-colors" onClick={handleModal}>Оставить отзыв</button>
-               </section>
-
-               {/* Модальное окно */}
-               {isCommentModalOpen && <CommentModal isOpen={isCommentModalOpen} onClose={closeModal} idProduct={id} />}
-
-               {/* Комментарии */}
-               {product ? (
-                  product.coments && product.coments.length > 0 ? (
-                     // Если есть комментарии, рендерим их
-                     product.coments.map((comment, index) => (
-                        <Feedback
-                           key={index}
-                           name={comment.author}
-                           text={comment.content}
-                           date={comment.createdAt}
-                           grade={comment.grade}
+                     {/* Кнопки: просмотр товара и характеристики */}
+                     <div>
+                        <Triarty
+                           specificationsRef={specificationsRef}
+                           feedbackRef={feedbackRef}
+                           totalReviews={product.coments.length}
+                           scrollToSection={scrollToSection}
                         />
-                     ))
-                  ) : (
-                     <p className="my-10 text-center text-gray-500">
-                        <span className="text-3xl text-orange-500">📭</span>
-                        <span className="block mt-2 text-lg font-semibold text-gray-600">Нету тут комментариев</span>
-                        <span className="block text-sm text-orange-400 mt-1">Будьте первым, кто оставит отзыв!</span>
-                     </p>
-                  )
+                     </div>
+
+                     {/* Product images */}
+                     <section className="bg-orange-100 p-6 mt-10"><img className="w-[550px] h-[370px]" src={product.pictureUrl} alt="images" /></section>
+
+                     {/* Product info */}
+                     <section className="bg-orange-100 p-6 mt-10 flex flex-col gap-14">
+                        <div className={styles.ProductFullTitle}>{product.title.ru}</div>
+                        <section className="flex items-center">
+                           <section className="flex gap-4 mr-6">{renderStars()}</section>
+                           <div className={styles.ProductAvailability}>  В наличии</div>
+                        </section>
+                        <section className={styles.productInfo}>
+                           <div className="mb-4">Имя продавца: {product.seller}</div>
+                           <div>Код товара:  {product.productCode}</div>
+                        </section>
+                        <section className="flex gap-6 items-center relative">
+                           <div className={styles.ProductPrice}>{product.price}</div>
+                           <ButtonProduct name={'Купить'} />
+                           {/* LikeProduct */}
+                           <WhiteButton className='p-2' onClick={handleLike}>
+                              <img src="/images/main/variable/heart/heartMain.svg" alt="heart" />
+                           </WhiteButton>
+                        </section>
+                     </section>
+                  </div>
                ) : (
-                  // Загрузка загрузки
-                  <div className="flex justify-center items-center h-full mb-20">
+                  // Загрузка, для того чтобы успели подгрузиться информация
+                  <div className="flex justify-center items-center h-full">
                      <ClipLoader color="#FFA500" size={60} />
                   </div>
-               )}
-            </div>
-         </main >
-         <Footer />
-      </div >
+               )
+            }
+            {/* Характеристики */}
+            <Specifications ref={specificationsRef} data={specificationsData} />
+            <section className="mb-10 mt-10 flex items-center gap-10" ref={feedbackRef}>
+               <h1 className="text-4xl font-bold">Отзывы</h1>
+               <button className="text-gray-500 hover:text-orange-300 active:text-orange-600 transition-colors" onClick={handleModal}>Оставить отзыв</button>
+            </section>
+
+            {/* Модальное окно */}
+            {isCommentModalOpen && <CommentModal isOpen={isCommentModalOpen} onClose={closeModal} idProduct={id} />}
+
+            {/* Комментарии */}
+            {product ? (
+               product.coments && product.coments.length > 0 ? (
+                  // Если есть комментарии, рендерим их
+                  product.coments.map((comment, index) => (
+                     <Feedback
+                        key={index}
+                        name={comment.author}
+                        text={comment.content}
+                        date={comment.createdAt}
+                        grade={comment.grade}
+                     />
+                  ))
+               ) : (
+                  <p className="my-10 text-center text-gray-500">
+                     <span className="text-3xl text-orange-500">📭</span>
+                     <span className="block mt-2 text-lg font-semibold text-gray-600">Нету тут комментариев</span>
+                     <span className="block text-sm text-orange-400 mt-1">Будьте первым, кто оставит отзыв!</span>
+                  </p>
+               )
+            ) : (
+               // Загрузка загрузки
+               <div className="flex justify-center items-center h-full mb-20">
+                  <ClipLoader color="#FFA500" size={60} />
+               </div>
+            )}
+         </div>
+      </MainLayout >
    )
 }
