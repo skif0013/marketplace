@@ -1,0 +1,19 @@
+<svg width="32.000000" height="32.000000" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<clipPath id="clip184_1000">
+			<rect id="Frame" rx="0.000000" width="23.000000" height="23.000000" transform="translate(4.500000 4.500000)" fill="white" fill-opacity="0"/>
+		</clipPath>
+		<clipPath id="clip184_999">
+			<rect id="Name=Chat, State=Hover" rx="0.000000" width="31.000000" height="31.000000" transform="translate(0.500000 0.500000)" fill="white" fill-opacity="0"/>
+		</clipPath>
+	</defs>
+	<g clip-path="url(#clip184_999)">
+		<rect id="Frame" rx="0.000000" width="23.000000" height="23.000000" transform="translate(4.500000 4.500000)" fill="#FFFFFF" fill-opacity="0"/>
+		<g clip-path="url(#clip184_1000)">
+			<path id="Vector" d="M18.09 24.74C20.17 24.25 22.01 23.02 23.28 21.29C24.54 19.55 25.14 17.43 24.98 15.29C24.81 13.15 23.88 11.14 22.37 9.62C20.85 8.11 18.84 7.18 16.7 7.01C14.56 6.85 12.44 7.45 10.7 8.71C8.97 9.98 7.74 11.82 7.25 13.9C6.75 15.99 7.02 18.19 8 20.1L6 26L11.9 24C13.8 24.97 16 25.24 18.09 24.74Z" stroke="#E3BF9F" stroke-opacity="1.000000" stroke-width="1.000000" stroke-linejoin="round"/>
+		</g>
+	</g>
+</svg>

@@ -14,6 +14,8 @@ function App() {
    const accessToken = localStorage.getItem('accessToken');
    const refreshToken = localStorage.getItem('refreshToken')
 
+   console.log('accessToken: ',accessToken);
+   console.log('refreshToken: ',refreshToken);
    function isTokenExpired(token) {
       if (!token) return null;
       const getExp = getUserData(token);
@@ -46,8 +48,7 @@ function App() {
             }
          }
       } else {
-         localStorage.setItem('refreshToken', '');
-         localStorage.setItem('accessToken', '');
+         console.log('Токен истёк');
       }
    }
 

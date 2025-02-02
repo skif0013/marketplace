@@ -19,7 +19,6 @@ export default function Header() {
          if (userData === 'admin') {
             setAddProduct(true);
          }else{
-            console.log('Не admin');
             setAddProduct(false);
          }
       }

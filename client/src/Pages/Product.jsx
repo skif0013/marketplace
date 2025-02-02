@@ -5,16 +5,16 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 import styles from './style/pagesStyle.module.css';
 
-
+import MainLayout from "../layouts/main";
+import CommentModal from "../components/Modal/CommentModal";
+import RegistrationModal from "../components/Modal/RegistrationModal";
 import Feedback from "../components/Feedback/Feedback";
 import { ButtonProduct } from "../components/buttons/button";
 import Specifications from '../components/Specifications/Specifications';
 import WhiteButton from "../components/buttons/WhiteButton/WhiteButton";
 import Triarty from "../components/buttons/Triarty/Triarty";
 import Breadcrumbs from "../components/Breadcrumbs/Breadcrumbs";
-import CommentModal from "../components/Modal/CommentModal";
 import { getProductById } from "../services/getProductApi";
-import MainLayout from "../layouts/main";
 
 export default function Product() {
 
@@ -22,10 +22,10 @@ export default function Product() {
    const { id } = useParams(); // Получаем id из роутов
    const [product, setProduct] = useState(null);
    const [error, setError] = useState(null);
-   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+   const [isModalOpen, setIsModalOpen] = useState(false);
    const [likeProduct, setLikeProduct] = useState(false);
    const [userStatus, setUserStatus] = useState(false);
-
+   const [isRegisterModal, setRegisterModal] = useState(false);
 
    useEffect(() => {
       const fetchProduct = async () => {
@@ -42,13 +42,18 @@ export default function Product() {
 
    const handleLike = () => {
       console.log('handleLike - сработал');
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) {
+         setIsModalOpen(true);
+         setLikeProduct(false);
+      } else { alert('Вы не вошли в аккаунт') }
    };
 
    const handleModal = () => {
       const accessToken = localStorage.getItem('accessToken');
 
       if (accessToken) {
-         setIsCommentModalOpen(true);
+         setIsModalOpen(true);
          setLikeProduct(false);
       } else {
          alert('Для того чтобы оставить отзыв, вам нужно авторизоваться');
@@ -56,7 +61,7 @@ export default function Product() {
    };
 
    const closeModal = () => {
-      setIsCommentModalOpen(false);
+      setIsModalOpen(false);
    };
 
    useEffect(() => {
@@ -195,7 +200,8 @@ export default function Product() {
             </section>
 
             {/* Модальное окно */}
-            {isCommentModalOpen && <CommentModal isOpen={isCommentModalOpen} onClose={closeModal} idProduct={id} />}
+            {isModalOpen && <CommentModal isOpen={isModalOpen} onClose={closeModal} idProduct={id} />}
+            {isRegisterModal && <RegistrationModal isOpen={isModalOpen} onClose={closeModal} />}
 
             {/* Комментарии */}
             {product ? (
