@@ -26,9 +26,16 @@ const getRoutes = () => (
       <Route path="api/product/category" element={<Catalog />} />
       <Route path="api/product/productByCategory/:category" element={<ProductByCategory />} />
 
-      {/* Для пользователей */}
+      {/* Для клиента */}
       <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/Orders" element={<Profile />} />
+      <Route path="/profile/Favorite" element={<Profile />} />
+      <Route path="/profile/myFedback" element={<Profile />} />
+      <Route path="/profile/chatClient" element={<Profile />} />
       <Route path="/settings" element={<Profile />} />
+
+      {/* Для продавца */}
+      {/* <Route path='/profile/admin' element={} /> */}
 
       {/* Все ошибки */}
       <Route path="*" element={<NotFound />} />

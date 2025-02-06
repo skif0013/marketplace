@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import ClipLoader from "react-spinners/ClipLoader";
 import { getUserData } from "../../services/auth/getDataUser";
 import MainLayout from '../../layouts/main';
 import CatalogProfile from "../../components/Catalog/CatalogProfile";
@@ -63,19 +62,6 @@ export default function Profile() {
                      </tr>
                   </tbody>
                </table>
-
-               {/* Проверяем, что данные пользователя загружены */}
-               {/* {userData ? ( */}
-               {/* <ul> */}
-               {/* <li><strong>Почта: {userData.email || 'Нет данных'}</strong></li> */}
-               {/* <li><strong>Ф.И.О:  {userData.name || 'Нет данных'}</strong></li> */}
-               {/* <li><strong>Роль:  {userData.role || 'Нет данных'}</strong></li> */}
-               {/* </ul> */}
-               {/* ) : ( */}
-               {/* <div className="flex justify-center items-center h-full"> */}
-               {/* <ClipLoader color="#FFA500" size={100} /> */}
-               {/* </div> */}
-               {/* )}  */}
             </article>
 
             <article className="mb-10 border-2 border-gray-500 rounded-lg p-6 h-[60vh]">

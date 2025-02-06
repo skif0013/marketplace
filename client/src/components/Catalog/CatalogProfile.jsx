@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MainCatalog } from "../../services/Catalog/catalog";
 import categoriesWithImages from "../../utils/profileImages";
 import "./Catalog.css";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -17,8 +16,6 @@ export default function CatalogProfile() {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const data = await MainCatalog();
-            if (data) {
                const CatalogData = categoriesWithImages.map(({ name, images }) => ({
                   name,
                   image: {
@@ -28,7 +25,6 @@ export default function CatalogProfile() {
                   }
                }));
                setCatalogItems(CatalogData);
-            }
          } catch (error) {
             console.error("Ошибка загрузки каталога", error);
          }
@@ -53,8 +49,8 @@ export default function CatalogProfile() {
                         <img
                            src={hoveredIndex === index ? item.image.hover : activeIndex === index ? item.image.press : item.image.main}
                            alt='Картинка'
-                           width="36px"
-                           height="36px"
+                           width="35px"
+                           height="35px"
                         />
                         <span>{item.name}</span>
                         <img

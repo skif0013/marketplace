@@ -55,7 +55,6 @@ function App() {
    // Запускаем проверку токена каждые 5 минут (300000 мс)
    setInterval(refreshTokenIfNeeded, 300000);
 
-
    return getRoutes()
 }
 
