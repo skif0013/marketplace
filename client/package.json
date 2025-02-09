@@ -18,7 +18,8 @@
       "react-dom": "^18.3.1",
       "react-phone-number-input": "^3.4.10",
       "react-router-dom": "^6.28.1",
-      "react-spinners": "^0.15.0"
+      "react-spinners": "^0.15.0",
+      "vercel": "^41.0.2"
    },
    "devDependencies": {
       "@eslint/js": "^9.13.0",
